@@ -1,0 +1,41 @@
+[font]
+size = 16.0
+
+
+[font.bold]
+family = "JetBrainsMono Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font"
+style = "Bold Italic"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Regular"
+
+[window]
+# Padding (margins) in pixels.
+padding = { x = 15, y = 15 }
+# line_spacing =1
+
+[font.offset]
+x = 0
+y = 0
+
+[general]
+working_directory = "/home/max"
+
+# import = [
+#     "~/.config/alacritty/themes/themes/catppuccin_mocha.toml"
+# ]
+
+
+
+# [debug]
+# Enable automatic config reloading when the configuration file changes.
+# reload_config_on_save = true

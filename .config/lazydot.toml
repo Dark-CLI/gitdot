@@ -5,8 +5,7 @@ paths = [
 	"~/.config/hypr", 
 	"~/.config/nvim", 
 	"~/.p10k.zsh", 
-	"~/.test3"
-	,"~/.config/lazydot.toml" ]
+	"~/.config/lazydot.toml" ]
 
 [defaults]
 on_duplicate = "overwritehome"

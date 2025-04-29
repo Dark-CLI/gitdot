@@ -1,0 +1,6 @@
+dotfolder_path = "~/gitdot"
+paths = ["~/.config/alacritty", "~/.zshrc", "~/.config/hypr", "~/.config/nvim", "~/.p10k.zsh", "~/.config/lazydot.toml", "~/.icons"]
+
+[defaults]
+on_duplicate = "overwritehome"
+on_delink = "keep"

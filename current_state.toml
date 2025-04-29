@@ -5,4 +5,5 @@ paths = [
     "~/.config/nvim",
     "~/.p10k.zsh",
     "~/.config/lazydot.toml",
+    "~/.icons",
 ]

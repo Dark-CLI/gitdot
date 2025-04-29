@@ -107,6 +107,7 @@ fi
 alias zshconfig="vim ~/.zshrc && source ~/.zshrc"
 alias i3config="vim ~/.config/i3/config"
 alias hyprconfig="cd ~/.config/hypr && nvim && hyprctl reload"
+export PATH=$PATH:/opt/ookla-speedtest
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export PATH="$PATH:/home/max/RustroverProjects/lazydot/target/release"
 alias vim=nvim

@@ -132,15 +132,25 @@ bindkey '^L' clear-screen
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Add fuzzy history search with sorting by most recent first
-fzf-history-widget() {
+# Add fuzzy history search
+fzf-history() {
   local selected num
-  selected=$(fc -rl 1 | awk '{$1=""; print substr($0,2)}' | fzf --height 40% --layout=reverse --border --info=inline --no-sort)
+  selected=$(fc -rl 1 | awk '{$1=""; print substr($0,2)}' | fzf --height 40% --layout=reverse --border --info=inline)
   LBUFFER=$selected
   CURSOR=$#LBUFFER
   zle reset-prompt
 }
-zle -N fzf-history-widget
-bindkey '^R' fzf-history-widget
+zle -N fzf-history
+bindkey '^H' fzf-history
 
-
+# fuzzy search paths
+fzf-file() {
+  local search_path="${1:-$HOME}"
+  local selected
+  selected=$(find "$search_path" 2>/dev/null | fzf --height 40% --layout=reverse --border --info=inline)
+  [[ -n $selected ]] && LBUFFER=$selected
+  CURSOR=$#LBUFFER
+  zle reset-prompt
+}
+zle -N fzf-file
+bindkey '^F' fzf-file

@@ -1,9 +1,9 @@
 paths = [
     "~/.config/alacritty",
-    "~/.zshrc",
     "~/.config/hypr",
     "~/.config/nvim",
     "~/.p10k.zsh",
     "~/.config/lazydot.toml",
     "~/.icons",
+    "~/.tmux.conf",
 ]

@@ -81,6 +81,11 @@ plugins=(git zsh-syntax-highlighting zsh-autosuggestions history vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
+# Bash-like history: per-session until shell exits (no live sharing between terminals)
+unsetopt SHARE_HISTORY
+unsetopt INC_APPEND_HISTORY
+setopt APPEND_HISTORY
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"

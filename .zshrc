@@ -159,3 +159,8 @@ fzf-file() {
 }
 zle -N fzf-file
 bindkey '^F' fzf-file
+
+# Auto-start tmux: attach to last session, or create new one
+if [[ -z "$TMUX" ]] && [[ -o interactive ]]; then
+  exec tmux attach 2>/dev/null || exec tmux new
+fi

@@ -1,3 +1,9 @@
+# Auto-start tmux before p10k (p10k messes with TTY; must run tmux first).
+# Using plain tmux (no exec): if tmux fails, you get a shell instead of terminal closing.
+if [[ -z "$TMUX" ]] && [[ -o interactive ]]; then
+  tmux attach 2>/dev/null || tmux new
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -160,7 +166,3 @@ fzf-file() {
 zle -N fzf-file
 bindkey '^F' fzf-file
 
-# Auto-start tmux: attach to last session, or create new one
-if [[ -z "$TMUX" ]] && [[ -o interactive ]]; then
-  exec tmux attach 2>/dev/null || exec tmux new
-fi

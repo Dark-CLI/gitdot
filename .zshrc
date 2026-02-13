@@ -87,11 +87,6 @@ plugins=(git zsh-syntax-highlighting zsh-autosuggestions history vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
-# Bash-like history: per-session until shell exits (no live sharing between terminals)
-unsetopt SHARE_HISTORY
-unsetopt INC_APPEND_HISTORY
-setopt APPEND_HISTORY
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -165,4 +160,11 @@ fzf-file() {
 }
 zle -N fzf-file
 bindkey '^F' fzf-file
+
+# Bash-like history: per-session until shell exits (no live sharing between terminals)
+# Must be at END so oh-my-zsh lib/history.zsh can't override
+setopt NO_SHARE_HISTORY
+unsetopt SHARE_HISTORY
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY  # save each command immediately (prevents loss on crash)
 

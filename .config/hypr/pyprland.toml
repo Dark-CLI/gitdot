@@ -11,5 +11,5 @@ plugins = [
 animation = "fromTop"
 command = "alacritty --class alacritty-dropterm"
 class = "alacritty-dropterm"
-size = "55% 50%"
-position = "2% 2%"
+size = "54% 67%"
+position = "1% 2%"

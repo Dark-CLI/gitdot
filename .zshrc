@@ -1,7 +1,8 @@
 # Auto-start tmux before p10k (p10k messes with TTY; must run tmux first).
 # Using plain tmux (no exec): if tmux fails, you get a shell instead of terminal closing.
+# Session name: your username
 if [[ -z "$TMUX" ]] && [[ -o interactive ]]; then
-  tmux attach 2>/dev/null || tmux new
+  tmux attach 2>/dev/null || tmux new -s "${USER}"
 fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.

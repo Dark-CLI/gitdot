@@ -117,7 +117,7 @@ alias hyprconfig="cd ~/.config/hypr && nvim && hyprctl reload"
 alias vim=nvim
 alias fp="ping -c 20 -f -i 0.1 "
 alias system_update="sudo dnf update --refresh kernel && sudo flatpak update"
-
+alias routerscan='nmap -Pn -T4 -p 80,443,8080,8000,8888,8443,22,23,8291,8728,8729,7547 --open'
 export PATH="$PATH:/opt/ookla-speedtest"
 export PATH="$PATH:/home/max/RustroverProjects/lazydot/target/release"
 export NVM_DIR="$HOME/.nvm"
@@ -161,6 +161,11 @@ fzf-file() {
 }
 zle -N fzf-file
 bindkey '^F' fzf-file
+
+# Create a temp directory and cd into it
+cdt() {
+  cd "$(mktemp -d)"
+}
 
 # Bash-like history: per-session until shell exits (no live sharing between terminals)
 # Must be at END so oh-my-zsh lib/history.zsh can't override

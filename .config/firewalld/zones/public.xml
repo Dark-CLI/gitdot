@@ -8,6 +8,7 @@
 
   <!-- Only allow ZeroTier to establish VPN connection -->
   <port port="9993" protocol="udp"/>     <!-- ZeroTier VPN -->
+  <port port="5678" protocol="udp"/>     <!-- MikroTik WinBox Neighbor Discovery -->
 
   <!-- Required for network functionality -->
   <service name="dhcpv6-client"/>

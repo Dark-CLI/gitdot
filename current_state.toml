@@ -11,4 +11,5 @@ paths = [
     "~/.local/open-webui",
     "~/.config/docker-firewall",
     "~/.config/waybar",
+    "~/.local/navidrome/docker-compose.yaml",
 ]

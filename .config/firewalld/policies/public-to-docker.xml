@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policy target="ACCEPT">
+  <short>Public to Docker</short>
+  <description>Allow forwarding from external LAN (10.95.12.95) on public zone to Docker containers</description>
+
+  <ingress-zone name="public"/>
+  <egress-zone name="docker"/>
+
+  <!-- Allow only from 10.95.12.95 -->
+  <rule family="ipv4">
+    <source address="10.95.12.95"/>
+    <accept/>
+  </rule>
+
+</policy>

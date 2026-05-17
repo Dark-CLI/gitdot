@@ -3,13 +3,5 @@
 [pyprland]
 
 plugins = [
-  "scratchpads",
   "magnify",
 ]
-
-[scratchpads.term]
-animation = "fromTop"
-command = "alacritty --class alacritty-dropterm"
-class = "alacritty-dropterm"
-size = "54% 67%"
-position = "1% 2%"

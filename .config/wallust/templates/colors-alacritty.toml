@@ -1,51 +1,6 @@
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  #
-# /* wallust template - colors-alacritty */
-# Uses harddark16 palette for better color distinction and contrast
+# Alacritty colors from wallust
 
 [colors.primary]
-foreground = "{{foreground}}"
 background = "{{background}}"
-dim_foreground = "{{color8}}"
-bright_foreground = "{{color7}}"
-
-[colors.cursor]
-text = "{{background}}"
-cursor = "{{foreground}}"
-
-[colors.vi_mode_cursor]
-text = "{{background}}"
-cursor = "{{color1}}"
-
-[colors.selection]
-text = "{{foreground}}"
-background = "{{color0}}"
-
-# Normal colors - use darker/saturated versions
-[colors.normal]
-black   = "{{color0}}"
-red     = "{{color1}}"
-green   = "{{color2}}"
-yellow  = "{{color3}}"
-blue    = "{{color4}}"
-magenta = "{{color5}}"
-cyan    = "{{color6}}"
-white   = "{{color7}}"
-
-# Bright colors - much lighter for better contrast
-[colors.bright]
-black   = "{{color8}}"
-red     = "{{color9}}"
-green   = "{{color10}}"
-yellow  = "{{color11}}"
-blue    = "{{color12}}"
-magenta = "{{color13}}"
-cyan    = "{{color14}}"
-white   = "{{color15}}"
-
-[colors.indexed_colors]
-16  = "{{color1}}"
-17  = "{{color2}}"
-18  = "{{color3}}"
-19  = "{{color4}}"
-20  = "{{color5}}"
-21  = "{{color6}}"
+foreground = "{{foreground}}"

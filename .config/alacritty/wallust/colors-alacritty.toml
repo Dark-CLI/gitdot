@@ -1,48 +1,51 @@
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  #
 # /* wallust template - colors-alacritty */
+# Uses harddark16 palette for better color distinction and contrast
 
 [colors.primary]
-foreground = "#D8D8D9"
-background = "#161616"
-dim_foreground = "#858586"
-bright_foreground = "#BEBFC0"
+foreground = "#B4BDC2"
+background = "#0F1012"
+dim_foreground = "#616A70"
+bright_foreground = "#8B98A0"
 
 [colors.cursor]
-text = "#161616"
-cursor = "#979798"
+text = "#0F1012"
+cursor = "#B4BDC2"
 
 [colors.vi_mode_cursor]
-text = "#161616"
-cursor = "#161616"
+text = "#0F1012"
+cursor = "#0C171E"
 
 [colors.selection]
-text = "#D8D8D9"
-background = "#3D3D3D"
+text = "#B4BDC2"
+background = "#37383A"
 
+# Normal colors - use darker/saturated versions
 [colors.normal]
-black   = "#3D3D3D"
-red     = "#161616"
-green   = "#404142"
-yellow  = "#444445"
-blue    = "#73353A"
-magenta = "#6B6B6E"
-cyan    = "#6B6B6E"
-white   = "#BEBFC0"
+black   = "#37383A"
+red     = "#0C171E"
+green   = "#111F27"
+yellow  = "#1E313C"
+blue    = "#1E313D"
+magenta = "#1E313D"
+cyan    = "#1E313D"
+white   = "#8B98A0"
 
+# Bright colors - much lighter for better contrast
 [colors.bright]
-black   = "#858586"
-red     = "#1E1E1E"
-green   = "#565658"
-yellow  = "#5A5A5C"
-blue    = "#99474D"
-magenta = "#8F8F92"
-cyan    = "#8F8F92"
-white   = "#BEBFC0"
+black   = "#616A70"
+red     = "#101F28"
+green   = "#162A34"
+yellow  = "#284250"
+blue    = "#284251"
+magenta = "#284251"
+cyan    = "#284251"
+white   = "#8B98A0"
 
 [colors.indexed_colors]
-16  = "#161616"
-17  = "#404142"
-18  = "#444445"
-19  = "#73353A"
-20  = "#6B6B6E"
-21  = "#6B6B6E"
+16  = "#0C171E"
+17  = "#111F27"
+18  = "#1E313C"
+19  = "#1E313D"
+20  = "#1E313D"
+21  = "#1E313D"

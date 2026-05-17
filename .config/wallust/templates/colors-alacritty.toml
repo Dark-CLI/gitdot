@@ -1,5 +1,6 @@
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  #
 # /* wallust template - colors-alacritty */
+# Uses harddark16 palette for better color distinction and contrast
 
 [colors.primary]
 foreground = "{{foreground}}"
@@ -9,7 +10,7 @@ bright_foreground = "{{color7}}"
 
 [colors.cursor]
 text = "{{background}}"
-cursor = "{{cursor}}"
+cursor = "{{foreground}}"
 
 [colors.vi_mode_cursor]
 text = "{{background}}"
@@ -19,6 +20,7 @@ cursor = "{{color1}}"
 text = "{{foreground}}"
 background = "{{color0}}"
 
+# Normal colors - use darker/saturated versions
 [colors.normal]
 black   = "{{color0}}"
 red     = "{{color1}}"
@@ -29,6 +31,7 @@ magenta = "{{color5}}"
 cyan    = "{{color6}}"
 white   = "{{color7}}"
 
+# Bright colors - much lighter for better contrast
 [colors.bright]
 black   = "{{color8}}"
 red     = "{{color9}}"

@@ -1,6 +1,37 @@
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  #
-# Alacritty colors from wallust
+# Alacritty colors from wallust theme with saturated font colors
 
 [colors.primary]
-background = "#110000"
-foreground = "#F3E9D7"
+background = "#282828"
+foreground = "#EED9D5"
+dim_foreground = "#9B8783"
+bright_foreground = "#DEC1BB"
+
+[colors.cursor]
+text = "#282828"
+cursor = "#EED9D5"
+
+[colors.selection]
+text = "#DEC1BB"
+background = "#4D4D4D"
+
+# ANSI Colors - wallust bright colors with saturation boost
+[colors.normal]
+black   = "#4D4D4D"
+red     = "#1B2229"
+green   = "#1F3D43"
+yellow  = "#412A2A"
+blue    = "#663B35"
+magenta = "#934D42"
+cyan    = "#CE715F"
+white   = "#DEC1BB"
+
+[colors.bright]
+black   = "#9B8783"
+red     = "#1B2229"
+green   = "#1F3D43"
+yellow  = "#412A2A"
+blue    = "#663B35"
+magenta = "#934D42"
+cyan    = "#CE715F"
+white   = "#DEC1BB"

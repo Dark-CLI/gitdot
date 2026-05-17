@@ -21,8 +21,8 @@ style = "Regular"
 [window]
 # Padding (margins) in pixels.
 padding = { x = 15, y = 15 }
-# Opacity - fully opaque for maximum contrast (1.0 = 100% opaque, 0% transparent)
-opacity = 1.0
+# Opacity - mostly opaque with tiny transparency (0.95 = 95% opaque, 5% transparent)
+opacity = 0.95
 # line_spacing =1
 
 [font.offset]

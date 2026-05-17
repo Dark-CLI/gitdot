@@ -16,8 +16,8 @@ text = "{{background}}"
 cursor = "{{color1}}"
 
 [colors.selection]
-text = "{{background}}"
-background = "{{foreground}}"
+text = "{{foreground}}"
+background = "{{color0}}"
 
 [colors.normal]
 black   = "{{color0}}"
@@ -38,3 +38,11 @@ blue    = "{{color12}}"
 magenta = "{{color13}}"
 cyan    = "{{color14}}"
 white   = "{{color15}}"
+
+[colors.indexed_colors]
+16  = "{{color1}}"
+17  = "{{color2}}"
+18  = "{{color3}}"
+19  = "{{color4}}"
+20  = "{{color5}}"
+21  = "{{color6}}"

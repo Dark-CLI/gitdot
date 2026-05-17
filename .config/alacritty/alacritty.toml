@@ -21,6 +21,8 @@ style = "Regular"
 [window]
 # Padding (margins) in pixels.
 padding = { x = 15, y = 15 }
+# Opacity - mostly dark background with slight transparency (0.9 = 90% opaque, 10% transparent)
+opacity = 0.9
 # line_spacing =1
 
 [font.offset]
@@ -30,9 +32,9 @@ y = 0
 [general]
 working_directory = "/home/max"
 
-# import = [
-#     "~/.config/alacritty/themes/themes/catppuccin_mocha.toml"
-# ]
+import = [
+    "~/.config/alacritty/wallust/colors-alacritty.toml"
+]
 
 
 

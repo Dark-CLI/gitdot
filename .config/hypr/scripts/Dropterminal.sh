@@ -15,9 +15,10 @@ SPECIAL_WS="special:scratchpad"
 ADDR_FILE="/tmp/dropdown_terminal_addr"
 
 # Dropdown size and position configuration (percentages)
-WIDTH_PERCENT=65  # Width as percentage of screen width
-HEIGHT_PERCENT=65 # Height as percentage of screen height
-Y_PERCENT=10      # Y position as percentage from top (X is auto-centered)
+WIDTH_PERCENT=54  # Width as percentage of screen width
+HEIGHT_PERCENT=67 # Height as percentage of screen height
+X_PERCENT=1       # X position as percentage from left (gap-aware)
+Y_PERCENT=2       # Y position as percentage from top (gap-aware)
 
 # Animation settings
 ANIMATION_DURATION=100 # milliseconds
@@ -142,11 +143,13 @@ calculate_dropdown_position() {
   local width=$((logical_width * WIDTH_PERCENT / 100))
   local height=$((logical_height * HEIGHT_PERCENT / 100))
 
-  # Calculate Y position from top based on percentage of LOGICAL height
-  local y_offset=$((logical_height * Y_PERCENT / 100))
+  # Get current gaps from Hyprland config
+  local gaps_in=$(hyprctl getoption general:gaps_in -j | jq -r '.int' 2>/dev/null || echo 30)
+  local gaps_out=$(hyprctl getoption general:gaps_out -j | jq -r '.int' 2>/dev/null || echo 30)
 
-  # Calculate centered X position in LOGICAL space
-  local x_offset=$(((logical_width - width) / 2))
+  # Calculate X and Y positions with gap-following (top-left positioning)
+  local x_offset=$((logical_width * X_PERCENT / 100 + gaps_out))
+  local y_offset=$((logical_height * Y_PERCENT / 100 + gaps_out))
 
   # Apply monitor offset to get final positions in logical coordinates
   local final_x=$((mon_x + x_offset))

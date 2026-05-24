@@ -155,9 +155,9 @@ calculate_dropdown_position() {
   local gaps_out=$(hyprctl getoption general:gaps_out 2>/dev/null | grep -oE '[0-9]+' | head -1)
   [ -z "$gaps_out" ] && gaps_out=30
 
-  # Calculate X and Y positions (top-left positioning with current gaps)
-  local x_offset=$((logical_width * X_PERCENT / 100 + gaps_out))
-  local y_offset=$((logical_height * Y_PERCENT / 100 + gaps_out))
+  # Calculate X and Y positions (just use gaps, no percentage offset for now)
+  local x_offset=$gaps_out
+  local y_offset=$gaps_out
 
   # Apply monitor offset to get final positions in logical coordinates
   local final_x=$((mon_x + x_offset))

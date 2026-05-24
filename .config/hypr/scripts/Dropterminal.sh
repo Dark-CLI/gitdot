@@ -31,6 +31,14 @@ if [ "$1" = "-d" ]; then
   shift
 fi
 
+# Check for special actions
+if [ "$1" = "reposition" ]; then
+  REPOSITION_ONLY=true
+  shift
+else
+  REPOSITION_ONLY=false
+fi
+
 TERMINAL_CMD="$1"
 
 # Debug echo function
@@ -269,6 +277,28 @@ spawn_terminal() {
 }
 
 # Main logic
+# Handle reposition-only request (for gap changes)
+if [ "$REPOSITION_ONLY" = "true" ] && terminal_exists; then
+  TERMINAL_ADDR=$(get_terminal_address)
+  debug_echo "Repositioning terminal for gap change: $TERMINAL_ADDR"
+
+  # Calculate new position with current gaps
+  pos_info=$(calculate_dropdown_position)
+  target_x=$(echo $pos_info | cut -d' ' -f1)
+  target_y=$(echo $pos_info | cut -d' ' -f2)
+  width=$(echo $pos_info | cut -d' ' -f3)
+  height=$(echo $pos_info | cut -d' ' -f4)
+
+  # Only move if terminal is visible (not in special workspace)
+  if ! terminal_in_special; then
+    hyprctl dispatch movewindowpixel "exact $target_x $target_y,address:$TERMINAL_ADDR" >/dev/null 2>&1
+    hyprctl dispatch resizewindowpixel "exact $width $height,address:$TERMINAL_ADDR" >/dev/null 2>&1
+    debug_echo "Terminal repositioned to $target_x,$target_y (${width}x${height})"
+  fi
+  exit 0
+fi
+
+# Regular toggle logic
 if terminal_exists; then
   TERMINAL_ADDR=$(get_terminal_address)
   debug_echo "Found existing terminal: $TERMINAL_ADDR"

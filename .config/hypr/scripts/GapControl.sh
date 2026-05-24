@@ -25,7 +25,7 @@ case "$action" in
         "$HOME/.config/hypr/scripts/ScratchpadSyncGaps.sh" 2>/dev/null || true
         # Reposition dropdown terminal if it exists
         if [ -f "/tmp/dropdown_terminal_addr" ]; then
-          "$HOME/.config/hypr/scripts/Dropterminal.sh" -d "$HOME/.config/hypr/UserScripts/open-alacritty.sh" >/dev/null 2>&1 &
+          "$HOME/.config/hypr/scripts/Dropterminal.sh" reposition >/dev/null 2>&1 &
         fi
         notify-send -u low -t 1000 "Gaps Increased" "In: $new_in | Out: $new_out"
         ;;
@@ -44,7 +44,7 @@ case "$action" in
         "$HOME/.config/hypr/scripts/ScratchpadSyncGaps.sh" 2>/dev/null || true
         # Reposition dropdown terminal if it exists
         if [ -f "/tmp/dropdown_terminal_addr" ]; then
-          "$HOME/.config/hypr/scripts/Dropterminal.sh" -d "$HOME/.config/hypr/UserScripts/open-alacritty.sh" >/dev/null 2>&1 &
+          "$HOME/.config/hypr/scripts/Dropterminal.sh" reposition >/dev/null 2>&1 &
         fi
         notify-send -u low -t 1000 "Gaps Decreased" "In: $new_in | Out: $new_out"
         ;;
@@ -55,7 +55,7 @@ case "$action" in
         "$HOME/.config/hypr/scripts/ScratchpadSyncGaps.sh" 2>/dev/null || true
         # Reposition dropdown terminal if it exists
         if [ -f "/tmp/dropdown_terminal_addr" ]; then
-          "$HOME/.config/hypr/scripts/Dropterminal.sh" -d "$HOME/.config/hypr/UserScripts/open-alacritty.sh" >/dev/null 2>&1 &
+          "$HOME/.config/hypr/scripts/Dropterminal.sh" reposition >/dev/null 2>&1 &
         fi
         notify-send -u low -t 1000 "Gaps Reset" "In: $default_in | Out: $default_out"
         ;;

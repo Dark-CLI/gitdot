@@ -151,18 +151,13 @@ calculate_dropdown_position() {
   local width=$((logical_width * WIDTH_PERCENT / 100))
   local height=$((logical_height * HEIGHT_PERCENT / 100))
 
-  # Get current gaps from Hyprland config (fallback to defaults if error)
-  local gaps_out=30
-  if command -v hyprctl >/dev/null 2>&1; then
-    gaps_out=$(hyprctl getoption general:gaps_out 2>/dev/null | awk '{print $2}' | grep -oE '[0-9]+' | head -1)
-    [ -z "$gaps_out" ] && gaps_out=30
-  fi
-  local gaps_in=$gaps_out
+  # Get current gaps from Hyprland config
+  local gaps_out=$(hyprctl getoption general:gaps_out 2>/dev/null | grep -oE '[0-9]+' | head -1)
+  [ -z "$gaps_out" ] && gaps_out=30
 
-  # Calculate X and Y positions (top-left positioning)
-  # Fixed gaps = 30px, position = 1% from left, 2% from top
-  local x_offset=$((logical_width * X_PERCENT / 100 + 30))
-  local y_offset=$((logical_height * Y_PERCENT / 100 + 30))
+  # Calculate X and Y positions (top-left positioning with current gaps)
+  local x_offset=$((logical_width * X_PERCENT / 100 + gaps_out))
+  local y_offset=$((logical_height * Y_PERCENT / 100 + gaps_out))
 
   # Apply monitor offset to get final positions in logical coordinates
   local final_x=$((mon_x + x_offset))

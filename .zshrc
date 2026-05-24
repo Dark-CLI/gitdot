@@ -174,3 +174,4 @@ unsetopt SHARE_HISTORY
 setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY  # save each command immediately (prevents loss on crash)
 
+export PATH="$HOME/.local/bin:$PATH"

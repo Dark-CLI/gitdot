@@ -62,7 +62,7 @@ get_window_geometry() {
   hyprctl clients -j | jq -r --arg ADDR "$addr" '.[] | select(.address == $ADDR) | "\(.at[0]) \(.at[1]) \(.size[0]) \(.size[1])"'
 }
 
-# Function to animate window fade in (show)
+# Function to show window (positioning - Hyprland handles fade animation)
 animate_fade_in() {
   local addr="$1"
   local target_x="$2"
@@ -70,39 +70,15 @@ animate_fade_in() {
   local width="$4"
   local height="$5"
 
-  debug_echo "Animating fade in for window $addr"
-
-  # Set initial opacity to 0 and position
+  debug_echo "Showing window $addr at position $target_x,$target_y"
   hyprctl dispatch movewindowpixel "exact $target_x $target_y,address:$addr" >/dev/null 2>&1
-  hyprctl keyword "windowrule=opaque 0.0,address:$addr" >/dev/null 2>&1
-
-  # Fade in quickly
-  local fade_steps=3
-  for i in $(seq 1 $fade_steps); do
-    local opacity=$(echo "scale=1; $i / $fade_steps" | bc)
-    hyprctl keyword "windowrule=opaque $opacity,address:$addr" >/dev/null 2>&1
-    sleep 0.05
-  done
-
-  # Ensure full opacity
-  hyprctl keyword "windowrule=opaque 1.0,address:$addr" >/dev/null 2>&1
 }
 
-# Function to animate window fade out (hide)
+# Function to hide window (Hyprland handles fade animation)
 animate_fade_out() {
   local addr="$1"
 
-  debug_echo "Animating fade out for window $addr"
-
-  # Fade out quickly
-  local fade_steps=3
-  for i in $(seq $fade_steps -1 0); do
-    local opacity=$(echo "scale=1; $i / $fade_steps" | bc)
-    hyprctl keyword "windowrule=opaque $opacity,address:$addr" >/dev/null 2>&1
-    sleep 0.05
-  done
-
-  debug_echo "Fade out animation completed"
+  debug_echo "Hiding window $addr to scratchpad"
 }
 
 # Function to get monitor info including scale and name of focused monitor

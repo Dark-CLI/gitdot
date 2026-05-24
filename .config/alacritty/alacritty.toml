@@ -30,9 +30,10 @@ y = 0
 [general]
 working_directory = "/home/max"
 
-# import = [
-#     "~/.config/alacritty/themes/themes/catppuccin_mocha.toml"
-# ]
+# Import wallust-generated colors
+import = [
+    "~/.config/alacritty/wallust/colors-alacritty.toml"
+]
 
 
 

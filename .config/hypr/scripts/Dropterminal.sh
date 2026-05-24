@@ -230,7 +230,7 @@ spawn_terminal() {
   local count_before=$(echo "$windows_before" | jq 'length')
 
   # Launch terminal directly in special workspace to avoid visible spawn
-  hyprctl dispatch exec "[float; size $width $height; workspace special:scratchpad silent] $TERMINAL_CMD --class AlacrittyDropdown"
+  hyprctl dispatch exec "[float; size $width $height; workspace special:scratchpad silent] $TERMINAL_CMD --class DropdownTerminal"
 
   # Wait for window to appear
   sleep 0.1

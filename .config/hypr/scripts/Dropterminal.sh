@@ -159,16 +159,14 @@ calculate_dropdown_position() {
   fi
   local gaps_in=$gaps_out
 
-  # Calculate X and Y positions with gap-following (top-left positioning)
-  local x_offset=$((logical_width * X_PERCENT / 100 + gaps_out))
-  local y_offset=$((logical_height * Y_PERCENT / 100 + gaps_out))
+  # Calculate X and Y positions (top-left positioning)
+  # Fixed gaps = 30px, position = 1% from left, 2% from top
+  local x_offset=$((logical_width * X_PERCENT / 100 + 30))
+  local y_offset=$((logical_height * Y_PERCENT / 100 + 30))
 
   # Apply monitor offset to get final positions in logical coordinates
   local final_x=$((mon_x + x_offset))
   local final_y=$((mon_y + y_offset))
-
-  debug_echo "Gap values: in=$gaps_in, out=$gaps_out"
-  debug_echo "Offsets: x=$x_offset, y=$y_offset"
 
   debug_echo "Window size: ${width}x${height} (logical pixels)"
   debug_echo "Final position: x=$final_x, y=$final_y (logical coordinates)"

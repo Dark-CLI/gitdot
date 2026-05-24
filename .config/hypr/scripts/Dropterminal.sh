@@ -48,8 +48,8 @@ debug_echo() {
   fi
 }
 
-# Validate input
-if [ -z "$TERMINAL_CMD" ]; then
+# Validate input (not needed for reposition-only action)
+if [ -z "$TERMINAL_CMD" ] && [ "$REPOSITION_ONLY" != "true" ]; then
   echo "Missing terminal command. Usage: $0 [-d] <terminal_command>"
   echo "Examples:"
   echo "  $0 foot"
@@ -151,9 +151,13 @@ calculate_dropdown_position() {
   local width=$((logical_width * WIDTH_PERCENT / 100))
   local height=$((logical_height * HEIGHT_PERCENT / 100))
 
-  # Get current gaps from Hyprland config
-  local gaps_in=$(hyprctl getoption general:gaps_in -j | jq -r '.int' 2>/dev/null || echo 30)
-  local gaps_out=$(hyprctl getoption general:gaps_out -j | jq -r '.int' 2>/dev/null || echo 30)
+  # Get current gaps from Hyprland config (fallback to defaults if error)
+  local gaps_out=30
+  if command -v hyprctl >/dev/null 2>&1; then
+    gaps_out=$(hyprctl getoption general:gaps_out 2>/dev/null | awk '{print $2}' | grep -oE '[0-9]+' | head -1)
+    [ -z "$gaps_out" ] && gaps_out=30
+  fi
+  local gaps_in=$gaps_out
 
   # Calculate X and Y positions with gap-following (top-left positioning)
   local x_offset=$((logical_width * X_PERCENT / 100 + gaps_out))
@@ -162,6 +166,9 @@ calculate_dropdown_position() {
   # Apply monitor offset to get final positions in logical coordinates
   local final_x=$((mon_x + x_offset))
   local final_y=$((mon_y + y_offset))
+
+  debug_echo "Gap values: in=$gaps_in, out=$gaps_out"
+  debug_echo "Offsets: x=$x_offset, y=$y_offset"
 
   debug_echo "Window size: ${width}x${height} (logical pixels)"
   debug_echo "Final position: x=$final_x, y=$final_y (logical coordinates)"

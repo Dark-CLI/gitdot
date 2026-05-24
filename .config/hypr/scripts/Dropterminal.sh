@@ -62,61 +62,47 @@ get_window_geometry() {
   hyprctl clients -j | jq -r --arg ADDR "$addr" '.[] | select(.address == $ADDR) | "\(.at[0]) \(.at[1]) \(.size[0]) \(.size[1])"'
 }
 
-# Function to animate window slide down (show)
-animate_slide_down() {
+# Function to animate window fade in (show)
+animate_fade_in() {
   local addr="$1"
   local target_x="$2"
   local target_y="$3"
   local width="$4"
   local height="$5"
 
-  debug_echo "Animating slide down for window $addr to position $target_x,$target_y"
+  debug_echo "Animating fade in for window $addr"
 
-  # Start position (above screen)
-  local start_y=$((target_y - height - 50))
+  # Set initial opacity to 0 and position
+  hyprctl dispatch movewindowpixel "exact $target_x $target_y,address:$addr" >/dev/null 2>&1
+  hyprctl keyword "windowrule=opaque 0.0,address:$addr" >/dev/null 2>&1
 
-  # Calculate step size
-  local step_y=$(((target_y - start_y) / SLIDE_STEPS))
-
-  # Move window to start position instantly (off-screen)
-  hyprctl dispatch movewindowpixel "exact $target_x $start_y,address:$addr" >/dev/null 2>&1
-  sleep 0.05
-
-  # Animate slide down
-  for i in $(seq 1 $SLIDE_STEPS); do
-    local current_y=$((start_y + (step_y * i)))
-    hyprctl dispatch movewindowpixel "exact $target_x $current_y,address:$addr" >/dev/null 2>&1
-    sleep 0.03
+  # Fade in quickly
+  local fade_steps=3
+  for i in $(seq 1 $fade_steps); do
+    local opacity=$(echo "scale=1; $i / $fade_steps" | bc)
+    hyprctl keyword "windowrule=opaque $opacity,address:$addr" >/dev/null 2>&1
+    sleep 0.05
   done
 
-  # Ensure final position is exact
-  hyprctl dispatch movewindowpixel "exact $target_x $target_y,address:$addr" >/dev/null 2>&1
+  # Ensure full opacity
+  hyprctl keyword "windowrule=opaque 1.0,address:$addr" >/dev/null 2>&1
 }
 
-# Function to animate window slide up (hide)
-animate_slide_up() {
+# Function to animate window fade out (hide)
+animate_fade_out() {
   local addr="$1"
-  local start_x="$2"
-  local start_y="$3"
-  local width="$4"
-  local height="$5"
 
-  debug_echo "Animating slide up for window $addr from position $start_x,$start_y"
+  debug_echo "Animating fade out for window $addr"
 
-  # End position (above screen)
-  local end_y=$((start_y - height - 50))
-
-  # Calculate step size
-  local step_y=$(((start_y - end_y) / SLIDE_STEPS))
-
-  # Animate slide up
-  for i in $(seq 1 $SLIDE_STEPS); do
-    local current_y=$((start_y - (step_y * i)))
-    hyprctl dispatch movewindowpixel "exact $start_x $current_y,address:$addr" >/dev/null 2>&1
-    sleep 0.03
+  # Fade out quickly
+  local fade_steps=3
+  for i in $(seq $fade_steps -1 0); do
+    local opacity=$(echo "scale=1; $i / $fade_steps" | bc)
+    hyprctl keyword "windowrule=opaque $opacity,address:$addr" >/dev/null 2>&1
+    sleep 0.05
   done
 
-  debug_echo "Slide up animation completed"
+  debug_echo "Fade out animation completed"
 }
 
 # Function to get monitor info including scale and name of focused monitor
@@ -293,7 +279,7 @@ spawn_terminal() {
     # Use movetoworkspacesilent to avoid affecting workspace history
     hyprctl dispatch movetoworkspacesilent "$CURRENT_WS,address:$new_addr"
     hyprctl dispatch pin "address:$new_addr"
-    animate_slide_down "$new_addr" "$target_x" "$target_y" "$width" "$height"
+    animate_fade_in "$new_addr" "$target_x" "$target_y" "$width" "$height"
 
     return 0
   fi
@@ -340,7 +326,7 @@ if terminal_exists; then
 
     # Set size and animate slide down
     hyprctl dispatch resizewindowpixel "exact $width $height,address:$TERMINAL_ADDR"
-    animate_slide_down "$TERMINAL_ADDR" "$target_x" "$target_y" "$width" "$height"
+    animate_fade_in "$TERMINAL_ADDR" "$target_x" "$target_y" "$width" "$height"
 
     hyprctl dispatch focuswindow "address:$TERMINAL_ADDR"
   else
@@ -356,8 +342,8 @@ if terminal_exists; then
 
       debug_echo "Current geometry: ${curr_x},${curr_y} ${curr_width}x${curr_height}"
 
-      # Animate slide up first
-      animate_slide_up "$TERMINAL_ADDR" "$curr_x" "$curr_y" "$curr_width" "$curr_height"
+      # Animate fade out first
+      animate_fade_out "$TERMINAL_ADDR"
 
       # Small delay then move to special workspace and unpin
       sleep 0.1

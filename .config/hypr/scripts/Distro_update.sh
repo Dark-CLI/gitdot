@@ -4,10 +4,12 @@
 
 # Local Paths
 iDIR="$HOME/.config/swaync/images"
+SCRIPT_DIR="$HOME/.config/hypr/scripts"
 
-# Check for required tools (kitty)
-if ! command -v kitty &> /dev/null; then
-  notify-send -i "$iDIR/error.png" "Need Kitty:" "Kitty terminal not found. Please install Kitty terminal."
+# Get configured terminal
+TERMINAL=$("$SCRIPT_DIR/get-terminal.sh")
+if ! command -v "$TERMINAL" &> /dev/null; then
+  notify-send -i "$iDIR/error.png" "Terminal Error:" "$TERMINAL terminal not found. Please install it or change terminal in 01-UserDefaults.conf"
   exit 1
 fi
 
@@ -15,23 +17,23 @@ fi
 if command -v paru &> /dev/null || command -v yay &> /dev/null; then
   # Arch-based
   if command -v paru &> /dev/null; then
-    kitty -T update paru -Syu
+    $TERMINAL -T update paru -Syu
     notify-send -i "$iDIR/ja.png" -u low 'Arch-based system' 'has been updated.'
   else
-    kitty -T update yay -Syu
+    $TERMINAL -T update yay -Syu
     notify-send -i "$iDIR/ja.png" -u low 'Arch-based system' 'has been updated.'
   fi
 elif command -v dnf &> /dev/null; then
   # Fedora-based
-  kitty -T update sudo dnf update --refresh -y
+  $TERMINAL -T update sudo dnf update --refresh -y
   notify-send -i "$iDIR/ja.png" -u low 'Fedora system' 'has been updated.'
 elif command -v apt &> /dev/null; then
   # Debian-based (Debian, Ubuntu, etc.)
-  kitty -T update sudo apt update && sudo apt upgrade -y
+  $TERMINAL -T update sudo apt update && sudo apt upgrade -y
   notify-send -i "$iDIR/ja.png" -u low 'Debian/Ubuntu system' 'has been updated.'
 elif command -v zypper &> /dev/null; then
   # openSUSE-based
-  kitty -T update sudo zypper dup -y
+  $TERMINAL -T update sudo zypper dup -y
   notify-send -i "$iDIR/ja.png" -u low 'openSUSE system' 'has been updated.'
 else
   # Unsupported distro

@@ -5,8 +5,12 @@
 # Local Paths
 local_dir="$HOME/.config/hypr"
 iDIR="$HOME/.config/swaync/images/"
+SCRIPT_DIR="$HOME/.config/hypr/scripts"
 local_version=$(ls $local_dir/v* 2>/dev/null | sort -V | tail -n 1 | sed 's/.*v\(.*\)/\1/')
 KooL_Dots_DIR="$HOME/Hyprland-Dots"
+
+# Get configured terminal
+TERMINAL=$("$SCRIPT_DIR/get-terminal.sh")
 
 # exit if cannot find local version
 if [ -z "$local_version" ]; then
@@ -40,11 +44,11 @@ else
   case "$response" in
     "action1")  
       if [ -d $KooL_Dots_DIR ]; then
-      	if ! command -v kitty &> /dev/null; then
-  			notify-send -i "$iDIR/error.png" "E-R-R-O-R" "Kitty terminal not found. Please install Kitty terminal."
+      	if ! command -v "$TERMINAL" &> /dev/null; then
+  			notify-send -i "$iDIR/error.png" "E-R-R-O-R" "$TERMINAL terminal not found. Please install it or change terminal in 01-UserDefaults.conf"
   			exit 1
 		fi
-        kitty -e bash -c "
+        "$TERMINAL" -e bash -c "
           cd $KooL_Dots_DIR &&
           git stash &&
           git pull &&
@@ -57,7 +61,7 @@ else
   		  	notify-send -i "$iDIR/error.png" "E-R-R-O-R" "Kitty terminal not found. Please install Kitty terminal."
   			exit 1
 		fi
-        kitty -e bash -c "
+        "$TERMINAL" -e bash -c "
           git clone --depth=1 https://github.com/JaKooLit/Hyprland-Dots.git $KooL_Dots_DIR &&
           cd $KooL_Dots_DIR &&
           chmod +x copy.sh &&

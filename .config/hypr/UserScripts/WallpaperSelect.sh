@@ -17,7 +17,7 @@ FPS=60
 TYPE="any"
 DURATION=2
 BEZIER=".43,1.19,1,.4"
-SWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration $DURATION --transition-bezier $BEZIER"
+SWWW_PARAMS=("--transition-fps" "$FPS" "--transition-type" "$TYPE" "--transition-duration" "$DURATION" "--transition-bezier" "$BEZIER")
 
 # Check if package bc exists
 if ! command -v bc &>/dev/null; then
@@ -196,14 +196,23 @@ modify_startup_config() {
 apply_image_wallpaper() {
   local image_path="$1"
 
+  echo "[DEBUG FUNC] apply_image_wallpaper START with path: $image_path" | tee -a /tmp/wallpaper_debug.log
+
   kill_wallpaper_for_image
 
   if ! pgrep -x "swww-daemon" >/dev/null; then
-    echo "Starting swww-daemon..."
+    echo "[DEBUG FUNC] Starting swww-daemon..." | tee -a /tmp/wallpaper_debug.log
     swww-daemon --format xrgb &
+    sleep 1
   fi
 
-  swww img -o "$focused_monitor" "$image_path" $SWWW_PARAMS
+  echo "[DEBUG FUNC] Running: swww img -o $focused_monitor $image_path with transition params" | tee -a /tmp/wallpaper_debug.log
+
+  if swww img -o "$focused_monitor" "$image_path" "${SWWW_PARAMS[@]}" 2>&1 | tee -a /tmp/wallpaper_debug.log; then
+    echo "[DEBUG FUNC] swww img SUCCEEDED" | tee -a /tmp/wallpaper_debug.log
+  else
+    echo "[DEBUG FUNC] swww img FAILED with exit code $?" | tee -a /tmp/wallpaper_debug.log
+  fi
 
   # Copy wallpaper for hyprlock
   cp -f "$image_path" "$wallpaper_current"
@@ -215,6 +224,7 @@ apply_image_wallpaper() {
   sleep 1
 
   set_sddm_wallpaper
+  echo "[DEBUG] apply_image_wallpaper completed" >> /tmp/wallpaper_debug.log
 }
 
 apply_video_wallpaper() {
@@ -239,13 +249,21 @@ main() {
   selected_row=$(cat "$HOME/.cache/hypr/wallpaper_selected_row" 2>/dev/null || echo "0")
 
   # Build rofi command with -selected-row parameter to position cursor
-  rofi_command="rofi -i -dmenu -config $rofi_theme -theme-str $rofi_override -selected-row $selected_row"
+  # Properly quote the theme override to handle curly braces
+  rofi_command="rofi -i -dmenu -config $rofi_theme -theme-str '$rofi_override' -selected-row $selected_row"
 
   # Show menu and get choice (using file instead of command substitution to preserve null bytes)
-  choice=$(cat /tmp/rofi_menu_$$ | $rofi_command)
+  choice=$(cat /tmp/rofi_menu_$$ | eval "$rofi_command")
   rm -f /tmp/rofi_menu_$$
+
+  # Debug: log what rofi returned
+  echo "[DEBUG] Raw choice from rofi: '$choice'" >> /tmp/wallpaper_debug.log
+
   choice=$(echo "$choice" | xargs)
   RANDOM_PIC_NAME=$(echo "$RANDOM_PIC_NAME" | xargs)
+
+  # Debug: log cleaned choice
+  echo "[DEBUG] After xargs: '$choice'" >> /tmp/wallpaper_debug.log
 
   if [[ -z "$choice" ]]; then
     echo "No choice selected. Exiting."
@@ -258,27 +276,38 @@ main() {
   fi
 
   choice_basename=$(basename "$choice" | sed 's/\(.*\)\.[^.]*$/\1/')
+  echo "[DEBUG] Choice basename: '$choice_basename'" >> /tmp/wallpaper_debug.log
 
   # Search for the selected file in the wallpapers directory, including subdirectories
   selected_file=$(find "$wallDIR" -iname "$choice_basename.*" -print -quit)
 
+  echo "[DEBUG] Search pattern: $choice_basename.* in $wallDIR" >> /tmp/wallpaper_debug.log
+  echo "[DEBUG] Found file: '$selected_file'" >> /tmp/wallpaper_debug.log
+
   if [[ -z "$selected_file" ]]; then
-    echo "File not found. Selected choice: $choice"
+    echo "File not found. Selected choice: $choice" | tee -a /tmp/wallpaper_debug.log
     exit 1
   fi
 
   # Save selected wallpaper name to cache for next time
   echo "$choice" > "$wallpaper_cache_file"
+  echo "[DEBUG] Saved to cache: '$choice'" >> /tmp/wallpaper_debug.log
 
   # Modify the Startup_Apps.conf file based on wallpaper type
   modify_startup_config "$selected_file"
 
   # **CHECK FIRST** if it's a video or an image **before calling any function**
+  echo "[DEBUG] About to check file type: '$selected_file'" | tee -a /tmp/wallpaper_debug.log
+
   if [[ "$selected_file" =~ \.(mp4|mkv|mov|webm|MP4|MKV|MOV|WEBM)$ ]]; then
+    echo "[DEBUG] File is VIDEO" | tee -a /tmp/wallpaper_debug.log
     apply_video_wallpaper "$selected_file"
   else
+    echo "[DEBUG] File is IMAGE, calling apply_image_wallpaper with: '$selected_file'" | tee -a /tmp/wallpaper_debug.log
     apply_image_wallpaper "$selected_file"
+    echo "[DEBUG] apply_image_wallpaper returned" | tee -a /tmp/wallpaper_debug.log
   fi
+  echo "[DEBUG] Script completed" | tee -a /tmp/wallpaper_debug.log
 }
 
 # Check if rofi is already running

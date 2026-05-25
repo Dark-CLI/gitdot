@@ -71,9 +71,6 @@ RANDOM_PIC_NAME=". random"
 wallpaper_cache_file="$HOME/.cache/hypr/wallpaper_last_selected"
 mkdir -p "$HOME/.cache/hypr"
 
-# Rofi command with keep-selection enabled
-rofi_command="rofi -i -dmenu -config $rofi_theme -theme-str $rofi_override -keep-selection"
-
 # Sorting Wallpapers with state management
 menu() {
   IFS=$'\n' sorted_options=($(sort <<<"${PICS[*]}"))
@@ -98,9 +95,8 @@ menu() {
     done
   fi
 
-  # Output rofi options to enable state restoration
-  printf "\0keep-selection\x1ftrue\n"
-  printf "\0new-selection\x1f$selection_row\n"
+  # Store row number for use in rofi command
+  echo "$selection_row" > "$HOME/.cache/hypr/wallpaper_selected_row"
 
   # Output menu items with icons
   printf "%s\x00icon\x1f%s\n" "$RANDOM_PIC_NAME" "$RANDOM_PIC"
@@ -237,7 +233,15 @@ apply_video_wallpaper() {
 
 # Main function
 main() {
-  choice=$(menu | $rofi_command)
+  # Generate menu and calculate row number for last selection
+  menu_output=$(menu)
+  selected_row=$(cat "$HOME/.cache/hypr/wallpaper_selected_row" 2>/dev/null || echo "0")
+
+  # Build rofi command with -selected-row parameter to position cursor
+  rofi_command="rofi -i -dmenu -config $rofi_theme -theme-str $rofi_override -selected-row $selected_row"
+
+  # Show menu and get choice
+  choice=$(echo "$menu_output" | $rofi_command)
   choice=$(echo "$choice" | xargs)
   RANDOM_PIC_NAME=$(echo "$RANDOM_PIC_NAME" | xargs)
 

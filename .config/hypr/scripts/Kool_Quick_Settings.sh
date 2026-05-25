@@ -28,21 +28,19 @@ show_info() {
 # Function to display the menu options without numbers
 menu() {
     cat <<EOF
---- USER CUSTOMIZATIONS ---
-Edit User Defaults
-Edit User Keybinds
-Edit User ENV variables
-Edit User Startup Apps (overlay)
-Edit User Window Rules (overlay)
-Edit User Settings
-Edit User Decorations
-Edit User Animations
-Edit User Laptop Settings
---- SYSTEM DEFAULTS  ---
-Edit System Default Keybinds
-Edit System Default Startup Apps
-Edit System Default Window Rules
-Edit System Default Settings
+--- HYPRLAND LUA CONFIG (NEW) ---
+Edit Main Config (hyprland.lua)
+Edit Core Settings (config.lua)
+Edit Environment (env.lua)
+Edit System Keybinds (system.lua)
+Edit Custom Keybinds (custom.lua)
+Edit Window Rules (windows.lua)
+Edit Animations (animations.lua)
+Edit Startup Services (boot.lua)
+--- LEGACY REFERENCE (OLD) ---
+Edit User Defaults (.conf reference)
+Edit User Keybinds (.conf reference)
+Edit User Settings (.conf reference)
 --- UTILITIES ---
 Choose Kitty Terminal Theme
 Configure Monitors (nwg-displays)
@@ -65,19 +63,17 @@ main() {
     
     # Map choices to corresponding files
     case "$choice" in
-    	"Edit User Defaults") file="$UserConfigs/01-UserDefaults.conf" ;;
-        "Edit User ENV variables") file="$UserConfigs/ENVariables.conf" ;;
-        "Edit User Keybinds") file="$UserConfigs/UserKeybinds.conf" ;;
-        "Edit User Startup Apps (overlay)") file="$UserConfigs/Startup_Apps.conf" ;;
-        "Edit User Window Rules (overlay)") file="$UserConfigs/WindowRules.conf" ;;
-        "Edit User Settings") file="$configs/SystemSettings.conf"; show_info "Editing default settings. Copy to UserConfigs/UserSettings.conf to override." ;;
-        "Edit User Decorations") file="$UserConfigs/UserDecorations.conf" ;;
-        "Edit User Animations") file="$UserConfigs/UserAnimations.conf" ;;
-        "Edit User Laptop Settings") file="$UserConfigs/Laptops.conf" ;;
-        "Edit System Default Keybinds") file="$configs/Keybinds.conf" ;;
-        "Edit System Default Startup Apps") file="$configs/Startup_Apps.conf" ;;
-        "Edit System Default Window Rules") file="$configs/WindowRules.conf" ;;
-        "Edit System Default Settings") file="$configs/SystemSettings.conf" ;;
+    	"Edit Main Config (hyprland.lua)") file="$HOME/.config/hypr/hyprland.lua" ;;
+        "Edit Core Settings (config.lua)") file="$HOME/.config/hypr/lua/core/config.lua" ;;
+        "Edit Environment (env.lua)") file="$HOME/.config/hypr/lua/core/env.lua" ;;
+        "Edit System Keybinds (system.lua)") file="$HOME/.config/hypr/lua/binds/system.lua" ;;
+        "Edit Custom Keybinds (custom.lua)") file="$HOME/.config/hypr/lua/binds/custom.lua" ;;
+        "Edit Window Rules (windows.lua)") file="$HOME/.config/hypr/lua/rules/windows.lua" ;;
+        "Edit Animations (animations.lua)") file="$HOME/.config/hypr/lua/rules/animations.lua" ;;
+        "Edit Startup Services (boot.lua)") file="$HOME/.config/hypr/lua/startup/boot.lua" ;;
+        "Edit User Defaults (.conf reference)") file="$UserConfigs/01-UserDefaults.conf"; show_info "This is the old .conf format (reference only - not used anymore)" ;;
+        "Edit User Keybinds (.conf reference)") file="$UserConfigs/UserKeybinds.conf"; show_info "This is the old .conf format (reference only - not used anymore)" ;;
+        "Edit User Settings (.conf reference)") file="$UserConfigs/UserSettings.conf"; show_info "This is the old .conf format (reference only - not used anymore)" ;;
         "Choose Kitty Terminal Theme") $scriptsDir/Kitty_themes.sh ;;
         "Configure Monitors (nwg-displays)") 
             if ! command -v nwg-displays &>/dev/null; then

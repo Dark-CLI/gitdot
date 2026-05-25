@@ -67,13 +67,42 @@ mapfile -d '' PICS < <(find -L "${wallDIR}" -type f \( \
 RANDOM_PIC="${PICS[$((RANDOM % ${#PICS[@]}))]}"
 RANDOM_PIC_NAME=". random"
 
-# Rofi command
-rofi_command="rofi -i -show -dmenu -config $rofi_theme -theme-str $rofi_override"
+# Cache file for last selected wallpaper
+wallpaper_cache_file="$HOME/.cache/hypr/wallpaper_last_selected"
+mkdir -p "$HOME/.cache/hypr"
 
-# Sorting Wallpapers
+# Rofi command with keep-selection enabled
+rofi_command="rofi -i -dmenu -config $rofi_theme -theme-str $rofi_override -keep-selection"
+
+# Sorting Wallpapers with state management
 menu() {
   IFS=$'\n' sorted_options=($(sort <<<"${PICS[*]}"))
 
+  # Load last selected wallpaper
+  local last_selected=""
+  if [ -f "$wallpaper_cache_file" ]; then
+    last_selected=$(cat "$wallpaper_cache_file")
+  fi
+
+  # Find row number of last selected (0-indexed, accounting for random item at position 0)
+  local selection_row=0
+  if [ -n "$last_selected" ]; then
+    local row=1  # Start at 1 because ". random" is at row 0
+    for pic_path in "${sorted_options[@]}"; do
+      pic_name=$(basename "$pic_path")
+      if [[ "$pic_name" == "$last_selected" ]]; then
+        selection_row=$row
+        break
+      fi
+      ((row++))
+    done
+  fi
+
+  # Output rofi options to enable state restoration
+  printf "\0keep-selection\x1ftrue\n"
+  printf "\0new-selection\x1f$selection_row\n"
+
+  # Output menu items with icons
   printf "%s\x00icon\x1f%s\n" "$RANDOM_PIC_NAME" "$RANDOM_PIC"
 
   for pic_path in "${sorted_options[@]}"; do
@@ -231,6 +260,9 @@ main() {
     echo "File not found. Selected choice: $choice"
     exit 1
   fi
+
+  # Save selected wallpaper name to cache for next time
+  echo "$choice" > "$wallpaper_cache_file"
 
   # Modify the Startup_Apps.conf file based on wallpaper type
   modify_startup_config "$selected_file"

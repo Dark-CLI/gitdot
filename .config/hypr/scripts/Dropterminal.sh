@@ -265,7 +265,7 @@ spawn_terminal() {
     # Now bring it back with the same animation as subsequent shows
     # Use movetoworkspacesilent to avoid affecting workspace history
     hyprctl dispatch movetoworkspacesilent "$CURRENT_WS,address:$new_addr"
-    hyprctl dispatch togglefloating "address:$new_addr"
+    # Don't toggle floating - it was spawned as floating, keep it floating
     hyprctl dispatch pin "address:$new_addr"
     animate_fade_in "$new_addr" "$target_x" "$target_y" "$width" "$height"
 
@@ -332,7 +332,7 @@ if terminal_exists; then
 
     # Use movetoworkspacesilent to avoid affecting workspace history
     hyprctl dispatch movetoworkspacesilent "$CURRENT_WS,address:$TERMINAL_ADDR"
-    hyprctl dispatch togglefloating "address:$TERMINAL_ADDR"
+    # Don't toggle floating - keep it floating
     hyprctl dispatch pin "address:$TERMINAL_ADDR"
 
     # Set size and animate slide down

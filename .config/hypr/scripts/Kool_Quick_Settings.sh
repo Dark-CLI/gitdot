@@ -28,7 +28,7 @@ show_info() {
 # Function to display the menu options without numbers
 menu() {
     cat <<EOF
---- HYPRLAND LUA CONFIG (NEW) ---
+--- HYPRLAND LUA CONFIGURATION ---
 Edit Main Config (hyprland.lua)
 Edit Core Settings (config.lua)
 Edit Environment (env.lua)
@@ -37,10 +37,6 @@ Edit Custom Keybinds (custom.lua)
 Edit Window Rules (windows.lua)
 Edit Animations (animations.lua)
 Edit Startup Services (boot.lua)
---- LEGACY REFERENCE (OLD) ---
-Edit User Defaults (.conf reference)
-Edit User Keybinds (.conf reference)
-Edit User Settings (.conf reference)
 --- UTILITIES ---
 Choose Kitty Terminal Theme
 Configure Monitors (nwg-displays)
@@ -71,9 +67,6 @@ main() {
         "Edit Window Rules (windows.lua)") file="$HOME/.config/hypr/lua/rules/windows.lua" ;;
         "Edit Animations (animations.lua)") file="$HOME/.config/hypr/lua/rules/animations.lua" ;;
         "Edit Startup Services (boot.lua)") file="$HOME/.config/hypr/lua/startup/boot.lua" ;;
-        "Edit User Defaults (.conf reference)") file="$UserConfigs/01-UserDefaults.conf"; show_info "This is the old .conf format (reference only - not used anymore)" ;;
-        "Edit User Keybinds (.conf reference)") file="$UserConfigs/UserKeybinds.conf"; show_info "This is the old .conf format (reference only - not used anymore)" ;;
-        "Edit User Settings (.conf reference)") file="$UserConfigs/UserSettings.conf"; show_info "This is the old .conf format (reference only - not used anymore)" ;;
         "Choose Kitty Terminal Theme") $scriptsDir/Kitty_themes.sh ;;
         "Configure Monitors (nwg-displays)") 
             if ! command -v nwg-displays &>/dev/null; then

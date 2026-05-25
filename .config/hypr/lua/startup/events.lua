@@ -1,11 +1,43 @@
--- Event Listeners
--- Hyprland event callbacks and handlers
--- Ported from: hypridle.conf + custom event handlers
+-- Event Listeners & Callbacks
+-- Hyprland event handlers for config reload and other system events
+-- Idle/lock behavior managed by hypridle.conf (separate daemon)
 
--- Phase 2: This file will contain event listeners
--- For now, placeholder to prevent load errors
+local SCRIPTS = os.getenv("HOME") .. "/.config/hypr/scripts"
 
--- Examples (to be expanded in Phase 2):
--- hl.on("hyprland.configReloaded", function()
---   -- Handle config reload
+-- ============================================
+-- CONFIG RELOAD EVENTS
+-- ============================================
+
+hl.on("hyprland.preConfigReload", function()
+  -- Pre-reload cleanup (if needed)
+  -- For example, kill any temporary UI elements
+end)
+
+hl.on("hyprland.configReloaded", function()
+  -- Post-reload tasks
+  -- Refresh UI components that depend on config state
+  -- Example: update workspace indicators in waybar
+  -- Note: waybar reloads via signal elsewhere; this is for custom handlers
+end)
+
+-- ============================================
+-- OPTIONAL: WINDOW/WORKSPACE EVENTS
+-- ============================================
+
+-- Uncomment if you need to handle specific window or workspace events
+
+-- hl.on("window.open", function(win)
+--   -- Triggered when a window opens
+-- end)
+
+-- hl.on("window.close", function(win)
+--   -- Triggered when a window closes
+-- end)
+
+-- hl.on("workspace.created", function(ws)
+--   -- Triggered when a new workspace is created
+-- end)
+
+-- hl.on("workspace.changed", function(ws)
+--   -- Triggered when switching workspaces
 -- end)

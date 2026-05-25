@@ -1,13 +1,92 @@
--- Startup Configuration
--- Applications and services to launch on boot
--- Ported from: Startup_Apps.conf (13 services)
+-- Startup Apps & Services
+-- Boot sequence for Hyprland initialization
+-- Ported from: Startup_Apps.conf (configs + UserConfigs)
 
--- Phase 2: This file will contain all startup commands
--- For now, placeholder to prevent load errors
+local HOME = os.getenv("HOME")
+local SCRIPTS = HOME .. "/.config/hypr/scripts"
+local USER_SCRIPTS = HOME .. "/.config/hypr/UserScripts"
 
--- hl.on("hyprland.start", function()
---   hl.exec_cmd("swww-daemon")
---   hl.exec_cmd("waybar")
---   hl.exec_cmd("nm-applet")
---   -- ... more startup apps
--- end)
+hl.on("hyprland.start", function()
+  -- ============================================
+  -- CORE DAEMONS (must start first)
+  -- ============================================
+
+  -- Wallpaper daemon
+  hl.exec_cmd("swww-daemon --format xrgb")
+
+  -- Environment setup
+  hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+  hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+
+  -- ============================================
+  -- INITIALIZATION SERVICES
+  -- ============================================
+
+  -- Keyboard layout initialization
+  hl.exec_cmd(SCRIPTS .. "/KeybindsLayoutInit.sh")
+
+  -- Dropdown terminal (pyprland scratchpad)
+  hl.exec_cmd(SCRIPTS .. "/Dropterminal.sh kitty &")
+
+  -- ============================================
+  -- AUTHENTICATION & SYSTEM
+  -- ============================================
+
+  -- Polkit authentication agent
+  hl.exec_cmd(SCRIPTS .. "/Polkit.sh")
+
+  -- Network manager applet
+  hl.exec_cmd("nm-applet --indicator")
+
+  -- ============================================
+  -- UI COMPONENTS
+  -- ============================================
+
+  -- Notification daemon
+  hl.exec_cmd("swaync")
+
+  -- Status bar
+  hl.exec_cmd("waybar")
+
+  -- Quickshell overview (optional, comment out if not needed)
+  hl.exec_cmd("qs -c overview")
+
+  -- ============================================
+  -- CLIPBOARD MANAGEMENT
+  -- ============================================
+
+  -- Clipboard manager (text and images)
+  hl.exec_cmd("wl-paste --type text --watch cliphist store")
+  hl.exec_cmd("wl-paste --type image --watch cliphist store")
+
+  -- ============================================
+  -- VISUAL EFFECTS
+  -- ============================================
+
+  -- Rainbow window borders
+  hl.exec_cmd(USER_SCRIPTS .. "/RainbowBorders.sh")
+
+  -- ============================================
+  -- SYSTEM DAEMONS
+  -- ============================================
+
+  -- Idle/lock daemon
+  hl.exec_cmd("hypridle")
+
+  -- Night light (resume from previous session state)
+  hl.exec_cmd(SCRIPTS .. "/Hyprsunset.sh init")
+
+  -- ============================================
+  -- OPTIONAL USER APPLICATIONS
+  -- ============================================
+
+  -- Firefox browser
+  hl.exec_cmd("firefox &")
+
+  -- Feishin music player (Navidrome client)
+  hl.exec_cmd(HOME .. "/.local/share/feishin/Feishin.AppImage --no-sandbox &")
+
+  -- Uncomment below to auto-launch on startup
+  -- hl.exec_cmd("discord &")
+  -- hl.exec_cmd("flatpak run com.spotify.Client &")
+end)

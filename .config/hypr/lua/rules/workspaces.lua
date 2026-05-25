@@ -1,9 +1,20 @@
 -- Workspace Rules
--- Workspace-specific configurations
--- Ported from: workspaces.conf + UserConfigs/WorkSpaceRules.conf
+-- Workspace-specific configurations and assignments
+-- Ported from: workspaces.conf (auto-managed by nwg-displays)
 
--- Phase 2: This file will contain workspace-specific rules
--- For now, placeholder to prevent load errors
+-- Currently no active workspace rules (workspaces.conf is auto-managed by nwg-displays)
+-- Add workspace rules here if needed using hl.workspace_rule()
 
--- Examples (to be expanded in Phase 2):
--- Workspace-specific settings, monitor assignments, etc.
+-- Example workspace rule patterns:
+-- hl.workspace_rule({
+--   workspace = 1,
+--   monitor = "eDP-1"
+-- })
+--
+-- hl.workspace_rule({
+--   workspace = "name:gaming",
+--   gapsin = 0,
+--   gapsout = 0,
+--   border = false,
+--   decorate = false
+-- })

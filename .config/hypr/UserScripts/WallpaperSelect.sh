@@ -233,15 +233,17 @@ apply_video_wallpaper() {
 
 # Main function
 main() {
-  # Generate menu and calculate row number for last selection
-  menu_output=$(menu)
+  # First run menu to calculate row number for last selection
+  menu > /tmp/rofi_menu_$$
+
   selected_row=$(cat "$HOME/.cache/hypr/wallpaper_selected_row" 2>/dev/null || echo "0")
 
   # Build rofi command with -selected-row parameter to position cursor
   rofi_command="rofi -i -dmenu -config $rofi_theme -theme-str $rofi_override -selected-row $selected_row"
 
-  # Show menu and get choice
-  choice=$(echo "$menu_output" | $rofi_command)
+  # Show menu and get choice (using file instead of command substitution to preserve null bytes)
+  choice=$(cat /tmp/rofi_menu_$$ | $rofi_command)
+  rm -f /tmp/rofi_menu_$$
   choice=$(echo "$choice" | xargs)
   RANDOM_PIC_NAME=$(echo "$RANDOM_PIC_NAME" | xargs)
 

@@ -28,8 +28,11 @@ for ignored_file in "${ignore_files[@]}"; do
     mon_profiles_list=$(echo "$mon_profiles_list" | grep -v -E "^$ignored_file$")
 done
 
-# Rofi Menu
-chosen_file=$(echo "$mon_profiles_list" | rofi -i -dmenu -config $rofi_theme -mesg "$msg")
+# Source rofi menu helper with state management
+source "$SCRIPTSDIR/rofi_menu.sh"
+
+# Rofi Menu with state (remembers last selection)
+chosen_file=$(rofi_menu_with_state "monitor_profiles" "$mon_profiles_list" "$rofi_theme")
 
 if [[ -n "$chosen_file" ]]; then
     full_path="$monitor_dir/$chosen_file.conf"

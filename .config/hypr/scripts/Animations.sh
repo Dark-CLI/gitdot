@@ -17,8 +17,11 @@ msg='❗NOTE:❗ This will copy animations into UserAnimations.conf'
 # list of animation files, sorted alphabetically with numbers first
 animations_list=$(find -L "$animations_dir" -maxdepth 1 -type f | sed 's/.*\///' | sed 's/\.conf$//' | sort -V)
 
-# Rofi Menu
-chosen_file=$(echo "$animations_list" | rofi -i -dmenu -config $rofi_theme -mesg "$msg")
+# Source rofi menu helper with state management
+source "$SCRIPTSDIR/rofi_menu.sh"
+
+# Rofi Menu with state (remembers last selection)
+chosen_file=$(rofi_menu_with_state "animations" "$animations_list" "$rofi_theme")
 
 # Check if a file was selected
 if [[ -n "$chosen_file" ]]; then

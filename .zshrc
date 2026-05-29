@@ -15,6 +15,11 @@ fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Trust Obsidian's self-signed certificate in Node.js
+export NODE_EXTRA_CA_CERTS="$HOME/obsidian-local-rest-api.crt"
+export NODE_OPTIONS="--use-openssl-ca"
+export NODE_TLS_REJECT_UNAUTHORIZED=0  # Allow self-signed cert for Obsidian localhost
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -175,3 +180,4 @@ setopt APPEND_HISTORY
 setopt INC_APPEND_HISTORY  # save each command immediately (prevents loss on crash)
 
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.npm-global/bin:$PATH"

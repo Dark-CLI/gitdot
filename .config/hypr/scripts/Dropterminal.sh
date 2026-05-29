@@ -13,6 +13,7 @@
 DEBUG=false
 SPECIAL_WS="special:scratchpad"
 ADDR_FILE="/tmp/dropdown_terminal_addr"
+POS_FILE="/tmp/dropdown_terminal_pos"  # Stores x, y, width, height
 
 # Dropdown size and position configuration (percentages)
 WIDTH_PERCENT=54  # Width as percentage of screen width
@@ -187,6 +188,42 @@ get_terminal_monitor() {
   fi
 }
 
+# Function to save terminal position
+save_terminal_position() {
+  local addr="$1"
+  local geometry=$(get_window_geometry "$addr")
+  if [ -n "$geometry" ]; then
+    echo "$geometry" >"$POS_FILE"
+    debug_echo "Saved position: $geometry"
+  fi
+}
+
+# Function to load saved position
+load_saved_position() {
+  if [ -f "$POS_FILE" ] && [ -s "$POS_FILE" ]; then
+    cat "$POS_FILE"
+  else
+    echo ""
+  fi
+}
+
+# Function to check if saved position is valid for current monitor
+is_position_valid_for_monitor() {
+  local saved_pos="$1"
+  local focused_monitor="$2"
+  local dropdown_monitor="$3"
+
+  # If monitor changed, return false (need recalculation)
+  if [ "$focused_monitor" != "$dropdown_monitor" ]; then
+    debug_echo "Monitor changed, will recalculate position"
+    return 1
+  fi
+
+  # If we have a saved position and same monitor, it's valid
+  [ -n "$saved_pos" ] && return 0
+  return 1
+}
+
 # Function to check if terminal exists
 terminal_exists() {
   local addr=$(get_terminal_address)
@@ -323,12 +360,27 @@ if terminal_exists; then
   if terminal_in_special; then
     debug_echo "Bringing terminal from scratchpad with slide down animation"
 
-    # Calculate target position
-    pos_info=$(calculate_dropdown_position)
-    target_x=$(echo $pos_info | cut -d' ' -f1)
-    target_y=$(echo $pos_info | cut -d' ' -f2)
-    width=$(echo $pos_info | cut -d' ' -f3)
-    height=$(echo $pos_info | cut -d' ' -f4)
+    # Try to use saved position, fall back to calculated position
+    saved_pos=$(load_saved_position)
+    focused_monitor=$(get_monitor_info | awk '{print $6}')
+    dropdown_monitor=$(get_terminal_monitor)
+
+    if is_position_valid_for_monitor "$saved_pos" "$focused_monitor" "$dropdown_monitor"; then
+      # Use saved position
+      target_x=$(echo $saved_pos | cut -d' ' -f1)
+      target_y=$(echo $saved_pos | cut -d' ' -f2)
+      width=$(echo $saved_pos | cut -d' ' -f3)
+      height=$(echo $saved_pos | cut -d' ' -f4)
+      debug_echo "Using saved position: ${target_x},${target_y} ${width}x${height}"
+    else
+      # Use calculated position (default)
+      pos_info=$(calculate_dropdown_position)
+      target_x=$(echo $pos_info | cut -d' ' -f1)
+      target_y=$(echo $pos_info | cut -d' ' -f2)
+      width=$(echo $pos_info | cut -d' ' -f3)
+      height=$(echo $pos_info | cut -d' ' -f4)
+      debug_echo "Using calculated position: ${target_x},${target_y} ${width}x${height}"
+    fi
 
     # Use movetoworkspacesilent to avoid affecting workspace history
     hyprctl dispatch movetoworkspacesilent "$CURRENT_WS,address:$TERMINAL_ADDR"
@@ -342,6 +394,9 @@ if terminal_exists; then
     hyprctl dispatch focuswindow "address:$TERMINAL_ADDR"
   else
     debug_echo "Hiding terminal to scratchpad with slide up animation"
+
+    # Save current position before hiding
+    save_terminal_position "$TERMINAL_ADDR"
 
     # Get current geometry for animation
     geometry=$(get_window_geometry "$TERMINAL_ADDR")

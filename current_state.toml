@@ -12,4 +12,5 @@ paths = [
     "~/.config/docker-firewall",
     "~/.config/waybar",
     "~/.local/navidrome/docker-compose.yaml",
+    "~/.ideavimrc",
 ]

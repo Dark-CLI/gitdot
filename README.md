@@ -107,6 +107,26 @@ Personal Linux dotfiles, managed with [lazydot](https://github.com/nickspaargare
 - **Files:** `rules.conf`, `apply-rules.sh`, `docker-firewall.service` (systemd, `PartOf=docker.service`).
 - **Docs:** `~/.config/docker-firewall/README.md`.
 
+### Wake-on-LAN (WoL)
+
+- **Enabled via systemd service** (`wol-enp9s0.service`): One-shot service that enables WoL on `enp9s0` using `ethtool -s enp9s0 wol g` at boot.
+- **Setup:** `sudo vim /etc/systemd/system/wol-enp9s0.service` with:
+  ```ini
+  [Unit]
+  Description=Wake-on-LAN for enp9s0
+  After=network.target
+
+  [Service]
+  Type=oneshot
+  ExecStart=/sbin/ethtool -s enp9s0 wol g
+  RemainAfterExit=yes
+
+  [Install]
+  WantedBy=multi-user.target
+  ```
+- **Enable:** `sudo systemctl daemon-reload && sudo systemctl enable --now wol-enp9s0.service`
+- **Behavior:** Machine can be woken from sleep via magic packet on `enp9s0`.
+
 ### Ports (ZeroTier zone)
 
 - 22 (SSH), 3000 (OpenWebUI), 3001 (webpage), 8000 (Debts manager app), 11434 (Ollama), 1883 (MQTT), 4533 (Navidrome), 9993 (ZeroTier), 27036 (Steam Remote Play).

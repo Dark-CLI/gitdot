@@ -13,4 +13,5 @@ paths = [
     "~/.config/waybar",
     "~/.local/navidrome/docker-compose.yaml",
     "~/.ideavimrc",
+    "~/.config/yazi",
 ]

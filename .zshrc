@@ -129,9 +129,13 @@ export NVM_DIR="$HOME/.nvm"
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-# ADdd a shortcut to Catl + L --> clean
+# Clear both screen and tmux scrollback history
 function clear-screen {
   clear
+  if [[ -n "$TMUX" ]]; then
+    tmux clear-history
+  fi
+  zle reset-prompt
 }
 
 zle -N clear-screen

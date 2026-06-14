@@ -17,6 +17,19 @@
   <forward/>
   <masquerade/>
 
+  <!-- Allow SSH and Mosh from specific LAN host -->
+  <rule family="ipv4">
+    <source address="10.95.12.95"/>
+    <port protocol="tcp" port="22"/>
+    <accept/>
+  </rule>
+
+  <rule family="ipv4">
+    <source address="10.95.12.95"/>
+    <port protocol="udp" port="60000-61000"/>
+    <accept/>
+  </rule>
+
   <!-- Stealth mode - silently drop ping requests -->
   <rule>
     <icmp-type name="echo-request"/>

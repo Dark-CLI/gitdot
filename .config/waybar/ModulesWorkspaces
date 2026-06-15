@@ -195,6 +195,7 @@
 		"class<firefox-developer-edition>": "🦊 ",
 
 		"class<kitty|konsole>": " ",
+		"class<DropdownTerminal>": " ",
 		"class<kitty-dropterm>": " ",
 		"class<com.mitchellh.ghostty>": " ",
 		"class<org.wezfurlong.wezterm>": " ",

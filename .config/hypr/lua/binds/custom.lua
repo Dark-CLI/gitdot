@@ -22,28 +22,28 @@ hl.bind("SUPER + BackSpace", function() gap_control.reset() end)
 -- VIM-STYLE FOCUS NAVIGATION
 -- ============================================
 
-hl.bind("SUPER + h", hl.dsp.window.focus({ direction = "left" }))
-hl.bind("SUPER + l", hl.dsp.window.focus({ direction = "right" }))
-hl.bind("SUPER + k", hl.dsp.window.focus({ direction = "up" }))
-hl.bind("SUPER + j", hl.dsp.window.focus({ direction = "down" }))
+hl.bind("SUPER + h", hl.dsp.focus({ direction = "l" }))
+hl.bind("SUPER + l", hl.dsp.focus({ direction = "r" }))
+hl.bind("SUPER + k", hl.dsp.focus({ direction = "u" }))
+hl.bind("SUPER + j", hl.dsp.focus({ direction = "d" }))
 
 -- ============================================
 -- VIM-STYLE WINDOW MOVEMENT
 -- ============================================
 
-hl.bind("SUPER + SHIFT + h", hl.dsp.window.moveWindow({ direction = "left" }))
-hl.bind("SUPER + SHIFT + l", hl.dsp.window.moveWindow({ direction = "right" }))
-hl.bind("SUPER + SHIFT + k", hl.dsp.window.moveWindow({ direction = "up" }))
-hl.bind("SUPER + SHIFT + j", hl.dsp.window.moveWindow({ direction = "down" }))
+hl.bind("SUPER + SHIFT + h", hl.dsp.window.move({ direction = "l" }))
+hl.bind("SUPER + SHIFT + l", hl.dsp.window.move({ direction = "r" }))
+hl.bind("SUPER + SHIFT + k", hl.dsp.window.move({ direction = "u" }))
+hl.bind("SUPER + SHIFT + j", hl.dsp.window.move({ direction = "d" }))
 
 -- ============================================
 -- VIM-STYLE WINDOW RESIZE
 -- ============================================
 
-hl.bind("SUPER + CTRL + h", hl.dsp.window.resizeActive({ direction = "left", amount = -50 }))
-hl.bind("SUPER + CTRL + l", hl.dsp.window.resizeActive({ direction = "right", amount = 50 }))
-hl.bind("SUPER + CTRL + k", hl.dsp.window.resizeActive({ direction = "up", amount = -50 }))
-hl.bind("SUPER + CTRL + j", hl.dsp.window.resizeActive({ direction = "down", amount = 50 }))
+hl.bind("SUPER + CTRL + h", hl.dsp.window.resize({ x = -50, y = 0, relative = true }))
+hl.bind("SUPER + CTRL + l", hl.dsp.window.resize({ x = 50, y = 0, relative = true }))
+hl.bind("SUPER + CTRL + k", hl.dsp.window.resize({ x = 0, y = -50, relative = true }))
+hl.bind("SUPER + CTRL + j", hl.dsp.window.resize({ x = 0, y = 50, relative = true }))
 
 -- ============================================
 -- SYSTEM SHORTCUTS

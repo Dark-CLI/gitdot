@@ -8,12 +8,7 @@ local SCRIPTS = os.getenv("HOME") .. "/.config/hypr/scripts"
 -- CONFIG RELOAD EVENTS
 -- ============================================
 
-hl.on("hyprland.preConfigReload", function()
-  -- Pre-reload cleanup (if needed)
-  -- For example, kill any temporary UI elements
-end)
-
-hl.on("hyprland.configReloaded", function()
+hl.on("config.reloaded", function()
   -- Post-reload tasks
   -- Refresh UI components that depend on config state
   -- Example: update workspace indicators in waybar

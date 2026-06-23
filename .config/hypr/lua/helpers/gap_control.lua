@@ -7,10 +7,17 @@ local SCRIPTS = HOME .. "/.config/hypr/scripts"
 
 local gap_control = {}
 
+-- gaps_in can be an integer or a CssGap table {top, right, bottom, left}
+local function gap_value(g)
+  if type(g) == "table" then
+    return g.top or g.left or 0
+  end
+  return g or 0
+end
+
 function gap_control.increment()
   -- Get current gaps
-  local gaps_in = hl.config().general.gaps_in
-  local gaps_out = hl.config().general.gaps_out
+  local gaps_in = gap_value(hl.get_config("general.gaps_in"))
 
   -- Increment by 10
   local new_gaps = gaps_in + 10
@@ -32,8 +39,7 @@ end
 
 function gap_control.decrement()
   -- Get current gaps
-  local gaps_in = hl.config().general.gaps_in
-  local gaps_out = hl.config().general.gaps_out
+  local gaps_in = gap_value(hl.get_config("general.gaps_in"))
 
   -- Decrement by 10, minimum 0
   local new_gaps = math.max(0, gaps_in - 10)

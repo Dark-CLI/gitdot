@@ -200,7 +200,7 @@ local function add_custom_rules()
 
   -- Dialog windows
   hl.window_rule({ match = { title = "^(Authentication Required)$" }, float = true, center = true })
-  hl.window_rule({ match = { class = "(codium|codium-url-handler|VSCodium)" }, match = { title = "negative:(.*codium.*|.*VSCodium.*)" }, float = true })
+  hl.window_rule({ match = { class = "(codium|codium-url-handler|VSCodium)", title = "negative:(.*codium.*|.*VSCodium.*)" }, float = true })
 
   -- Opacity rules
   hl.window_rule({ match = { tag = "browser" }, opacity = 0.99 })

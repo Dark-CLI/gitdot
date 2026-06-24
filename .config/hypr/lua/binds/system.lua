@@ -13,196 +13,196 @@ local FILES = "nautilus"
 -- ============================================
 
 -- Application launchers
-hl.bind("SUPER + D", hl.dsp.exec_cmd("pkill rofi || true && rofi -show drun -modi drun,filebrowser,run,window"))
-hl.bind("SUPER + B", hl.dsp.exec_cmd("xdg-open 'https://'"))
-hl.bind("SUPER + A", hl.dsp.exec_cmd(SCRIPTS .. "/OverviewToggle.sh"))
-hl.bind("SUPER + Return", hl.dsp.exec_cmd(TERM))
-hl.bind("SUPER + E", hl.dsp.exec_cmd(FILES))
+hl.bind("SUPER + D", hl.dsp.exec_cmd("pkill rofi || true && rofi -show drun -modi drun,filebrowser,run,window")) --: app launcher (rofi)
+hl.bind("SUPER + B", hl.dsp.exec_cmd("xdg-open 'https://'")) --: open default browser
+hl.bind("SUPER + A", hl.dsp.exec_cmd(SCRIPTS .. "/OverviewToggle.sh")) --: desktop overview
+hl.bind("SUPER + Return", hl.dsp.exec_cmd(TERM)) --: open terminal
+hl.bind("SUPER + E", hl.dsp.exec_cmd(FILES)) --: open file manager
 
 -- Features / Extras
-hl.bind("SUPER + T", hl.dsp.exec_cmd(SCRIPTS .. "/ThemeChanger.sh"))
-hl.bind("SUPER + H", hl.dsp.exec_cmd(SCRIPTS .. "/KeyHints.sh"))
-hl.bind("SUPER + ALT + R", hl.dsp.exec_cmd(SCRIPTS .. "/Refresh.sh"))
-hl.bind("SUPER + ALT + E", hl.dsp.exec_cmd(SCRIPTS .. "/RofiEmoji.sh"))
-hl.bind("SUPER + S", hl.dsp.exec_cmd(SCRIPTS .. "/RofiSearch.sh"))
-hl.bind("SUPER + CTRL + S", hl.dsp.exec_cmd("rofi -show window"))
-hl.bind("SUPER + ALT + O", hl.dsp.exec_cmd(SCRIPTS .. "/ChangeBlur.sh"))
-hl.bind("SUPER + SHIFT + G", hl.dsp.exec_cmd(SCRIPTS .. "/GameMode.sh"))
-hl.bind("SUPER + ALT + L", hl.dsp.exec_cmd(SCRIPTS .. "/ChangeLayout.sh"))
-hl.bind("SUPER + ALT + V", hl.dsp.exec_cmd(SCRIPTS .. "/ClipManager.sh"))
-hl.bind("SUPER + CTRL + R", hl.dsp.exec_cmd(SCRIPTS .. "/RofiThemeSelector.sh"))
-hl.bind("SUPER + CTRL + SHIFT + R", hl.dsp.exec_cmd("pkill rofi || true && " .. SCRIPTS .. "/RofiThemeSelector-modified.sh"))
+hl.bind("SUPER + T", hl.dsp.exec_cmd(SCRIPTS .. "/ThemeChanger.sh")) --: theme switcher (wallust)
+hl.bind("SUPER + F1", hl.dsp.exec_cmd(SCRIPTS .. "/KeyHints.sh")) --: help / cheat sheet
+hl.bind("SUPER + ALT + R", hl.dsp.exec_cmd(SCRIPTS .. "/Refresh.sh")) --: refresh bar and menus
+hl.bind("SUPER + ALT + E", hl.dsp.exec_cmd(SCRIPTS .. "/RofiEmoji.sh")) --: emoji picker
+hl.bind("SUPER + S", hl.dsp.exec_cmd(SCRIPTS .. "/RofiSearch.sh")) --: web search (rofi)
+hl.bind("SUPER + CTRL + S", hl.dsp.exec_cmd("rofi -show window")) --: window switcher
+hl.bind("SUPER + ALT + O", hl.dsp.exec_cmd(SCRIPTS .. "/ChangeBlur.sh")) --: toggle blur
+hl.bind("SUPER + SHIFT + G", hl.dsp.exec_cmd(SCRIPTS .. "/GameMode.sh")) --: toggle game mode
+hl.bind("SUPER + ALT + L", hl.dsp.exec_cmd(SCRIPTS .. "/ChangeLayout.sh")) --: toggle master/dwindle layout
+hl.bind("SUPER + ALT + V", hl.dsp.exec_cmd(SCRIPTS .. "/ClipManager.sh")) --: clipboard manager
+hl.bind("SUPER + CTRL + R", hl.dsp.exec_cmd(SCRIPTS .. "/RofiThemeSelector.sh")) --: rofi theme selector
+hl.bind("SUPER + CTRL + SHIFT + R", hl.dsp.exec_cmd("pkill rofi || true && " .. SCRIPTS .. "/RofiThemeSelector-modified.sh")) --: rofi theme selector (modified)
 
 -- Window state & floating
-hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen())
-hl.bind("SUPER + CTRL + F", hl.dsp.window.fullscreen({ all = true }))
-hl.bind("SUPER + Space", hl.dsp.window.float({ action = "toggle" }))
-hl.bind("SUPER + ALT + Space", hl.dsp.exec_cmd("hyprctl dispatch workspaceopt allfloat"))
-hl.bind("SUPER + SHIFT + Return", hl.dsp.exec_cmd("sh -c '" .. SCRIPTS .. "/Dropterminal.sh " .. TERM .. "'"))
+hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen()) --: toggle fullscreen
+hl.bind("SUPER + CTRL + F", hl.dsp.window.fullscreen({ all = true })) --: maximize window
+hl.bind("SUPER + Space", hl.dsp.window.float({ action = "toggle" })) --: toggle floating
+hl.bind("SUPER + ALT + Space", hl.dsp.exec_cmd("hyprctl dispatch workspaceopt allfloat")) --: float all windows on workspace
+hl.bind("SUPER + SHIFT + Return", hl.dsp.exec_cmd("sh -c '" .. SCRIPTS .. "/Dropterminal.sh " .. TERM .. "'")) --: toggle dropdown terminal
 
 -- Desktop zoom (magnifier)
-hl.bind("SUPER + ALT + mouse_down", hl.dsp.exec_cmd("hyprctl keyword cursor:zoom_factor \"$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {factor = $2; if (factor < 1) {factor = 1}; print factor * 2.0}')\""))
-hl.bind("SUPER + ALT + mouse_up", hl.dsp.exec_cmd("hyprctl keyword cursor:zoom_factor \"$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {factor = $2; if (factor < 1) {factor = 1}; print factor / 2.0}')\""))
+hl.bind("SUPER + ALT + mouse_down", hl.dsp.exec_cmd("hyprctl keyword cursor:zoom_factor \"$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {factor = $2; if (factor < 1) {factor = 1}; print factor * 2.0}')\"")) --: zoom in (desktop magnifier)
+hl.bind("SUPER + ALT + mouse_up", hl.dsp.exec_cmd("hyprctl keyword cursor:zoom_factor \"$(hyprctl getoption cursor:zoom_factor | awk 'NR==1 {factor = $2; if (factor < 1) {factor = 1}; print factor / 2.0}')\"")) --: zoom out (desktop magnifier)
 
 -- Waybar / Bar related
-hl.bind("SUPER + CTRL + ALT + B", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar"))
-hl.bind("SUPER + CTRL + B", hl.dsp.exec_cmd(SCRIPTS .. "/WaybarStyles.sh"))
-hl.bind("SUPER + ALT + B", hl.dsp.exec_cmd(SCRIPTS .. "/WaybarLayout.sh"))
+hl.bind("SUPER + CTRL + ALT + B", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar")) --: toggle waybar on/off
+hl.bind("SUPER + CTRL + B", hl.dsp.exec_cmd(SCRIPTS .. "/WaybarStyles.sh")) --: waybar styles menu
+hl.bind("SUPER + ALT + B", hl.dsp.exec_cmd(SCRIPTS .. "/WaybarLayout.sh")) --: waybar layout menu
 
 -- Night light
-hl.bind("SUPER + N", hl.dsp.exec_cmd(SCRIPTS .. "/Hyprsunset.sh toggle"))
+hl.bind("SUPER + N", hl.dsp.exec_cmd(SCRIPTS .. "/Hyprsunset.sh toggle")) --: toggle night light (hyprsunset)
 
 -- User Scripts
-hl.bind("SUPER + SHIFT + M", hl.dsp.exec_cmd(USER_SCRIPTS .. "/RofiBeats.sh"))
-hl.bind("SUPER + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperSelect.sh"))
-hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperEffects.sh"))
-hl.bind("CTRL + ALT + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperRandom.sh"))
-hl.bind("SUPER + CTRL + O", hl.dsp.exec_cmd("hyprctl setprop active opaque toggle"))
-hl.bind("SUPER + SHIFT + K", hl.dsp.exec_cmd(SCRIPTS .. "/KeyBinds.sh"))
-hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd(SCRIPTS .. "/Animations.sh"))
-hl.bind("SUPER + SHIFT + O", hl.dsp.exec_cmd(USER_SCRIPTS .. "/ZshChangeTheme.sh"))
-hl.bind("SUPER + ALT + C", hl.dsp.exec_cmd(USER_SCRIPTS .. "/RofiCalc.sh"))
+hl.bind("SUPER + SHIFT + M", hl.dsp.exec_cmd(USER_SCRIPTS .. "/RofiBeats.sh")) --: online music (rofi)
+hl.bind("SUPER + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperSelect.sh")) --: wallpaper picker
+hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperEffects.sh")) --: wallpaper effects
+hl.bind("CTRL + ALT + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperRandom.sh")) --: random wallpaper
+hl.bind("SUPER + CTRL + O", hl.dsp.exec_cmd("hyprctl setprop active opaque toggle")) --: toggle window opacity
+hl.bind("SUPER + F2", hl.dsp.exec_cmd(SCRIPTS .. "/KeyBinds.sh")) --: search keybinds
+hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd(SCRIPTS .. "/Animations.sh")) --: animations menu
+hl.bind("SUPER + SHIFT + O", hl.dsp.exec_cmd(USER_SCRIPTS .. "/ZshChangeTheme.sh")) --: change zsh theme
+hl.bind("SUPER + ALT + C", hl.dsp.exec_cmd(USER_SCRIPTS .. "/RofiCalc.sh")) --: calculator (rofi)
 
 -- Move workspaces to monitors
-hl.bind("SUPER + CTRL + F9", hl.dsp.workspace.move({ monitor = "l" }))
-hl.bind("SUPER + CTRL + F10", hl.dsp.workspace.move({ monitor = "r" }))
-hl.bind("SUPER + CTRL + F11", hl.dsp.workspace.move({ monitor = "u" }))
-hl.bind("SUPER + CTRL + F12", hl.dsp.workspace.move({ monitor = "d" }))
+hl.bind("SUPER + CTRL + F9", hl.dsp.workspace.move({ monitor = "l" })) --: move workspace to left monitor
+hl.bind("SUPER + CTRL + F10", hl.dsp.workspace.move({ monitor = "r" })) --: move workspace to right monitor
+hl.bind("SUPER + CTRL + F11", hl.dsp.workspace.move({ monitor = "u" })) --: move workspace to up monitor
+hl.bind("SUPER + CTRL + F12", hl.dsp.workspace.move({ monitor = "d" })) --: move workspace to down monitor
 
 -- ============================================
 -- SYSTEM KEYBINDS
 -- ============================================
 
-hl.bind("CTRL + ALT + Delete", hl.dsp.exit())
-hl.bind("SUPER + Q", hl.dsp.window.close())
-hl.bind("SUPER + SHIFT + Q", hl.dsp.exec_cmd(SCRIPTS .. "/KillActiveProcess.sh"))
-hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(SCRIPTS .. "/LockScreen.sh"))
-hl.bind("CTRL + ALT + P", hl.dsp.exec_cmd(SCRIPTS .. "/Wlogout.sh"))
-hl.bind("SUPER + SHIFT + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
-hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd(SCRIPTS .. "/Kool_Quick_Settings.sh"))
+hl.bind("CTRL + ALT + Delete", hl.dsp.exit()) --: exit Hyprland session
+hl.bind("SUPER + Q", hl.dsp.window.close()) --: close active window
+hl.bind("SUPER + SHIFT + Q", hl.dsp.exec_cmd(SCRIPTS .. "/KillActiveProcess.sh")) --: kill active process
+hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(SCRIPTS .. "/LockScreen.sh")) --: lock screen
+hl.bind("CTRL + ALT + P", hl.dsp.exec_cmd(SCRIPTS .. "/Wlogout.sh")) --: power menu (wlogout)
+hl.bind("SUPER + SHIFT + N", hl.dsp.exec_cmd("swaync-client -t -sw")) --: toggle notification panel
+hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd(SCRIPTS .. "/Kool_Quick_Settings.sh")) --: edit config / Kool Quick Settings menu
 
 -- ============================================
 -- MASTER LAYOUT
 -- ============================================
 
-hl.bind("SUPER + CTRL + D", hl.dsp.layout("removemaster"))
-hl.bind("SUPER + I", hl.dsp.layout("addmaster"))
-hl.bind("SUPER + CTRL + Return", hl.dsp.layout("swapwithmaster"))
+hl.bind("SUPER + CTRL + D", hl.dsp.layout("removemaster")) --: remove master (master layout)
+hl.bind("SUPER + I", hl.dsp.layout("addmaster")) --: add master (master layout)
+hl.bind("SUPER + CTRL + Return", hl.dsp.layout("swapwithmaster")) --: swap with master (master layout)
 
 -- ============================================
 -- DWINDLE LAYOUT
 -- ============================================
 
-hl.bind("SUPER + SHIFT + I", hl.dsp.layout("togglesplit"))
-hl.bind("SUPER + P", hl.dsp.window.pseudo())
+hl.bind("SUPER + SHIFT + I", hl.dsp.layout("togglesplit")) --: toggle split (dwindle layout)
+hl.bind("SUPER + P", hl.dsp.window.pseudo()) --: toggle pseudo (dwindle layout)
 
 -- ============================================
 -- LAYOUT MANAGEMENT
 -- ============================================
 
-hl.bind("SUPER + M", hl.dsp.exec_cmd("hyprctl dispatch splitratio 0.3"))
+hl.bind("SUPER + M", hl.dsp.exec_cmd("hyprctl dispatch splitratio 0.3")) --: set split ratio to 0.3
 
 -- ============================================
 -- WINDOW CYCLING
 -- ============================================
 
-hl.bind("ALT + Tab", hl.dsp.window.cycle_next())
-hl.bind("ALT + Tab", hl.dsp.window.bring_to_top())
+hl.bind("ALT + Tab", hl.dsp.window.cycle_next()) --: cycle to next window
+hl.bind("ALT + Tab", hl.dsp.window.bring_to_top()) --: bring focused window to top
 
 -- ============================================
 -- SPECIAL KEYS / HOT KEYS (Audio, Media, etc.)
 -- ============================================
 
 -- Volume control
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --inc"))
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --dec"))
-hl.bind("ALT + XF86AudioRaiseVolume", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --inc-precise"))
-hl.bind("ALT + XF86AudioLowerVolume", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --dec-precise"))
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --toggle-mic"))
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --toggle"))
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --inc")) --: volume up
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --dec")) --: volume down
+hl.bind("ALT + XF86AudioRaiseVolume", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --inc-precise")) --: volume up (precise)
+hl.bind("ALT + XF86AudioLowerVolume", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --dec-precise")) --: volume down (precise)
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --toggle-mic")) --: toggle microphone mute
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --toggle")) --: toggle audio mute
 
 -- System controls
-hl.bind("XF86Sleep", hl.dsp.exec_cmd("systemctl suspend"))
-hl.bind("XF86Rfkill", hl.dsp.exec_cmd(SCRIPTS .. "/AirplaneMode.sh"))
+hl.bind("XF86Sleep", hl.dsp.exec_cmd("systemctl suspend")) --: suspend system
+hl.bind("XF86Rfkill", hl.dsp.exec_cmd(SCRIPTS .. "/AirplaneMode.sh")) --: toggle airplane mode
 
 -- Media controls (XF86AudioPlayPause is not a valid keysym - use XF86AudioPause/Play instead)
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --pause"))
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --pause"))
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --nxt"))
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --prv"))
-hl.bind("XF86AudioStop", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --stop"))
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --pause")) --: media pause/resume
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --pause")) --: media play/pause
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --nxt")) --: media next track
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --prv")) --: media previous track
+hl.bind("XF86AudioStop", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --stop")) --: media stop
 
 -- ============================================
 -- SCREENSHOT KEYBINDINGS
 -- ============================================
 
-hl.bind("SUPER + Print", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --now"))
-hl.bind("SUPER + SHIFT + Print", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --area"))
-hl.bind("SUPER + CTRL + Print", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --in5"))
-hl.bind("SUPER + CTRL + SHIFT + Print", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --in10"))
-hl.bind("ALT + Print", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --active"))
-hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --swappy"))
+hl.bind("SUPER + Print", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --now")) --: screenshot (full screen)
+hl.bind("SUPER + SHIFT + Print", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --area")) --: screenshot (select area)
+hl.bind("SUPER + CTRL + Print", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --in5")) --: screenshot in 5 seconds
+hl.bind("SUPER + CTRL + SHIFT + Print", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --in10")) --: screenshot in 10 seconds
+hl.bind("ALT + Print", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --active")) --: screenshot of active window
+hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --swappy")) --: screenshot with swappy editor
 
 -- ============================================
 -- WINDOW RESIZE (Hold to repeat)
 -- ============================================
 
-hl.bind("SUPER + SHIFT + Left", hl.dsp.window.resize({ x = -50, y = 0, relative = true }))
-hl.bind("SUPER + SHIFT + Right", hl.dsp.window.resize({ x = 50, y = 0, relative = true }))
-hl.bind("SUPER + SHIFT + Up", hl.dsp.window.resize({ x = 0, y = -50, relative = true }))
-hl.bind("SUPER + SHIFT + Down", hl.dsp.window.resize({ x = 0, y = 50, relative = true }))
+hl.bind("SUPER + SHIFT + Left", hl.dsp.window.resize({ x = -50, y = 0, relative = true })) --: resize window left (-50px)
+hl.bind("SUPER + SHIFT + Right", hl.dsp.window.resize({ x = 50, y = 0, relative = true })) --: resize window right (+50px)
+hl.bind("SUPER + SHIFT + Up", hl.dsp.window.resize({ x = 0, y = -50, relative = true })) --: resize window up (-50px)
+hl.bind("SUPER + SHIFT + Down", hl.dsp.window.resize({ x = 0, y = 50, relative = true })) --: resize window down (+50px)
 
 -- ============================================
 -- WINDOW MOVEMENT
 -- ============================================
 
-hl.bind("SUPER + CTRL + Left", hl.dsp.window.move({ direction = "l" }))
-hl.bind("SUPER + CTRL + Right", hl.dsp.window.move({ direction = "r" }))
-hl.bind("SUPER + CTRL + Up", hl.dsp.window.move({ direction = "u" }))
-hl.bind("SUPER + CTRL + Down", hl.dsp.window.move({ direction = "d" }))
+hl.bind("SUPER + CTRL + Left", hl.dsp.window.move({ direction = "l" })) --: move window left
+hl.bind("SUPER + CTRL + Right", hl.dsp.window.move({ direction = "r" })) --: move window right
+hl.bind("SUPER + CTRL + Up", hl.dsp.window.move({ direction = "u" })) --: move window up
+hl.bind("SUPER + CTRL + Down", hl.dsp.window.move({ direction = "d" })) --: move window down
 
 -- ============================================
 -- WINDOW SWAPPING
 -- ============================================
 
-hl.bind("SUPER + ALT + Left", hl.dsp.window.swap({ direction = "l" }))
-hl.bind("SUPER + ALT + Right", hl.dsp.window.swap({ direction = "r" }))
-hl.bind("SUPER + ALT + Up", hl.dsp.window.swap({ direction = "u" }))
-hl.bind("SUPER + ALT + Down", hl.dsp.window.swap({ direction = "d" }))
+hl.bind("SUPER + ALT + Left", hl.dsp.window.swap({ direction = "l" })) --: swap window with left neighbor
+hl.bind("SUPER + ALT + Right", hl.dsp.window.swap({ direction = "r" })) --: swap window with right neighbor
+hl.bind("SUPER + ALT + Up", hl.dsp.window.swap({ direction = "u" })) --: swap window with above neighbor
+hl.bind("SUPER + ALT + Down", hl.dsp.window.swap({ direction = "d" })) --: swap window with below neighbor
 
 -- ============================================
 -- GROUP MANAGEMENT
 -- ============================================
 
-hl.bind("SUPER + G", hl.dsp.group.toggle())
-hl.bind("SUPER + Tab", hl.dsp.group.next())
-hl.bind("SUPER + CTRL + Tab", hl.dsp.group.next())
-hl.bind("SUPER + SHIFT + Tab", hl.dsp.group.prev())
+hl.bind("SUPER + G", hl.dsp.group.toggle()) --: toggle window grouping
+hl.bind("SUPER + Tab", hl.dsp.group.next()) --: cycle to next group member
+hl.bind("SUPER + CTRL + Tab", hl.dsp.group.next()) --: cycle to next group member
+hl.bind("SUPER + SHIFT + Tab", hl.dsp.group.prev()) --: cycle to previous group member
 
--- Move windows into/out of groups
-hl.bind("SUPER + CTRL + K", hl.dsp.group.move_window({ direction = "l" }))
-hl.bind("SUPER + CTRL + L", hl.dsp.group.move_window({ direction = "r" }))
-hl.bind("SUPER + CTRL + H", hl.dsp.exec_cmd("hyprctl dispatch moveoutofgroup"))
+-- Move windows into/out of groups (reassigned from SUPER+CTRL+H/K/L to avoid vim-style resize conflict)
+hl.bind("SUPER + F3", hl.dsp.group.move_window({ direction = "l" })) --: move window into group on left
+hl.bind("SUPER + F4", hl.dsp.group.move_window({ direction = "r" })) --: move window into group on right
+hl.bind("SUPER + F5", hl.dsp.exec_cmd("hyprctl dispatch moveoutofgroup")) --: move window out of group
 
 -- ============================================
 -- WINDOW FOCUS
 -- ============================================
 
-hl.bind("SUPER + Left", hl.dsp.focus({ direction = "l" }))
-hl.bind("SUPER + Right", hl.dsp.focus({ direction = "r" }))
-hl.bind("SUPER + Up", hl.dsp.focus({ direction = "u" }))
-hl.bind("SUPER + Down", hl.dsp.focus({ direction = "d" }))
+hl.bind("SUPER + Left", hl.dsp.focus({ direction = "l" })) --: focus window left
+hl.bind("SUPER + Right", hl.dsp.focus({ direction = "r" })) --: focus window right
+hl.bind("SUPER + Up", hl.dsp.focus({ direction = "u" })) --: focus window up
+hl.bind("SUPER + Down", hl.dsp.focus({ direction = "d" })) --: focus window down
 
 -- ============================================
 -- WORKSPACE NAVIGATION
 -- ============================================
 
-hl.bind("SUPER + Tab", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind("SUPER + SHIFT + Tab", hl.dsp.focus({ workspace = "e-1" }))
+hl.bind("SUPER + Tab", hl.dsp.focus({ workspace = "e+1" })) --: next workspace
+hl.bind("SUPER + SHIFT + Tab", hl.dsp.focus({ workspace = "e-1" })) --: previous workspace
 
 -- Special workspace
-hl.bind("SUPER + SHIFT + U", hl.dsp.window.move({ workspace = "special" }))
-hl.bind("SUPER + U", hl.dsp.workspace.toggle_special())
+hl.bind("SUPER + SHIFT + U", hl.dsp.window.move({ workspace = "special" })) --: move window to special workspace
+hl.bind("SUPER + U", hl.dsp.workspace.toggle_special()) --: toggle special workspace
 
 -- ============================================
 -- WORKSPACE SWITCHING (By Number)
@@ -212,7 +212,7 @@ hl.bind("SUPER + U", hl.dsp.workspace.toggle_special())
 for i = 1, 10 do
   local key = i == 10 and "0" or tostring(i)
   local code = i < 10 and "code:" .. (9 + i) or "code:19"
-  hl.bind("SUPER + " .. code, hl.dsp.focus({ workspace = i }))
+  hl.bind("SUPER + " .. code, hl.dsp.focus({ workspace = i })) --: switch to workspace N (1-9, 0)
 end
 
 -- ============================================
@@ -223,11 +223,11 @@ end
 for i = 1, 10 do
   local key = i == 10 and "0" or tostring(i)
   local code = i < 10 and "code:" .. (9 + i) or "code:19"
-  hl.bind("SUPER + SHIFT + " .. code, hl.dsp.window.move({ workspace = i }))
+  hl.bind("SUPER + SHIFT + " .. code, hl.dsp.window.move({ workspace = i })) --: move window to workspace N (1-9, 0)
 end
 
-hl.bind("SUPER + SHIFT + bracketleft", hl.dsp.window.move({ workspace = "e-1" }))
-hl.bind("SUPER + SHIFT + bracketright", hl.dsp.window.move({ workspace = "e+1" }))
+hl.bind("SUPER + SHIFT + bracketleft", hl.dsp.window.move({ workspace = "e-1" })) --: move window to previous workspace
+hl.bind("SUPER + SHIFT + bracketright", hl.dsp.window.move({ workspace = "e+1" })) --: move window to next workspace
 
 -- ============================================
 -- MOVE WINDOW SILENTLY TO WORKSPACE
@@ -237,27 +237,27 @@ hl.bind("SUPER + SHIFT + bracketright", hl.dsp.window.move({ workspace = "e+1" }
 for i = 1, 10 do
   local key = i == 10 and "0" or tostring(i)
   local code = i < 10 and "code:" .. (9 + i) or "code:19"
-  hl.bind("SUPER + CTRL + " .. code, hl.dsp.window.move({ workspace = i, silent = true }))
+  hl.bind("SUPER + CTRL + " .. code, hl.dsp.window.move({ workspace = i, silent = true })) --: move window to workspace N silently (1-9, 0)
 end
 
-hl.bind("SUPER + CTRL + bracketleft", hl.dsp.window.move({ workspace = "e-1", silent = true }))
-hl.bind("SUPER + CTRL + bracketright", hl.dsp.window.move({ workspace = "e+1", silent = true }))
+hl.bind("SUPER + CTRL + bracketleft", hl.dsp.window.move({ workspace = "e-1", silent = true })) --: move window to previous workspace silently
+hl.bind("SUPER + CTRL + bracketright", hl.dsp.window.move({ workspace = "e+1", silent = true })) --: move window to next workspace silently
 
 -- ============================================
 -- SCROLL THROUGH WORKSPACES
 -- ============================================
 
-hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind("SUPER + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
-hl.bind("SUPER + period", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind("SUPER + comma", hl.dsp.focus({ workspace = "e-1" }))
+hl.bind("SUPER + mouse_down", hl.dsp.focus({ workspace = "e+1" })) --: next workspace (scroll)
+hl.bind("SUPER + mouse_up", hl.dsp.focus({ workspace = "e-1" })) --: previous workspace (scroll)
+hl.bind("SUPER + period", hl.dsp.focus({ workspace = "e+1" })) --: next workspace
+hl.bind("SUPER + comma", hl.dsp.focus({ workspace = "e-1" })) --: previous workspace
 
 -- ============================================
 -- MOUSE BINDINGS
 -- ============================================
 
 -- LMB: Move window, RMB: Resize window
-hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
-hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
+hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true }) --: drag window with mouse (LMB)
+hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true }) --: resize window with mouse (RMB)
 
 -- All system keybinds loaded

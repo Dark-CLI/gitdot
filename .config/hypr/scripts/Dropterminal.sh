@@ -266,8 +266,8 @@ spawn_terminal() {
   local windows_before=$(hyprctl clients -j)
   local count_before=$(echo "$windows_before" | jq 'length')
 
-  # Launch terminal directly in special workspace to avoid visible spawn
-  hyprctl dispatch "hl.dsp.exec_cmd(\"$TERMINAL_CMD --class DropdownTerminal\", { float = true, size = \"$width $height\", workspace = \"special:scratchpad silent\" })"
+  # Launch terminal directly in special workspace at target position to avoid visible spawn-then-move flicker
+  hyprctl dispatch "hl.dsp.exec_cmd(\"$TERMINAL_CMD --class DropdownTerminal\", { float = true, size = \"$width $height\", move = \"$target_x $target_y\", workspace = \"special:scratchpad silent\" })"
 
   # Wait for window to appear
   sleep 0.1

@@ -5,6 +5,9 @@
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 
+-- Default editor (used by Kool_Quick_Settings.sh and other scripts)
+hl.env("EDITOR", "nvim")
+
 -- Qt configuration (optional - uncomment if needed)
 -- hl.env("QT_STYLE_OVERRIDE", "kvantum")
 -- hl.env("QT_QPA_PLATFORM_THEME", "qt5ct")

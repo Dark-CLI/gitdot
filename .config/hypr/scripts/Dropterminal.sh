@@ -413,15 +413,13 @@ if terminal_exists; then
 
       # Small delay then move to special workspace and unpin
       sleep 0.1
-      hyprctl dispatch "hl.dsp.window.pin({ window = \"address:$TERMINAL_ADDR\" })" # Unpin (toggle)
-      hyprctl dispatch "hl.dsp.window.move({ workspace = \"$SPECIAL_WS\", silent = true, window = \"address:$TERMINAL_ADDR\" })"
-      # Hide the special workspace overlay that becomes visible after the move
-      hyprctl dispatch 'hl.dsp.workspace.toggle_special("scratchpad")'
+      # Batch unpin + move-to-special + toggle-special into a single frame to
+      # eliminate the race where Hyprland renders one frame with the special
+      # workspace overlay visible before toggle_special hides it.
+      hyprctl --batch "dispatch hl.dsp.window.pin({ window = \"address:$TERMINAL_ADDR\" }); dispatch hl.dsp.window.move({ workspace = \"$SPECIAL_WS\", silent = true, window = \"address:$TERMINAL_ADDR\" }); dispatch hl.dsp.workspace.toggle_special(\"scratchpad\")" >/dev/null 2>&1
     else
       debug_echo "Could not get window geometry, moving to scratchpad without animation"
-      hyprctl dispatch "hl.dsp.window.pin({ window = \"address:$TERMINAL_ADDR\" })"
-      hyprctl dispatch "hl.dsp.window.move({ workspace = \"$SPECIAL_WS\", silent = true, window = \"address:$TERMINAL_ADDR\" })"
-      hyprctl dispatch 'hl.dsp.workspace.toggle_special("scratchpad")'
+      hyprctl --batch "dispatch hl.dsp.window.pin({ window = \"address:$TERMINAL_ADDR\" }); dispatch hl.dsp.window.move({ workspace = \"$SPECIAL_WS\", silent = true, window = \"address:$TERMINAL_ADDR\" }); dispatch hl.dsp.workspace.toggle_special(\"scratchpad\")" >/dev/null 2>&1
     fi
   fi
 else

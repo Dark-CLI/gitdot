@@ -240,6 +240,17 @@ local function add_dropdown_rules()
   })
 end
 
+-- Cheat sheet popup (KeyHints.sh launches kitty --class HyprCheatSheet)
+-- Size and position are set dynamically by the script (it reads current
+-- gaps_out and monitor size). The rule only handles float + animation.
+local function add_cheatsheet_rules()
+  hl.window_rule({
+    match = { class = "^(HyprCheatSheet)$" },
+    float = true,
+    animation = "fade"
+  })
+end
+
 -- ============================================
 -- LOAD ALL RULES
 -- ============================================
@@ -261,5 +272,6 @@ add_settings_tags()
 add_viewer_tags()
 add_custom_rules()
 add_dropdown_rules()
+add_cheatsheet_rules()
 
 -- All window rules loaded

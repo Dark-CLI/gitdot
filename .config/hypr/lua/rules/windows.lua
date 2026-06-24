@@ -236,7 +236,7 @@ local function add_dropdown_rules()
   hl.window_rule({
     match = { class = "^(DropdownTerminal)$" },
     float = true,
-    animation = "none"
+    noanim = true
   })
 end
 

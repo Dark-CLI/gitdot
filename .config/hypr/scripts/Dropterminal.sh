@@ -81,7 +81,7 @@ animate_fade_in() {
   local height="$5"
 
   debug_echo "Showing window $addr at position $target_x,$target_y"
-  hyprctl dispatch movewindowpixel "exact $target_x $target_y,address:$addr" >/dev/null 2>&1
+  hyprctl dispatch "hl.dsp.window.move({ x = $target_x, y = $target_y, relative = false, window = \"address:$addr\" })" >/dev/null 2>&1
 }
 
 # Function to hide window (Hyprland handles fade animation)
@@ -267,7 +267,7 @@ spawn_terminal() {
   local count_before=$(echo "$windows_before" | jq 'length')
 
   # Launch terminal directly in special workspace to avoid visible spawn
-  hyprctl dispatch exec "[float; size $width $height; workspace special:scratchpad silent] $TERMINAL_CMD --class DropdownTerminal"
+  hyprctl dispatch "hl.dsp.exec_cmd(\"$TERMINAL_CMD --class DropdownTerminal\", { float = true, size = \"$width $height\", workspace = \"special:scratchpad silent\" })"
 
   # Wait for window to appear
   sleep 0.1
@@ -300,10 +300,10 @@ spawn_terminal() {
     sleep 0.2
 
     # Now bring it back with the same animation as subsequent shows
-    # Use movetoworkspacesilent to avoid affecting workspace history
-    hyprctl dispatch movetoworkspacesilent "$CURRENT_WS,address:$new_addr"
+    # Use silent move to avoid affecting workspace history
+    hyprctl dispatch "hl.dsp.window.move({ workspace = \"$CURRENT_WS\", silent = true, window = \"address:$new_addr\" })"
     # Don't toggle floating - it was spawned as floating, keep it floating
-    hyprctl dispatch pin "address:$new_addr"
+    hyprctl dispatch "hl.dsp.window.pin({ window = \"address:$new_addr\" })"
     animate_fade_in "$new_addr" "$target_x" "$target_y" "$width" "$height"
 
     return 0
@@ -328,8 +328,8 @@ if [ "$REPOSITION_ONLY" = "true" ] && terminal_exists; then
 
   # Only move if terminal is visible (not in special workspace)
   if ! terminal_in_special; then
-    hyprctl dispatch movewindowpixel "exact $target_x $target_y,address:$TERMINAL_ADDR" >/dev/null 2>&1
-    hyprctl dispatch resizewindowpixel "exact $width $height,address:$TERMINAL_ADDR" >/dev/null 2>&1
+    hyprctl dispatch "hl.dsp.window.move({ x = $target_x, y = $target_y, relative = false, window = \"address:$TERMINAL_ADDR\" })" >/dev/null 2>&1
+    hyprctl dispatch "hl.dsp.window.resize({ x = $width, y = $height, relative = false, window = \"address:$TERMINAL_ADDR\" })" >/dev/null 2>&1
     debug_echo "Terminal repositioned to $target_x,$target_y (${width}x${height})"
   fi
   exit 0
@@ -351,8 +351,8 @@ if terminal_exists; then
     height=$(echo $pos_info | cut -d' ' -f4)
     monitor_name=$(echo $pos_info | cut -d' ' -f5)
     # Move and resize window
-    hyprctl dispatch movewindowpixel "exact $target_x $target_y,address:$TERMINAL_ADDR"
-    hyprctl dispatch resizewindowpixel "exact $width $height,address:$TERMINAL_ADDR"
+    hyprctl dispatch "hl.dsp.window.move({ x = $target_x, y = $target_y, relative = false, window = \"address:$TERMINAL_ADDR\" })"
+    hyprctl dispatch "hl.dsp.window.resize({ x = $width, y = $height, relative = false, window = \"address:$TERMINAL_ADDR\" })"
     # Update ADDR_FILE
     echo "$TERMINAL_ADDR $monitor_name" >"$ADDR_FILE"
   fi
@@ -382,16 +382,16 @@ if terminal_exists; then
       debug_echo "Using calculated position: ${target_x},${target_y} ${width}x${height}"
     fi
 
-    # Use movetoworkspacesilent to avoid affecting workspace history
-    hyprctl dispatch movetoworkspacesilent "$CURRENT_WS,address:$TERMINAL_ADDR"
+    # Use silent move to avoid affecting workspace history
+    hyprctl dispatch "hl.dsp.window.move({ workspace = \"$CURRENT_WS\", silent = true, window = \"address:$TERMINAL_ADDR\" })"
     # Don't toggle floating - keep it floating
-    hyprctl dispatch pin "address:$TERMINAL_ADDR"
+    hyprctl dispatch "hl.dsp.window.pin({ window = \"address:$TERMINAL_ADDR\" })"
 
     # Set size and animate slide down
-    hyprctl dispatch resizewindowpixel "exact $width $height,address:$TERMINAL_ADDR"
+    hyprctl dispatch "hl.dsp.window.resize({ x = $width, y = $height, relative = false, window = \"address:$TERMINAL_ADDR\" })"
     animate_fade_in "$TERMINAL_ADDR" "$target_x" "$target_y" "$width" "$height"
 
-    hyprctl dispatch focuswindow "address:$TERMINAL_ADDR"
+    hyprctl dispatch "hl.dsp.focus({ window = \"address:$TERMINAL_ADDR\" })"
   else
     debug_echo "Hiding terminal to scratchpad with slide up animation"
 
@@ -413,12 +413,15 @@ if terminal_exists; then
 
       # Small delay then move to special workspace and unpin
       sleep 0.1
-      hyprctl dispatch pin "address:$TERMINAL_ADDR" # Unpin (toggle)
-      hyprctl dispatch movetoworkspacesilent "$SPECIAL_WS,address:$TERMINAL_ADDR"
+      hyprctl dispatch "hl.dsp.window.pin({ window = \"address:$TERMINAL_ADDR\" })" # Unpin (toggle)
+      hyprctl dispatch "hl.dsp.window.move({ workspace = \"$SPECIAL_WS\", silent = true, window = \"address:$TERMINAL_ADDR\" })"
+      # Hide the special workspace overlay that becomes visible after the move
+      hyprctl dispatch 'hl.dsp.workspace.toggle_special("scratchpad")'
     else
       debug_echo "Could not get window geometry, moving to scratchpad without animation"
-      hyprctl dispatch pin "address:$TERMINAL_ADDR"
-      hyprctl dispatch movetoworkspacesilent "$SPECIAL_WS,address:$TERMINAL_ADDR"
+      hyprctl dispatch "hl.dsp.window.pin({ window = \"address:$TERMINAL_ADDR\" })"
+      hyprctl dispatch "hl.dsp.window.move({ workspace = \"$SPECIAL_WS\", silent = true, window = \"address:$TERMINAL_ADDR\" })"
+      hyprctl dispatch 'hl.dsp.workspace.toggle_special("scratchpad")'
     fi
   fi
 else
@@ -426,7 +429,7 @@ else
   if spawn_terminal; then
     TERMINAL_ADDR=$(get_terminal_address)
     if [ -n "$TERMINAL_ADDR" ]; then
-      hyprctl dispatch focuswindow "address:$TERMINAL_ADDR"
+      hyprctl dispatch "hl.dsp.focus({ window = \"address:$TERMINAL_ADDR\" })"
     fi
   fi
 fi

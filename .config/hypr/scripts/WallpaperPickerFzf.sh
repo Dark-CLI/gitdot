@@ -40,7 +40,7 @@ cat > "$LUA_SCRIPT" <<'LUA'
 swayimg.set_mode("gallery")
 swayimg.imagelist.enable_recursive(true)
 
--- Gallery look
+-- Gallery look — denser grid (original pre-tuning size)
 swayimg.gallery.set_thumb_size(220)
 swayimg.gallery.set_padding_size(8)
 swayimg.gallery.set_border_size(4)
@@ -49,23 +49,39 @@ swayimg.gallery.set_window_color(0xff1a1a1a)
 swayimg.gallery.set_selected_color(0xff404040)
 swayimg.gallery.set_unselected_color(0xff202020)
 
--- On-screen hints so you never have to remember the bindings
+-- Speed tuning:
+--   pstore enables an on-disk thumbnail cache (~/.cache/swayimg) so the
+--   gallery is instant on the second open. First open still has to decode
+--   everything once.
+--   limit_cache keeps more in RAM during a session so scrolling stays smooth.
+--   enable_preload lets swayimg decode off-screen tiles during idle frames
+--   so they're ready as soon as you scroll to them.
+swayimg.gallery.enable_pstore(true)
+swayimg.gallery.limit_cache(400)
+swayimg.gallery.enable_preload(true)
+
+-- On-screen hints rendered as a slim status bar at the bottom of the
+-- window. swayimg only anchors text to corners, so we collapse all hints
+-- into one row and give it a dark translucent background so it reads
+-- like a footer bar.
 swayimg.text.set_timeout(0)
 swayimg.text.set_status_timeout(0)
-swayimg.gallery.set_text("topleft",  { "File: {name}", "{list.index} of {list.total}" })
+swayimg.text.set_size(16)
+swayimg.text.set_padding(8)
+swayimg.text.set_foreground(0xffdddddd)
+swayimg.text.set_background(0xcc101010)
+swayimg.text.set_shadow(0x00000000)
+
+swayimg.gallery.set_text("topleft", { "{name}   ·   {list.index}/{list.total}" })
 swayimg.gallery.set_text("bottomleft", {
-  "Enter   apply as wallpaper",
-  "Space   preview fullscreen",
-  "hjkl/↑↓←→  navigate",
-  "Esc     cancel",
+  "  hjkl/↑↓←→ navigate   ·   Space preview   ·   Enter apply   ·   Esc cancel  "
 })
 
 -- Viewer mode: fullscreen-ish single image preview inside the popup
 swayimg.viewer.set_window_background(0xff1a1a1a)
 swayimg.viewer.set_default_scale("optimal")
 swayimg.viewer.set_text("bottomleft", {
-  "Space/Esc  back to gallery",
-  "Enter      apply as wallpaper",
+  "  hl/←→ next/prev   ·   Space/Esc back   ·   Enter apply  "
 })
 
 -- ============================================================

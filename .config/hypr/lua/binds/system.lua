@@ -54,7 +54,7 @@ hl.bind("SUPER + N", hl.dsp.exec_cmd(SCRIPTS .. "/Hyprsunset.sh toggle")) --: to
 
 -- User Scripts
 hl.bind("SUPER + SHIFT + M", hl.dsp.exec_cmd(USER_SCRIPTS .. "/RofiBeats.sh")) --: online music (rofi)
-hl.bind("SUPER + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperSelect.sh")) --: wallpaper picker
+hl.bind("SUPER + W", hl.dsp.exec_cmd(SCRIPTS .. "/WallpaperPickerFzf.sh")) --: wallpaper picker (gallery)
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperEffects.sh")) --: wallpaper effects
 hl.bind("CTRL + ALT + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperRandom.sh")) --: random wallpaper
 hl.bind("SUPER + CTRL + O", hl.dsp.exec_cmd("hyprctl setprop active opaque toggle")) --: toggle window opacity
@@ -68,9 +68,6 @@ hl.bind("SUPER + CTRL + F9", hl.dsp.workspace.move({ monitor = "l" })) --: move 
 hl.bind("SUPER + CTRL + F10", hl.dsp.workspace.move({ monitor = "r" })) --: move workspace to right monitor
 hl.bind("SUPER + CTRL + F11", hl.dsp.workspace.move({ monitor = "u" })) --: move workspace to up monitor
 hl.bind("SUPER + CTRL + F12", hl.dsp.workspace.move({ monitor = "d" })) --: move workspace to down monitor
-
--- Test: terminal-based wallpaper picker with fzf + kitty icat previews
-hl.bind("SUPER + F12", hl.dsp.exec_cmd(SCRIPTS .. "/WallpaperPickerFzf.sh")) --: wallpaper picker (terminal, test)
 
 -- ============================================
 -- SYSTEM KEYBINDS

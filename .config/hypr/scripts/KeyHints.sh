@@ -98,8 +98,11 @@ cat <<'EOF'
   terminal in/out; keeps the same tmux session across toggles.
 - **Gap control** — `SUPER + =` / `SUPER + -` resize the gaps between
   windows live; `SUPER + Backspace` resets.
-- **Wallpaper** — `SUPER + W` picks a wallpaper; `SUPER + SHIFT + W`
-  applies effects; `CTRL + ALT + W` random.
+- **Wallpaper picker** — `SUPER + W` opens a thumbnail gallery
+  (swayimg). Navigate with `hjkl`/arrows, `/` to fuzzy-search by name,
+  `Space` to preview with blurred fill, `Enter` to apply, `Esc` cancels.
+  Colors auto-regenerate via wallust. `SUPER + SHIFT + W` applies
+  effects; `CTRL + ALT + W` sets a random wallpaper.
 - **Screenshots** — `SUPER + Print` (full), `SUPER + SHIFT + Print`
   (select area), `SUPER + SHIFT + S` (with editor).
 - **Clipboard history** — `SUPER + ALT + V` searches clipboard.
@@ -121,23 +124,22 @@ _Press `q` to close this window._
 EOF
 } > "$TMP_MD"
 
-# Compute current gaps so the popup respects whatever gaps_out is set to right
-# now (rather than a hardcoded 30 30). The hyprctl output looks like
-# "css gap data: 30 30 30 30" — grab the first number.
-GAPS=$(hyprctl getoption general:gaps_out 2>/dev/null | grep -oE '[0-9]+' | head -1)
-[ -z "$GAPS" ] && GAPS=30
-
-# Get focused monitor logical size to compute 54% x 67% size
-read -r MON_W MON_H < <(hyprctl monitors -j 2>/dev/null | \
-  jq -r '.[] | select(.focused == true) | "\(.width) \(.height)"')
+# Get focused monitor logical size to compute 54% x 67% size and center it.
+read -r MON_X MON_Y MON_W MON_H < <(hyprctl monitors -j 2>/dev/null | \
+  jq -r '.[] | select(.focused == true) | "\(.x) \(.y) \(.width) \(.height)"')
 [ -z "$MON_W" ] && MON_W=2560
 [ -z "$MON_H" ] && MON_H=1440
+[ -z "$MON_X" ] && MON_X=0
+[ -z "$MON_Y" ] && MON_Y=0
 W=$((MON_W * 54 / 100))
 H=$((MON_H * 67 / 100))
+# Centered position (monitor-local origin offset by monitor's x/y).
+X=$((MON_X + (MON_W - W) / 2))
+Y=$((MON_Y + (MON_H - H) / 2))
 
-# Spawn floating at current-gaps position with the computed size. Using
-# exec_cmd rules ensures the window appears at the right spot immediately
-# (no flicker from a default position).
+# Spawn floating at center with the computed size. Using exec_cmd rules
+# ensures the window appears at the right spot immediately (no flicker
+# from a default position).
 hyprctl dispatch \
-  "hl.dsp.exec_cmd(\"kitty --class HyprCheatSheet --title 'Welcome to Hyprland' -- bash -c 'glow -p $TMP_MD; sleep 0.1'\", { float = true, size = \"$W $H\", move = \"$GAPS $GAPS\" })" \
+  "hl.dsp.exec_cmd(\"kitty --class HyprCheatSheet --title 'Welcome to Hyprland' -- bash -c 'glow -p $TMP_MD; sleep 0.1'\", { float = true, size = \"$W $H\", move = \"$X $Y\" })" \
   >/dev/null 2>&1

@@ -4,7 +4,7 @@
 -- ASUS VG27A — 2560x1440 @ 165Hz
 hl.monitor({
   output = "DP-2",
-  mode = "2560x1440@165",
+  mode = "2560x1440@144",
   position = "0x0",
   scale = 1,
 })

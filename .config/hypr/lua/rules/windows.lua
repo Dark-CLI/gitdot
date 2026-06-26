@@ -260,6 +260,15 @@ local function add_keybinds_search_rules()
   })
 end
 
+-- Wallpaper picker (test): WallpaperPickerFzf.sh launches kitty --class HyprWallpaperPicker
+local function add_wallpaper_picker_rules()
+  hl.window_rule({
+    match = { class = "^(HyprWallpaperPicker)$" },
+    float = true,
+    animation = "fade"
+  })
+end
+
 -- ============================================
 -- LOAD ALL RULES
 -- ============================================
@@ -283,5 +292,6 @@ add_custom_rules()
 add_dropdown_rules()
 add_cheatsheet_rules()
 add_keybinds_search_rules()
+add_wallpaper_picker_rules()
 
 -- All window rules loaded

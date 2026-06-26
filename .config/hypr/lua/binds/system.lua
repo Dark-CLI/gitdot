@@ -69,6 +69,9 @@ hl.bind("SUPER + CTRL + F10", hl.dsp.workspace.move({ monitor = "r" })) --: move
 hl.bind("SUPER + CTRL + F11", hl.dsp.workspace.move({ monitor = "u" })) --: move workspace to up monitor
 hl.bind("SUPER + CTRL + F12", hl.dsp.workspace.move({ monitor = "d" })) --: move workspace to down monitor
 
+-- Test: terminal-based wallpaper picker with fzf + kitty icat previews
+hl.bind("SUPER + F12", hl.dsp.exec_cmd(SCRIPTS .. "/WallpaperPickerFzf.sh")) --: wallpaper picker (terminal, test)
+
 -- ============================================
 -- SYSTEM KEYBINDS
 -- ============================================

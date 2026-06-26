@@ -7,6 +7,10 @@ WALLPAPER_DIR="$HOME/Pictures/wallpapers"
 SELECTED_FILE="/tmp/hypr-wallpaper-selected"
 LUA_SCRIPT="/tmp/hypr-wallpaper-picker.lua"
 LIST_FILE="/tmp/hypr-wallpaper-list"
+# Persistent across sessions: the last-applied wallpaper path. We re-position
+# the gallery cursor to it on next open.
+LAST_FILE="$HOME/.cache/hypr-wallpaper-last"
+mkdir -p "$(dirname "$LAST_FILE")"
 
 # Build the explicit file list. swayimg's --execute happens AFTER the image
 # list is loaded, so its enable_recursive() can't help — we have to pass
@@ -39,6 +43,10 @@ Y=$((MON_Y + (MON_H - H) / 2))
 cat > "$LUA_SCRIPT" <<'LUA'
 swayimg.set_mode("gallery")
 swayimg.imagelist.enable_recursive(true)
+
+-- Position memory is handled at the shell level by passing the last-picked
+-- file as a positional argument before --from-file. swayimg starts the
+-- gallery cursor on that file.
 
 -- Gallery look — denser grid (original pre-tuning size)
 swayimg.gallery.set_thumb_size(220)
@@ -91,6 +99,11 @@ swayimg.gallery.on_key("Return", function()
   local img = swayimg.gallery.get_image()
   local f = io.open("/tmp/hypr-wallpaper-selected", "w")
   if f then f:write(img.path); f:close() end
+  -- Write the position-memory file immediately so re-opening the picker
+  -- right after Enter (before wallust/refresh finish) lands on the new
+  -- pick, not the previous one.
+  local last = io.open(os.getenv("HOME") .. "/.cache/hypr-wallpaper-last", "w")
+  if last then last:write(img.path); last:close() end
   swayimg.exit()
 end)
 swayimg.gallery.on_key("Escape", function() swayimg.exit() end)
@@ -122,6 +135,8 @@ swayimg.viewer.on_key("Return", function()
   local img = swayimg.viewer.get_image()
   local f = io.open("/tmp/hypr-wallpaper-selected", "w")
   if f then f:write(img.path); f:close() end
+  local last = io.open(os.getenv("HOME") .. "/.cache/hypr-wallpaper-last", "w")
+  if last then last:write(img.path); last:close() end
   swayimg.exit()
 end)
 
@@ -162,6 +177,8 @@ rm -f "$SELECTED_FILE"
 
     # Regenerate color palettes from the new wallpaper, then restart
     # waybar/rofi/swaync so they pick up the new colors.
+    # (Position-memory file was already written from the Lua handler the
+    # instant Enter was pressed, so this slow chain doesn't block it.)
     "$HOME/.config/hypr/scripts/WallustSwww.sh" "$sel" 2>/dev/null || true
     "$HOME/.config/hypr/scripts/Refresh.sh" 2>/dev/null || true
   fi
@@ -172,6 +189,16 @@ disown
 # Note: --execute takes inline Lua code, not a file path — wrong for us.
 # --from-file passes every image path explicitly so we don't depend on
 # swayimg's directory-loading behavior.
+# Position memory: if a previous selection exists AND the file still
+# exists, pass it as a positional arg so the gallery cursor starts there.
+LAST_ARG=""
+if [ -s "$LAST_FILE" ]; then
+  last=$(cat "$LAST_FILE")
+  if [ -f "$last" ]; then
+    LAST_ARG=" '$last'"
+  fi
+fi
+
 hyprctl dispatch \
-  "hl.dsp.exec_cmd(\"swayimg --gallery --class=HyprWallpaperPicker --config=$LUA_SCRIPT --from-file=$LIST_FILE\", { float = true, size = \"$W $H\", move = \"$X $Y\" })" \
+  "hl.dsp.exec_cmd(\"swayimg --gallery --class=HyprWallpaperPicker --config=$LUA_SCRIPT --from-file=$LIST_FILE$LAST_ARG\", { float = true, size = \"$W $H\", move = \"$X $Y\" })" \
   >/dev/null 2>&1

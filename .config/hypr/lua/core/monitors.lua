@@ -1,15 +1,13 @@
 -- Monitor Configuration
 -- Set display modes, positions, and refresh rates
 
--- ============================================
--- AUTO-DETECTION (Default)
--- ============================================
--- Hyprland will automatically detect and configure monitors
--- using the native resolution and refresh rate.
--- No explicit configuration needed here.
-
--- Uncomment below to use explicit monitor configuration
--- instead of auto-detection.
+-- ASUS VG27A — 2560x1440 @ 165Hz
+hl.monitor({
+  output = "DP-2",
+  mode = "2560x1440@165",
+  position = "0x0",
+  scale = 1,
+})
 
 -- ============================================
 -- EXPLICIT MONITOR CONFIGURATION (Optional)

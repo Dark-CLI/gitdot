@@ -2,6 +2,14 @@
 # Hyprland get-started intro
 # Brief tutorial for new tiling-WM users, rendered with `glow` in a kitty popup.
 
+# If a cheat sheet popup is already open, just focus it instead of spawning
+# a second one. F1 then behaves like a toggle-or-raise.
+EXISTING=$(hyprctl clients -j 2>/dev/null | jq -r '.[] | select(.class == "HyprCheatSheet") | .address' | head -1)
+if [ -n "$EXISTING" ]; then
+  hyprctl dispatch "hl.dsp.focus({ window = \"address:$EXISTING\" })" >/dev/null 2>&1
+  exit 0
+fi
+
 # Use a stable path (not mktemp) and no EXIT trap — the trap would delete the
 # file before the async kitty/glow had a chance to read it.
 TMP_MD="/tmp/hypr-cheatsheet.md"

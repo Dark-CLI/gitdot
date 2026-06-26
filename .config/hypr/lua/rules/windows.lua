@@ -251,6 +251,15 @@ local function add_cheatsheet_rules()
   })
 end
 
+-- Keybind fuzzy-search popup (KeyBinds.sh launches kitty --class HyprKeyBindsSearch)
+local function add_keybinds_search_rules()
+  hl.window_rule({
+    match = { class = "^(HyprKeyBindsSearch)$" },
+    float = true,
+    animation = "fade"
+  })
+end
+
 -- ============================================
 -- LOAD ALL RULES
 -- ============================================
@@ -273,5 +282,6 @@ add_viewer_tags()
 add_custom_rules()
 add_dropdown_rules()
 add_cheatsheet_rules()
+add_keybinds_search_rules()
 
 -- All window rules loaded

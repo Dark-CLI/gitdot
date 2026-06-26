@@ -1,43 +1,48 @@
 #!/usr/bin/env bash
-# Search Hyprland keybinds via rofi
-# Parses ~/.config/hypr/lua/binds/*.lua and extracts each hl.bind() call
-# along with the trailing "--:" comment as the description.
-#
-# Format expected in lua files:
-#   hl.bind("SUPER + D", hl.dsp.exec_cmd("...")) --: app launcher
+# Fuzzy-search Hyprland keybinds in a floating kitty popup (fzf-driven).
+# Parses ~/.config/hypr/lua/binds/*.lua and extracts each `hl.bind(...) --: description`
+# line. Bindings without a `--:` comment are silently skipped so internal/repeated
+# binds stay out of the list.
 
-# Kill any running rofi
-if pidof rofi >/dev/null; then
-  pkill rofi
+# If a search popup is already open, focus it instead of spawning a second one.
+EXISTING=$(hyprctl clients -j 2>/dev/null | jq -r '.[] | select(.class == "HyprKeyBindsSearch") | .address' | head -1)
+if [ -n "$EXISTING" ]; then
+  hyprctl dispatch "hl.dsp.focus({ window = \"address:$EXISTING\" })" >/dev/null 2>&1
+  exit 0
 fi
 
-ROFI_THEME="$HOME/.config/rofi/config-keybinds.rasi"
 BIND_DIR="$HOME/.config/hypr/lua/binds"
-MSG='🔍 Search Hyprland keybinds (live from your Lua config)'
+TMP_LIST="/tmp/hypr-keybinds.list"
 
-# Extract key combo (the first string argument to hl.bind) and the trailing
-# --: comment from every hl.bind line across the bind files.
-# Lines without a --: comment are skipped — only documented binds show up.
-list=$(grep -hnE '^\s*hl\.bind\(' "$BIND_DIR"/*.lua | \
-  awk -F: '
-    {
-      file=$1
-      # rejoin everything after the file:line: prefix
-      line=""
-      for (i=2; i<=NF; i++) line = line (i>2 ? ":" : "") $i
-      # capture first quoted string => key combo
-      if (match(line, /hl\.bind\("([^"]+)"/, m1)) {
-        combo = m1[1]
-      } else { next }
-      # capture description after --:
-      if (match(line, /--:[[:space:]]*(.*)$/, m2)) {
-        desc = m2[1]
-        # strip trailing whitespace
-        sub(/[[:space:]]+$/, "", desc)
-        printf "%-32s  %s\n", combo, desc
-      }
+# Build the (combo, description) list. Pad combo to fixed width so columns
+# align in the fzf list.
+awk '
+  /^[[:space:]]*hl\.bind\(/ && /--:/ {
+    match($0, /hl\.bind\("([^"]+)"/, m1); combo = m1[1]
+    match($0, /--:[[:space:]]*(.*)$/, m2); desc = m2[1]
+    sub(/[[:space:]]+$/, "", desc)
+    if (combo != "" && desc != "") {
+      printf "%-32s  %s\n", combo, desc
     }
-  ' | sort -u)
+  }
+' "$BIND_DIR"/*.lua | sort -u > "$TMP_LIST"
 
-# Show in rofi
-echo "$list" | rofi -dmenu -i -p "Keybinds" -mesg "$MSG" -theme "$ROFI_THEME" >/dev/null 2>&1
+# Compute current gaps_out so the popup sits at the same offset as the
+# dropdown terminal / cheat sheet (no hardcoded 30).
+GAPS=$(hyprctl getoption general:gaps_out 2>/dev/null | grep -oE '[0-9]+' | head -1)
+[ -z "$GAPS" ] && GAPS=30
+
+# Focused monitor size, for 54% x 67% popup sizing.
+read -r MON_W MON_H < <(hyprctl monitors -j 2>/dev/null | \
+  jq -r '.[] | select(.focused == true) | "\(.width) \(.height)"')
+[ -z "$MON_W" ] && MON_W=2560
+[ -z "$MON_H" ] && MON_H=1440
+W=$((MON_W * 54 / 100))
+H=$((MON_H * 67 / 100))
+
+# Launch fzf inside a floating kitty popup. The window rule for
+# HyprKeyBindsSearch handles float + animation; size and position are set
+# here so they track current gaps and monitor size.
+hyprctl dispatch \
+  "hl.dsp.exec_cmd(\"kitty --class HyprKeyBindsSearch --title 'Search Keybinds' -- bash -c 'fzf --prompt=\\\"  \\\" --header=\\\"Type to filter • Esc to close\\\" --reverse --info=inline --border=rounded < $TMP_LIST > /dev/null; true'\", { float = true, size = \"$W $H\", move = \"$GAPS $GAPS\" })" \
+  >/dev/null 2>&1

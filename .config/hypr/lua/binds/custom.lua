@@ -61,7 +61,7 @@ hl.bind("SUPER + O", hl.dsp.exec_cmd(SCRIPTS .. "/KeyBinds.sh")) --: search keyb
 -- CUSTOM SYSTEM COMMANDS
 -- ============================================
 
-hl.bind("SUPER + SHIFT + B", hl.dsp.exec_cmd("killall waybar && waybar &")) --: restart waybar
+hl.bind("SUPER + SHIFT + B", hl.dsp.exec_cmd("sh -c 'killall waybar; sleep 0.2; waybar &'")) --: restart waybar
 hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload")) --: reload Hyprland config
 
 -- ============================================

@@ -113,13 +113,18 @@ hl.bind("ALT + Tab", hl.dsp.window.bring_to_top()) --: bring focused window to t
 -- SPECIAL KEYS / HOT KEYS (Audio, Media, etc.)
 -- ============================================
 
--- Volume control
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --inc")) --: volume up
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --dec")) --: volume down
-hl.bind("ALT + XF86AudioRaiseVolume", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --inc-precise")) --: volume up (precise)
-hl.bind("ALT + XF86AudioLowerVolume", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --dec-precise")) --: volume down (precise)
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --toggle-mic")) --: toggle microphone mute
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd(SCRIPTS .. "/Volume.sh --toggle")) --: toggle audio mute
+-- Volume control. Direct wpctl on the hot path so the volume change is
+-- instant; the notification is fired off the critical path via sh -c
+-- backgrounding. `repeating` auto-fires while held; `locked` keeps these
+-- working on the lockscreen.
+local vol_opts = { repeating = true, locked = true }
+local NOTIFY = SCRIPTS .. "/VolumeNotify.sh"
+hl.bind("XF86AudioRaiseVolume",        hl.dsp.exec_cmd("sh -c 'wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+ && " .. NOTIFY .. " &'"), vol_opts) --: volume up
+hl.bind("XF86AudioLowerVolume",        hl.dsp.exec_cmd("sh -c 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && " .. NOTIFY .. " &'"), vol_opts) --: volume down
+hl.bind("ALT + XF86AudioRaiseVolume",  hl.dsp.exec_cmd("sh -c 'wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 1%+ && " .. NOTIFY .. " &'"), vol_opts) --: volume up (precise)
+hl.bind("ALT + XF86AudioLowerVolume",  hl.dsp.exec_cmd("sh -c 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%- && " .. NOTIFY .. " &'"), vol_opts) --: volume down (precise)
+hl.bind("XF86AudioMicMute",            hl.dsp.exec_cmd("sh -c 'wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && " .. NOTIFY .. " mic &'"), { locked = true }) --: toggle microphone mute
+hl.bind("XF86AudioMute",               hl.dsp.exec_cmd("sh -c 'wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && " .. NOTIFY .. " &'"), { locked = true }) --: toggle audio mute
 
 -- System controls
 hl.bind("XF86Sleep", hl.dsp.exec_cmd("systemctl suspend")) --: suspend system

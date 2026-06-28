@@ -30,8 +30,10 @@ function gap_control.increment()
     }
   })
 
-  -- Notify user
-  hl.exec_cmd("notify-send 'Gaps' 'Set to: " .. new_gaps .. "'")
+  -- Notify user. The synchronous hint key makes follow-up notifications
+  -- replace this one in place instead of stacking (matches the volume
+  -- and move-mode popups).
+  hl.exec_cmd("notify-send -e -t 1200 -h string:x-canonical-private-synchronous:gaps 'Gaps' 'Set to: " .. new_gaps .. "'")
 
   -- Sync scratchpad (dropdown terminal)
   gap_control.sync_scratchpad()
@@ -52,8 +54,7 @@ function gap_control.decrement()
     }
   })
 
-  -- Notify user
-  hl.exec_cmd("notify-send 'Gaps' 'Set to: " .. new_gaps .. "'")
+  hl.exec_cmd("notify-send -e -t 1200 -h string:x-canonical-private-synchronous:gaps 'Gaps' 'Set to: " .. new_gaps .. "'")
 
   -- Sync scratchpad (dropdown terminal)
   gap_control.sync_scratchpad()
@@ -71,8 +72,7 @@ function gap_control.reset()
     }
   })
 
-  -- Notify user
-  hl.exec_cmd("notify-send 'Gaps' 'Reset to: " .. default_gaps .. "'")
+  hl.exec_cmd("notify-send -e -t 1200 -h string:x-canonical-private-synchronous:gaps 'Gaps' 'Reset to: " .. default_gaps .. "'")
 
   -- Sync scratchpad (dropdown terminal)
   gap_control.sync_scratchpad()

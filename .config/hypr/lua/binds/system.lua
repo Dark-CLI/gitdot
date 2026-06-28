@@ -37,6 +37,7 @@ hl.bind("SUPER + CTRL + SHIFT + R", hl.dsp.exec_cmd("pkill rofi || true && " .. 
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen()) --: toggle fullscreen
 hl.bind("SUPER + CTRL + F", hl.dsp.window.fullscreen({ all = true })) --: maximize window
 hl.bind("SUPER + Space", hl.dsp.window.float({ action = "toggle" })) --: toggle floating
+hl.bind("SUPER + SHIFT + Space", hl.dsp.window.center({ respect_reserved = true })) --: center floating window on screen
 hl.bind("SUPER + ALT + Space", hl.dsp.exec_cmd("hyprctl dispatch workspaceopt allfloat")) --: float all windows on workspace
 hl.bind("SUPER + SHIFT + Return", hl.dsp.exec_cmd("sh -c '" .. SCRIPTS .. "/Dropterminal.sh " .. TERM .. "'")) --: toggle dropdown terminal
 
@@ -152,10 +153,10 @@ hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd(SCRIPTS .. "/ScreenShot.sh --swappy
 -- WINDOW RESIZE (Hold to repeat)
 -- ============================================
 
-hl.bind("SUPER + SHIFT + Left", hl.dsp.window.resize({ x = -50, y = 0, relative = true })) --: resize window left (-50px)
-hl.bind("SUPER + SHIFT + Right", hl.dsp.window.resize({ x = 50, y = 0, relative = true })) --: resize window right (+50px)
-hl.bind("SUPER + SHIFT + Up", hl.dsp.window.resize({ x = 0, y = -50, relative = true })) --: resize window up (-50px)
-hl.bind("SUPER + SHIFT + Down", hl.dsp.window.resize({ x = 0, y = 50, relative = true })) --: resize window down (+50px)
+hl.bind("SUPER + SHIFT + Left", hl.dsp.window.resize({ x = -50, y = 0, relative = true }), { repeating = true }) --: resize window left (-50px)
+hl.bind("SUPER + SHIFT + Right", hl.dsp.window.resize({ x = 50, y = 0, relative = true }), { repeating = true }) --: resize window right (+50px)
+hl.bind("SUPER + SHIFT + Up", hl.dsp.window.resize({ x = 0, y = -50, relative = true }), { repeating = true }) --: resize window up (-50px)
+hl.bind("SUPER + SHIFT + Down", hl.dsp.window.resize({ x = 0, y = 50, relative = true }), { repeating = true }) --: resize window down (+50px)
 
 -- ============================================
 -- WINDOW MOVEMENT

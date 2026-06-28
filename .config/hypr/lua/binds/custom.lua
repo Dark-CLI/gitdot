@@ -6,7 +6,7 @@ local HOME = os.getenv("HOME")
 local SCRIPTS = HOME .. "/.config/hypr/scripts"
 local USER_SCRIPTS = HOME .. "/.config/hypr/UserScripts"
 
--- Load gap control helper
+-- Load helpers
 local gap_control = require("lua.helpers.gap_control")
 
 -- ============================================
@@ -31,10 +31,14 @@ hl.bind("SUPER + j", hl.dsp.focus({ direction = "d" })) --: focus window down (v
 -- VIM-STYLE WINDOW MOVEMENT
 -- ============================================
 
-hl.bind("SUPER + SHIFT + h", hl.dsp.window.move({ direction = "l" })) --: move window left (vim)
-hl.bind("SUPER + SHIFT + l", hl.dsp.window.move({ direction = "r" })) --: move window right (vim)
-hl.bind("SUPER + SHIFT + k", hl.dsp.window.move({ direction = "u" })) --: move window up (vim)
-hl.bind("SUPER + SHIFT + j", hl.dsp.window.move({ direction = "d" })) --: move window down (vim)
+-- Floating windows edge-snap to the monitor's usable area (minus reserved
+-- bar space, minus gaps_out). Tiled windows use Hyprland's direction
+-- move. Logic lives in scripts/FloatingEdgeSnap.sh so hyprctl calls
+-- happen in a child process and never block Hyprland's main thread.
+hl.bind("SUPER + SHIFT + h", hl.dsp.exec_cmd(SCRIPTS .. "/FloatingEdgeSnap.sh l")) --: move window left (vim)
+hl.bind("SUPER + SHIFT + l", hl.dsp.exec_cmd(SCRIPTS .. "/FloatingEdgeSnap.sh r")) --: move window right (vim)
+hl.bind("SUPER + SHIFT + k", hl.dsp.exec_cmd(SCRIPTS .. "/FloatingEdgeSnap.sh u")) --: move window up (vim)
+hl.bind("SUPER + SHIFT + j", hl.dsp.exec_cmd(SCRIPTS .. "/FloatingEdgeSnap.sh d")) --: move window down (vim)
 
 -- ============================================
 -- VIM-STYLE WINDOW RESIZE

@@ -277,6 +277,7 @@ local function add_launcher_rules()
   hl.window_rule({
     match = { class = "^(HyprLauncher)$" },
     float = true,
+    pin = true,
     animation = "fade"
   })
   hl.window_rule({

@@ -61,10 +61,18 @@ EOF
 
   *)
     # App mode: apps.tsv has a hidden 4th column (GenericName / Comment
-    # / Keywords / StartupWMClass) used for fuzzy matching. Filter on
-    # --nth=1,4 then drop column 4 so the outer fzf only ever sees three.
-    fzf --filter="$q" --delimiter=$'\t' --nth=1,4 \
-        <"$CACHE/apps.tsv" 2>/dev/null |
+    # / Keywords / StartupWMClass) used for fuzzy matching.
+    #
+    # Run fzf twice — first against the visible name (column 1), then
+    # against the metadata (column 4) — and concat the results. awk
+    # '!seen[$0]++' dedupes while preserving order, so name matches
+    # appear first and metadata-only matches come after. The outer
+    # column-4 strip keeps the data the inner fzf receives at 3 cols.
+    {
+      fzf --filter="$q" --delimiter=$'\t' --nth=1 <"$CACHE/apps.tsv" 2>/dev/null
+      fzf --filter="$q" --delimiter=$'\t' --nth=4 <"$CACHE/apps.tsv" 2>/dev/null
+    } |
+      awk '!seen[$0]++ && length($0) > 0' |
       cut -f1,2,3
     ;;
 esac

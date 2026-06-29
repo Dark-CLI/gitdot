@@ -13,7 +13,7 @@ local FILES = "nautilus"
 -- ============================================
 
 -- Application launchers
-hl.bind("SUPER + D", hl.dsp.exec_cmd("pkill rofi || true && rofi -show drun -modi drun,filebrowser,run,window")) --: app launcher (rofi)
+hl.bind("SUPER + D", hl.dsp.exec_cmd(SCRIPTS .. "/Launcher.sh")) --: app launcher (apps, /dirs, >cmds, !power; F1 help)
 hl.bind("SUPER + B", hl.dsp.exec_cmd("xdg-open 'https://'")) --: open default browser
 hl.bind("SUPER + A", hl.dsp.exec_cmd(SCRIPTS .. "/OverviewToggle.sh")) --: desktop overview
 hl.bind("SUPER + Return", hl.dsp.exec_cmd(TERM)) --: open terminal

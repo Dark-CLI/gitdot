@@ -73,7 +73,7 @@ hl.bind("SUPER + O", hl.dsp.exec_cmd(SCRIPTS .. "/KeyBinds.sh")) --: search keyb
 
 hl.bind("SUPER + SHIFT + B", hl.dsp.exec_cmd("sh -c 'killall waybar; sleep 0.2; waybar &'")) --: restart waybar
 hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload")) --: reload Hyprland config
-hl.bind("SUPER + SHIFT + D", hl.dsp.exec_cmd(SCRIPTS .. "/Launcher.sh")) --: terminal launcher (test; / for dirs, > for cmds)
+hl.bind("SUPER + SHIFT + D", hl.dsp.exec_cmd("pkill rofi || true && rofi -show drun -modi drun,filebrowser,run,window")) --: rofi launcher (legacy fallback)
 
 -- ============================================
 -- PYPRLAND ZOOM

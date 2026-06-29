@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# Glow-rendered help popup for the SUPER+SHIFT+D launcher.
-# Mirrors KeyHints.sh: single-instance, centered, transient .md file.
+# Glow-rendered help for the SUPER+D launcher. Spawns a separate kitty
+# popup (class HyprLauncherHelp) via Hyprland — that way glow runs in
+# its own fresh terminal with no escape-leak issues, and the window
+# rule pins it above the launcher.
 
 EXISTING=$(hyprctl clients -j 2>/dev/null | jq -r '.[] | select(.class == "HyprLauncherHelp") | .address' | head -1)
 if [ -n "$EXISTING" ]; then
@@ -10,27 +12,25 @@ fi
 
 TMP_MD="/tmp/hypr-launcher-help.md"
 
-KW=18   # fixed shortcut column width so every section aligns
-SEP="$(printf -- '─%.0s' $(seq 1 $((KW + 2))))──────────────────────────────"
-
-row() { printf "  %-${KW}s  %s\n" "$1" "$2"; }
-
+# Emit a real markdown table — glow auto-sizes columns and word-wraps
+# descriptions cleanly, unlike the fixed-width code block we used to
+# build by hand.
 emit_section() {
-  echo '```'
-  printf "  %-${KW}s  %s\n" "Shortcut" "What it does"
-  echo "  $SEP"
+  echo
+  echo '| Shortcut | What it does |'
+  echo '|----------|--------------|'
   while [ $# -gt 0 ]; do
-    row "$1" "$2"
+    printf '| %s | %s |\n' "$1" "$2"
     shift 2
   done
-  echo '```'
+  echo
 }
 
 {
 cat <<'EOF'
 # Launcher
 
-A fuzzy launcher in a kitty popup, bound to **`SUPER + SHIFT + D`**.
+A fuzzy launcher in a kitty popup, bound to **`SUPER + D`**.
 
 Type to filter. The first character switches mode:
 
@@ -40,7 +40,6 @@ emit_section \
   '/'             'Directories under $HOME — opens kitty+tmux in that path' \
   '>'             'Shell commands — top row runs the literal query, rest is your history' \
   '!'             'Power actions — lock / logout / suspend / reboot / shutdown' \
-  '?'             'Cheat sheet (rows inside fzf)' \
   'F1'            'This screen'
 
 cat <<'EOF'
@@ -51,6 +50,7 @@ EOF
 emit_section \
   'Enter'         'Run the highlighted row' \
   'Ctrl-X'        'Run as administrator (polkit dialog)' \
+  'Ctrl-E'        'Open the row'\''s .desktop in nvim (apps only)' \
   'Tab'           'Replace the query with the highlighted row' \
   'Esc'           'Close the launcher' \
   'F1'            'Open this help'
@@ -64,10 +64,10 @@ cat <<'EOF'
 - `> systemctl status sshd` — top row reruns the literal command; you can also pick a past command from history
 - `!suspend` — narrow the power menu down to suspend, Enter
 - Highlight Thunar, press **Ctrl-X** → polkit asks for your password, Thunar opens as root
+- Highlight an app, press **Ctrl-E** → its `.desktop` opens in nvim inside the launcher; close nvim to return
 
 ## Notes
 
-- App rows ship with a Nerd Font glyph next to the name; the glyph is part of the searchable text, so you can also type the icon.
 - Apps with `Terminal=true` in their `.desktop` (htop, vim, ncmpcpp…) open inside a kitty terminal automatically.
 - Directories ignored by default: `.git`, `node_modules`, `target`, build/IDE caches. Edit `LauncherBuildCache.sh` to tune.
 - Caches live at `~/.cache/hypr-launcher/` (`apps.tsv`, `dirs.tsv`). The dir cache refreshes if older than 1h.
@@ -76,7 +76,7 @@ _Press `q` to close this window._
 EOF
 } > "$TMP_MD"
 
-read -r MON_X MON_Y MON_W MON_H < <(hyprctl monitors -j 2>/dev/null | \
+read -r MON_X MON_Y MON_W MON_H < <(hyprctl monitors -j 2>/dev/null |
   jq -r '.[] | select(.focused == true) | "\(.x) \(.y) \(.width) \(.height)"')
 [ -z "$MON_W" ] && MON_W=2560
 [ -z "$MON_H" ] && MON_H=1440

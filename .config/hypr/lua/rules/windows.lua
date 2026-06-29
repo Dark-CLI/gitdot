@@ -290,6 +290,14 @@ local function add_launcher_rules()
     float = true,
     animation = "fade"
   })
+  -- Help popup sits above the launcher (both pinned). pin = true keeps
+  -- it on top even though the launcher itself is pinned.
+  hl.window_rule({
+    match = { class = "^(HyprLauncherHelp)$" },
+    float = true,
+    pin = true,
+    animation = "fade"
+  })
 end
 
 -- ============================================

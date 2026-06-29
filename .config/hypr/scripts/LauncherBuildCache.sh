@@ -28,34 +28,6 @@ APP_DIRS=(
   "$HOME/.local/share/flatpak/exports/share/applications"
 )
 
-# Map a Name= field to a Nerd Font glyph. Add patterns here; first match wins.
-glyph_for_app() {
-  local n="${1,,}"
-  case "$n" in
-    *firefox*|*librewolf*|*zen-browser*|*waterfox*)             echo "" ;;
-    *chrome*|*chromium*|*brave*|*thorium*|*edge*)               echo "" ;;
-    *kitty*|*ghostty*|*wezterm*|*alacritty*|*foot*|*terminal*)  echo "" ;;
-    *code*|*sublime*|*nvim*|*neovim*|*vim*|*emacs*|*editor*)    echo "" ;;
-    *files*|*nautilus*|*thunar*|*nemo*|*dolphin*|*yazi*|*ranger*) echo "" ;;
-    *thunderbird*|*betterbird*|*evolution*|*mail*)              echo "" ;;
-    *telegram*|*signal*|*element*|*whatsapp*)                   echo "" ;;
-    *discord*|*vesktop*|*webcord*)                              echo "" ;;
-    *spotify*|*music*|*audacious*|*rhythmbox*)                  echo "" ;;
-    *vlc*|*mpv*|*video*|*kdenlive*)                             echo "" ;;
-    *obs*)                                                       echo "󰑊" ;;
-    *gimp*|*krita*|*inkscape*|*pinta*)                          echo "" ;;
-    *steam*|*lutris*|*heroic*|*minecraft*|*game*)               echo "" ;;
-    *settings*|*config*|*preferences*|*tweaks*)                 echo "" ;;
-    *calculator*|*calc*)                                         echo "" ;;
-    *bluetooth*)                                                 echo "" ;;
-    *network*|*wifi*|*nm-*)                                      echo "" ;;
-    *libreoffice*|*office*|*calc*|*writer*|*impress*)            echo "" ;;
-    *pdf*|*reader*|*okular*|*evince*|*zathura*)                 echo "" ;;
-    *zoom*|*teams*|*skype*)                                     echo "" ;;
-    *)                                                           echo "" ;;
-  esac
-}
-
 # Build apps.tsv only if any source .desktop is newer than the cache.
 build_apps_if_stale() {
   local apps="$CACHE/apps.tsv"
@@ -120,7 +92,9 @@ build_apps_if_stale() {
       extras=$(printf '%s %s %s %s' "$gen_name" "$comment" "$keywords" "$wm_class" |
         tr '\t' ' ' | awk '{$1=$1; print}')
 
-      printf '%s  %s\t%s\t%s\t%s\n' "$(glyph_for_app "$name")" "$name" "$action" "$exec" "$extras" >>"$apps.tmp"
+      # 5 columns: display, action, exec, hidden search extras, source .desktop path.
+      # The 5th column is what `ctrl-e` in LauncherInner.sh opens in nvim.
+      printf '%s\t%s\t%s\t%s\t%s\n' "$name" "$action" "$exec" "$extras" "$f" >>"$apps.tmp"
     done
   done
 
@@ -150,7 +124,7 @@ build_dirs() {
      --exclude .local/share/Trash \
      . "$HOME" 2>/dev/null |
     awk -v home="$HOME/" '
-      { rel = $0; sub(home, "", rel); printf "/  %s\t%s\t%s\n", rel, "dir", $0 }
+      { rel = $0; sub(home, "", rel); printf "/  %s\t%s\t%s\t\t\n", rel, "dir", $0 }
     ' >"$dirs"
 }
 

@@ -5,20 +5,16 @@
 #
 # Enter        → run the selected entry normally
 # Ctrl-X       → run it as administrator (polkit GUI prompt)
+# Ctrl-E       → open the row's source .desktop in nvim (apps only)
 # Tab          → replace the query with the highlighted row
 # Esc          → cancel
-#
-# Press F1 to open the glow-rendered help popup (LauncherHelp.sh).
+# F1           → open the glow-rendered help popup (LauncherHelp.sh)
 
 set -u
 SCRIPTS="$HOME/.config/hypr/scripts"
 
 "$SCRIPTS/LauncherBuildCache.sh"
 
-# --expect=ctrl-x makes fzf print the pressed key on the first output
-# line (empty if plain Enter), then the selected row on the second.
-# We wanted Ctrl-Enter but terminals can't distinguish it from Enter,
-# so Ctrl-X stands in for "run as administrator".
 sel=$(
   "$SCRIPTS/LauncherRouter.sh" "" |
     fzf \
@@ -37,6 +33,7 @@ sel=$(
       --bind 'esc:abort' \
       --bind 'tab:replace-query' \
       --bind "f1:execute-silent('$SCRIPTS/LauncherHelp.sh')" \
+      --bind "ctrl-e:execute('$SCRIPTS/LauncherEditDesktop.sh' {4})" \
       --header=$'Just type to find apps. Start the query with a prefix to switch modes:\n   /  directories       >  shell commands       !  power options       F1  full help'
 )
 
@@ -47,13 +44,13 @@ row=$(printf '%s\n' "$sel" | sed -n 2p)
 
 [[ -z "$row" ]] && exit 0
 
-# Split the selected TSV row into <display>\t<type>\t<payload>.
-# (App rows embed extra search terms inside column 1 via ANSI conceal
-# codes; LauncherBuildCache.sh handles that, this script doesn't care.)
-IFS=$'\t' read -r _ type payload <<<"$row"
+# Split the selected TSV row. Column 4 is the source .desktop path for
+# apps (empty for dirs/cmds/power); we ignore it here because Ctrl-E
+# already handled it inside fzf.
+IFS=$'\t' read -r _ type payload _src <<<"$row"
 
-# Ctrl-Enter → run-as-root variant. LauncherAct.sh recognises the prefix.
-if [[ "$key" == "ctrl-x" ]]; then  # "run as admin"
+# Ctrl-X → run-as-root variant. LauncherAct.sh recognises the prefix.
+if [[ "$key" == "ctrl-x" ]]; then
   type="root-$type"
 fi
 

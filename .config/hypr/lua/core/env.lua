@@ -14,9 +14,9 @@ hl.env("EDITOR", "nvim")
 -- TODO: remove once Fedora packages waybar > 0.15.0.
 hl.env("PATH", os.getenv("HOME") .. "/.local/bin:" .. (os.getenv("PATH") or "/usr/local/bin:/usr/bin"))
 
--- Qt configuration (optional - uncomment if needed)
--- hl.env("QT_STYLE_OVERRIDE", "kvantum")
--- hl.env("QT_QPA_PLATFORM_THEME", "qt5ct")
+-- Qt theming via qt6ct (used by hyprpolkitagent's polkit dialog and
+-- any other Qt6 GUI). Configure colors/style by running `qt6ct` once.
+hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 
 -- Other environment variables can be added here
 -- These are set before the compositor initializes

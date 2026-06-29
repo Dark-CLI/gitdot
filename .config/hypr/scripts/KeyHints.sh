@@ -65,8 +65,8 @@ cat <<'EOF'
 EOF
 emit_section \
   'SUPER + h / j / k / l'    'Focus left / down / up / right' \
-  'SUPER + SHIFT + h/j/k/l'  'Move the focused window' \
-  'SUPER + CTRL + h/j/k/l'   'Resize the focused window'
+  'SUPER + SHIFT + h/j/k/l'  'Move window (edge-snap by default; toggle modes)' \
+  'SUPER + CTRL + h/j/k/l'   'Resize window (hold to repeat)'
 
 cat <<'EOF'
 
@@ -86,6 +86,8 @@ EOF
 emit_section \
   'SUPER + SHIFT + F'        'Fullscreen' \
   'SUPER + Space'            'Toggle floating (escape tiling)' \
+  'SUPER + SHIFT + Space'    'Center floating window on screen' \
+  'SUPER + SHIFT + BackSpace' 'Toggle float move mode (snap / step)' \
   'SUPER + SHIFT + Return'   'Dropdown terminal (toggle)'
 
 cat <<'EOF'
@@ -97,7 +99,12 @@ cat <<'EOF'
 - **Dropdown terminal** — `SUPER + SHIFT + Return` slides a kitty
   terminal in/out; keeps the same tmux session across toggles.
 - **Gap control** — `SUPER + =` / `SUPER + -` resize the gaps between
-  windows live; `SUPER + Backspace` resets.
+  windows live (hold to repeat); `SUPER + Backspace` resets.
+- **Floating-window movement** — `SUPER + SHIFT + h/j/k/l` moves a
+  floating window. Default **snap** mode slams the edge to the
+  matching side of the usable area (above the bar, inside the gaps).
+  `SUPER + SHIFT + Backspace` toggles **step** mode (80px nudges, hold
+  to repeat). `SUPER + SHIFT + Space` re-centers it.
 - **Wallpaper picker** — `SUPER + W` opens a thumbnail gallery
   (swayimg). Navigate with `hjkl`/arrows, `/` to fuzzy-search by name,
   `Space` to preview with blurred fill, `Enter` to apply, `Esc` cancels.

@@ -269,6 +269,21 @@ local function add_wallpaper_picker_rules()
   })
 end
 
+-- Terminal app launcher (Launcher.sh spawns kitty --class HyprLauncher;
+-- LauncherAct.sh spawns a root-mode follow-up kitty --class HyprLauncherRoot).
+local function add_launcher_rules()
+  hl.window_rule({
+    match = { class = "^(HyprLauncher)$" },
+    float = true,
+    animation = "fade"
+  })
+  hl.window_rule({
+    match = { class = "^(HyprLauncherRoot)$" },
+    float = true,
+    animation = "fade"
+  })
+end
+
 -- ============================================
 -- LOAD ALL RULES
 -- ============================================
@@ -293,5 +308,6 @@ add_dropdown_rules()
 add_cheatsheet_rules()
 add_keybinds_search_rules()
 add_wallpaper_picker_rules()
+add_launcher_rules()
 
 -- All window rules loaded

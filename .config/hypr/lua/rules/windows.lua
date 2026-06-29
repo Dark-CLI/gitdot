@@ -270,7 +270,9 @@ local function add_wallpaper_picker_rules()
 end
 
 -- Terminal app launcher (Launcher.sh spawns kitty --class HyprLauncher;
--- LauncherAct.sh spawns a root-mode follow-up kitty --class HyprLauncherRoot).
+-- LauncherAct.sh spawns follow-up kitty windows for root-mode actions
+-- and for the directory mode's kitty+tmux session — all classed
+-- distinctly so this single rule covers them all).
 local function add_launcher_rules()
   hl.window_rule({
     match = { class = "^(HyprLauncher)$" },
@@ -279,6 +281,11 @@ local function add_launcher_rules()
   })
   hl.window_rule({
     match = { class = "^(HyprLauncherRoot)$" },
+    float = true,
+    animation = "fade"
+  })
+  hl.window_rule({
+    match = { class = "^(HyprLauncherDir)$" },
     float = true,
     animation = "fade"
   })

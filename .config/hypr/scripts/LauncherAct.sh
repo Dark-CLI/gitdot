@@ -42,7 +42,13 @@ case "$type" in
   dir)
     name=$(basename "$payload" | tr -c 'A-Za-z0-9_-' '_' | cut -c1-32)
     [[ -z "$name" ]] && name="launcher"
-    hyprctl dispatch "hl.dsp.exec_cmd([[kitty --working-directory '$payload' -- tmux new-session -A -s $name]])" >/dev/null
+    # Open the kitty + tmux session as a floating popup at the same
+    # geometry as the launcher itself, so it lands centered on top of
+    # where the launcher just was.
+    launcher_geometry
+    hyprctl dispatch \
+      "hl.dsp.exec_cmd([[kitty --class HyprLauncherDir --title '$name' --working-directory '$payload' -- tmux new-session -A -s $name]], { float = true, size = \"$GW $GH\", move = \"$GX $GY\" })" \
+      >/dev/null
     ;;
   root-app|root-cmd)
     # GUI / non-tty path: pkexec → hyprpolkitagent shows the auth

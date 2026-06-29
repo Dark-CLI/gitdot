@@ -3,6 +3,11 @@
 # picks a data source by prefix, dumps a TSV list to stdout. Caches are
 # built by LauncherBuildCache.sh.
 #
+# The outer fzf in LauncherInner.sh runs with --disabled and does no
+# filtering of its own, so every branch below must filter to the query
+# itself. We use `fzf --filter` (non-interactive) as the matcher to
+# keep ranking consistent across modes.
+#
 # Prefixes:
 #   (none)  → installed applications
 #   /...    → directories under $HOME (Enter opens kitty+tmux at the path)
@@ -20,26 +25,32 @@ q="${1:-}"
 
 case "$q" in
   /*)
-    cat "$CACHE/dirs.tsv" 2>/dev/null
+    # Strip the leading "/" from the query — the rows already start
+    # with "/  …" so fuzzy-matching the rest of the path is the goal.
+    dir_q="${q#/}"
+    fzf --filter="$dir_q" --delimiter=$'\t' --nth=1 \
+        <"$CACHE/dirs.tsv" 2>/dev/null
     ;;
 
   '>'*)
     cmd_q="${q#>}"
     cmd_q="${cmd_q# }"
+    # Run-literal row (only if the user has actually typed something).
     if [[ -n "$cmd_q" ]]; then
       printf '>  run: %s\t%s\t%s\n' "$cmd_q" "cmd" "$cmd_q"
     fi
-    # Parse zsh extended history: ': <ts>:<elapsed>;<cmd>'. Strip prefix,
-    # dedupe (most-recent-first), drop blanks.
+    # zsh extended history: ': <ts>:<elapsed>;<cmd>'. Strip prefix,
+    # dedupe (most-recent-first), drop blanks, then filter to the query.
     sed -nE 's/^: [0-9]+:[0-9]+;//p' "$HOME/.zsh_history" 2>/dev/null |
       tac |
-      awk '!seen[$0]++ { if (length($0) > 0) printf ">  %s\tcmd\t%s\n", $0, $0 }'
+      awk '!seen[$0]++ { if (length($0) > 0) printf ">  %s\tcmd\t%s\n", $0, $0 }' |
+      fzf --filter="$cmd_q" --delimiter=$'\t' --nth=1 2>/dev/null
     ;;
 
   '!'*)
-    # Power actions. The leading "!" makes fzf's prefix filter pick
-    # them up when the user types `!`.
-    cat <<'EOF'
+    pwr_q="${q#!}"
+    pwr_q="${pwr_q# }"
+    fzf --filter="$pwr_q" --delimiter=$'\t' --nth=1 <<'EOF' 2>/dev/null
 !  Lock	power	lock
 !  Logout	power	logout
 !  Suspend	power	suspend
@@ -50,9 +61,8 @@ EOF
 
   *)
     # App mode: apps.tsv has a hidden 4th column (GenericName / Comment
-    # / Keywords / StartupWMClass) used for fuzzy matching. Run fzf in
-    # filter mode here with --nth=1,4 to search visible name + extras,
-    # then drop the extras column so the outer fzf only ever sees three.
+    # / Keywords / StartupWMClass) used for fuzzy matching. Filter on
+    # --nth=1,4 then drop column 4 so the outer fzf only ever sees three.
     fzf --filter="$q" --delimiter=$'\t' --nth=1,4 \
         <"$CACHE/apps.tsv" 2>/dev/null |
       cut -f1,2,3

@@ -1,0 +1,170 @@
+# vim:fileencoding=utf-8:foldmethod=marker
+# Default Dark theme for Yazi - matching Neovim default-dark theme
+
+# : Manager {{{
+
+[manager]
+cwd = { fg = "#86c1b9" }
+
+# Hovered
+hovered         = { reversed = true }
+preview_hovered = { underline = true }
+
+# Find
+find_keyword  = { fg = "#f7ca88", bold = true, italic = true, underline = true }
+find_position = { fg = "#ba8baf", bg = "reset", bold = true, italic = true }
+
+# Marker
+marker_copied   = { fg = "#a1b56c", bg = "#a1b56c" }
+marker_cut      = { fg = "#ab4642", bg = "#ab4642" }
+marker_marked   = { fg = "#86c1b9", bg = "#86c1b9" }
+marker_selected = { fg = "#f7ca88", bg = "#f7ca88" }
+
+# Tab
+tab_active   = { reversed = true }
+tab_inactive = {}
+
+# Count
+count_copied   = { fg = "#181818", bg = "#a1b56c" }
+count_cut      = { fg = "#181818", bg = "#ab4642" }
+count_selected = { fg = "#181818", bg = "#f7ca88" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#575757" }
+
+# : }}}
+
+
+# : Mode {{{
+
+[mode]
+
+normal_main = { fg = "#181818", bg = "#7cafc2", bold = true }
+normal_alt  = { fg = "#7cafc2", bg = "#282828" }
+
+# Select mode
+select_main = { fg = "#181818", bg = "#86c1b9", bold = true }
+select_alt  = { fg = "#86c1b9", bg = "#282828" }
+
+# Unset mode
+unset_main = { fg = "#181818", bg = "#d59593", bold = true }
+unset_alt  = { fg = "#d59593", bg = "#282828" }
+
+# : }}}
+
+
+# : Status bar {{{
+
+[status]
+# Permissions
+perm_sep   = { fg = "#575757" }
+perm_type  = { fg = "#7cafc2" }
+perm_read  = { fg = "#f7ca88" }
+perm_write = { fg = "#ab4642" }
+perm_exec  = { fg = "#a1b56c" }
+
+# Progress
+progress_label  = { fg = "#f8f8f8", bold = true }
+progress_normal = { fg = "#7cafc2", bg = "#343434" }
+progress_error  = { fg = "#ab4642", bg = "#343434" }
+
+# : }}}
+
+
+# : Pick {{{
+
+[pick]
+border   = { fg = "#7cafc2" }
+active   = { fg = "#ba8baf", bold = true }
+inactive = {}
+
+# : }}}
+
+
+# : Input {{{
+
+[input]
+border   = { fg = "#7cafc2" }
+title    = {}
+value    = {}
+selected = { reversed = true }
+
+# : }}}
+
+
+# : Completion {{{
+
+[cmp]
+border = { fg = "#7cafc2" }
+
+# : }}}
+
+
+# : Tasks {{{
+
+[tasks]
+border  = { fg = "#7cafc2" }
+title   = {}
+hovered = { fg = "#ba8baf", underline = true }
+
+# : }}}
+
+
+# : Which {{{
+
+[which]
+mask            = { bg = "#282828" }
+cand            = { fg = "#86c1b9" }
+rest            = { fg = "#5e5e5e" }
+desc            = { fg = "#ba8baf" }
+separator       = "  "
+separator_style = { fg = "#3b3b3b" }
+
+# : }}}
+
+
+# : Help {{{
+
+[help]
+on      = { fg = "#86c1b9" }
+run     = { fg = "#ba8baf" }
+hovered = { reversed = true, bold = true }
+footer  = { fg = "#282828", bg = "#d8d8d8" }
+
+# : }}}
+
+
+# : Notify {{{
+
+[notify]
+title_info  = { fg = "#a1b56c" }
+title_warn  = { fg = "#f7ca88" }
+title_error = { fg = "#ab4642" }
+
+# : }}}
+
+
+# : File-specific styles {{{
+
+[filetype]
+
+rules = [
+	# Images
+	{ mime = "image/*", fg = "#86c1b9" },
+
+	# Media
+	{ mime = "{audio,video}/*", fg = "#f7ca88" },
+
+	# Archives
+	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#ba8baf" },
+
+	# Documents
+	{ mime = "application/{pdf,doc,rtf}", fg = "#a1b56c" },
+
+	# Fallback
+	{ name = "*", fg = "#d8d8d8" },
+	{ name = "*/", fg = "#7cafc2" }
+]
+
+# : }}}

@@ -1,0 +1,4 @@
+[[manager.prepend_keymap]]
+on   = [ "w" ]
+run  = "plugin what-size"
+desc = "Calculate size of selection or current directory"

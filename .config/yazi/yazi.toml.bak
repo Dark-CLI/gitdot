@@ -1,0 +1,21 @@
+[manager]
+# Sort by size to enable proper directory size calculation
+sort_by = "size"
+sort_reverse = true
+# Show sizes in the listing
+linemode = "size"
+
+[opener]
+glow = [ { desc = "Glow", block = true, run = "glow \"$@\"" } ]
+
+[open]
+rules = [
+	{ mime = "inode/directory", use = ["folder"], exec = "builtin" },
+	{ mime = "text/markdown", use = ["editor"], exec = "glow" },
+	{ mime = "text/x-markdown", use = ["editor"], exec = "glow" },
+]
+
+[preview]
+# Update preview on file change
+ueberzug_scale = 1
+ueberzug_offsets = [ 0, 0, 0, 0 ]

@@ -1,0 +1,170 @@
+# vim:fileencoding=utf-8:foldmethod=marker
+# Pnevma theme for Yazi - matching kitty Pnevma colors
+
+# : Manager {{{
+
+[manager]
+cwd = { fg = "#75b5aa" }
+
+# Hovered
+hovered         = { reversed = true }
+preview_hovered = { underline = true }
+
+# Find
+find_keyword  = { fg = "#f4bf75", bold = true, italic = true, underline = true }
+find_position = { fg = "#75b5aa", bg = "reset", bold = true, italic = true }
+
+# Marker
+marker_copied   = { fg = "#adbf9e", bg = "#adbf9e" }
+marker_cut      = { fg = "#e28282", bg = "#e28282" }
+marker_marked   = { fg = "#75b5aa", bg = "#75b5aa" }
+marker_selected = { fg = "#f4bf75", bg = "#f4bf75" }
+
+# Tab
+tab_active   = { reversed = true }
+tab_inactive = {}
+
+# Count
+count_copied   = { fg = "#1c1c1c", bg = "#adbf9e" }
+count_cut      = { fg = "#1c1c1c", bg = "#e28282" }
+count_selected = { fg = "#1c1c1c", bg = "#f4bf75" }
+
+# Border
+border_symbol = "│"
+border_style  = { fg = "#4a4844" }
+
+# : }}}
+
+
+# : Mode {{{
+
+[mode]
+
+normal_main = { fg = "#1c1c1c", bg = "#f4bf75", bold = true }
+normal_alt  = { fg = "#f4bf75", bg = "#2f2e2c" }
+
+# Select mode
+select_main = { fg = "#1c1c1c", bg = "#75b5aa", bold = true }
+select_alt  = { fg = "#75b5aa", bg = "#2f2e2c" }
+
+# Unset mode
+unset_main = { fg = "#1c1c1c", bg = "#f4bf75", bold = true }
+unset_alt  = { fg = "#f4bf75", bg = "#2f2e2c" }
+
+# : }}}
+
+
+# : Status bar {{{
+
+[status]
+# Permissions
+perm_sep   = { fg = "#4a4844" }
+perm_type  = { fg = "#75b5aa" }
+perm_read  = { fg = "#f4bf75" }
+perm_write = { fg = "#e28282" }
+perm_exec  = { fg = "#adbf9e" }
+
+# Progress
+progress_label  = { fg = "#efefef", bold = true }
+progress_normal = { fg = "#75b5aa", bg = "#4d4d4d" }
+progress_error  = { fg = "#e28282", bg = "#4d4d4d" }
+
+# : }}}
+
+
+# : Pick {{{
+
+[pick]
+border   = { fg = "#75b5aa" }
+active   = { fg = "#f4bf75", bold = true }
+inactive = {}
+
+# : }}}
+
+
+# : Input {{{
+
+[input]
+border   = { fg = "#75b5aa" }
+title    = {}
+value    = {}
+selected = { reversed = true }
+
+# : }}}
+
+
+# : Completion {{{
+
+[cmp]
+border = { fg = "#75b5aa" }
+
+# : }}}
+
+
+# : Tasks {{{
+
+[tasks]
+border  = { fg = "#75b5aa" }
+title   = {}
+hovered = { fg = "#f4bf75", underline = true }
+
+# : }}}
+
+
+# : Which {{{
+
+[which]
+mask            = { bg = "#2f2e2c" }
+cand            = { fg = "#75b5aa" }
+rest            = { fg = "#4a4844" }
+desc            = { fg = "#f4bf75" }
+separator       = "  "
+separator_style = { fg = "#3d3d3d" }
+
+# : }}}
+
+
+# : Help {{{
+
+[help]
+on      = { fg = "#75b5aa" }
+run     = { fg = "#f4bf75" }
+hovered = { reversed = true, bold = true }
+footer  = { fg = "#2f2e2c", bg = "#d0d0d0" }
+
+# : }}}
+
+
+# : Notify {{{
+
+[notify]
+title_info  = { fg = "#adbf9e" }
+title_warn  = { fg = "#f4bf75" }
+title_error = { fg = "#e28282" }
+
+# : }}}
+
+
+# : File-specific styles {{{
+
+[filetype]
+
+rules = [
+	# Images
+	{ mime = "image/*", fg = "#75b5aa" },
+
+	# Media
+	{ mime = "{audio,video}/*", fg = "#f4bf75" },
+
+	# Archives
+	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#cc9ac8" },
+
+	# Documents
+	{ mime = "application/{pdf,doc,rtf}", fg = "#adbf9e" },
+
+	# Fallback
+	{ mime = "*", fg = "#d0d0d0" },
+	{ mime = "inode/directory", fg = "#75b5aa" }
+]
+
+# : }}}

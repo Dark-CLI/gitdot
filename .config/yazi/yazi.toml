@@ -1,0 +1,18 @@
+[manager]
+sort_by = "size"
+sort_reverse = true
+linemode = "size"
+
+[opener]
+nvim = [ { run = "nvim \"$@\"", desc = "Open in nvim", block = true } ]
+glow = [ { run = "glow -t \"$@\"", desc = "Glow", block = true } ]
+
+[open]
+rules = [
+	{ mime = "text/*", use = ["glow", "nvim"] },
+	{ url = "*", use = "nvim" },
+]
+
+[preview]
+ueberzug_scale = 1
+ueberzug_offsets = [ 0, 0, 0, 0 ]

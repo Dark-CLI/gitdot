@@ -6,11 +6,20 @@ linemode = "size"
 [opener]
 nvim = [ { run = "nvim \"$@\"", desc = "Open in nvim", block = true } ]
 glow = [ { run = "glow -t \"$@\"", desc = "Glow", block = true } ]
+swayimg = [ { run = "swayimg $1", desc = "Swayimg viewer", block = false } ]
+zathura = [ { run = "zathura $1", desc = "Zathura PDF viewer", block = false } ]
+cvlc = [ { run = "cvlc --intf ncurses \"$@\"", desc = "VLC media player", block = true } ]
+vlc = [ { run = "vlc \"$@\"", desc = "VLC GUI", block = false } ]
+mpv = [ { run = "mpv \"$@\"", desc = "mpv media player", block = true } ]
 
 [open]
 rules = [
+	{ mime = "inode/directory", use = "builtin" },
 	{ mime = "text/*", use = ["glow", "nvim"] },
-	{ url = "*", use = "nvim" },
+	{ mime = "image/*", use = "swayimg" },
+	{ mime = "application/pdf", use = "zathura" },
+	{ mime = "audio/*", use = "cvlc" },
+	{ mime = "video/*", use = "vlc" },
 ]
 
 [preview]

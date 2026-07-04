@@ -53,7 +53,8 @@ emit_section \
   'Ctrl-E'        'Open the row'\''s .desktop in nvim (apps only)' \
   'Tab'           'Replace the query with the highlighted row' \
   'Esc'           'Close the launcher' \
-  'F1'            'Open this help'
+  'F1'            'Open this help' \
+  'F5'            'Force-rebuild the apps + dirs cache'
 
 cat <<'EOF'
 

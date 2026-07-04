@@ -9,11 +9,22 @@
 # Tab          → replace the query with the highlighted row
 # Esc          → cancel
 # F1           → open the glow-rendered help popup (LauncherHelp.sh)
+# F5           → force-rebuild the apps + dirs caches and reload the list
 
 set -u
 SCRIPTS="$HOME/.config/hypr/scripts"
+CACHE="$HOME/.cache/hypr-launcher"
 
-"$SCRIPTS/LauncherBuildCache.sh"
+# Fast-start policy: only block on the cache builder when there is
+# literally nothing to show (first ever launch). Otherwise the launcher
+# opens instantly against the existing cache and the rebuild runs in
+# the background — the results land in place via atomic mv, so the
+# *next* launch picks them up. F5 still forces a foreground rebuild.
+if [[ -s "$CACHE/apps.tsv" ]]; then
+  setsid -f "$SCRIPTS/LauncherBuildCache.sh" >/dev/null 2>&1 </dev/null || true
+else
+  "$SCRIPTS/LauncherBuildCache.sh"
+fi
 
 sel=$(
   "$SCRIPTS/LauncherRouter.sh" "" |
@@ -33,6 +44,7 @@ sel=$(
       --bind 'esc:abort' \
       --bind 'tab:replace-query' \
       --bind "f1:execute-silent('$SCRIPTS/LauncherHelp.sh')" \
+      --bind "f5:execute-silent(FORCE=1 '$SCRIPTS/LauncherBuildCache.sh')+reload('$SCRIPTS/LauncherRouter.sh' {q})" \
       --bind "ctrl-e:execute('$SCRIPTS/LauncherEditDesktop.sh' {4})" \
       --header=$'Just type to find apps. Start the query with a prefix to switch modes:\n   /  directories       >  shell commands       !  power options       F1  full help'
 )

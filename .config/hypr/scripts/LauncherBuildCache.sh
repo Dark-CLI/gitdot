@@ -13,12 +13,21 @@
 #   apps.tsv  — rebuilt only if any .desktop file is newer than the cache
 #   dirs.tsv  — refreshed each launch (fd is fast, <100ms warm)
 #
-# To customise the glyph used per app, edit `glyph_for_app` below.
+# Safety: builds go to a `.new` sibling and are atomically `mv`'d over
+# the live cache only after they finish, so a partial or crashed build
+# never leaves the launcher with an empty list. A flock guards against
+# two concurrent builders (e.g. background rebuild + a foreground first
+# run) racing on the same file.
 
 set -eu
 
 CACHE="$HOME/.cache/hypr-launcher"
 mkdir -p "$CACHE"
+
+# Serialise builders. Non-blocking: if another build is already running,
+# just exit — its result will land in the cache soon enough.
+exec 200>"$CACHE/.build.lock"
+flock -n 200 || exit 0
 
 APP_DIRS=(
   "/usr/share/applications"
@@ -31,13 +40,15 @@ APP_DIRS=(
 # Build apps.tsv only if any source .desktop is newer than the cache.
 build_apps_if_stale() {
   local apps="$CACHE/apps.tsv"
-  if [[ -f "$apps" ]]; then
+  if [[ "${FORCE:-0}" != 1 && -f "$apps" ]]; then
     if ! find "${APP_DIRS[@]}" -maxdepth 1 -name '*.desktop' -newer "$apps" -print -quit 2>/dev/null | grep -q .; then
       return 0
     fi
   fi
 
   # Parse all .desktop files. Skip NoDisplay/Hidden and non-Application types.
+  # Everything goes to a `.new` sibling so the live `apps.tsv` (if any)
+  # keeps serving reads throughout the build.
   : >"$apps.tmp"
   for d in "${APP_DIRS[@]}"; do
     [[ -d "$d" ]] || continue
@@ -98,15 +109,17 @@ build_apps_if_stale() {
     done
   done
 
-  # Stable sort by name (column 1, after glyph).
-  sort -t$'\t' -k1,1 -u "$apps.tmp" >"$apps"
+  # Stable sort by name, then atomic swap so readers never see a
+  # truncated `apps.tsv`.
+  sort -t$'\t' -k1,1 -u "$apps.tmp" >"$apps.new"
+  mv -f "$apps.new" "$apps"
   rm -f "$apps.tmp"
 }
 
 build_dirs() {
   local dirs="$CACHE/dirs.tsv"
-  # Cache for 1 hour. Delete dirs.tsv to force a refresh.
-  if [[ -f "$dirs" ]]; then
+  # Cache for 1 hour. FORCE=1 (F5 in the launcher) bypasses the TTL.
+  if [[ "${FORCE:-0}" != 1 && -f "$dirs" ]]; then
     local age=$(( $(date +%s) - $(stat -c %Y "$dirs") ))
     (( age < 3600 )) && return 0
   fi
@@ -125,7 +138,8 @@ build_dirs() {
      . "$HOME" 2>/dev/null |
     awk -v home="$HOME/" '
       { rel = $0; sub(home, "", rel); printf "/  %s\t%s\t%s\t\t\n", rel, "dir", $0 }
-    ' >"$dirs"
+    ' >"$dirs.new"
+  mv -f "$dirs.new" "$dirs"
 }
 
 build_apps_if_stale

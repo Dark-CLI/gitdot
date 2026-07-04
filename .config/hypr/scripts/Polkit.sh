@@ -2,18 +2,21 @@
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
 # This script starts the first available Polkit agent from a list of possible locations
 
-# List of potential Polkit agent file paths
+# List of potential Polkit agent file paths. First existing one wins.
+# polkit-kde is preferred over hyprpolkitagent on Fedora 44 — hyprpolkit
+# drags in libhyprlang.so.2 which clashes with newer Hyprland packages.
 polkit=(
-  "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
-  "/usr/libexec/hyprpolkitagent"
-  "/usr/lib/hyprpolkitagent"
-  "/usr/lib/hyprpolkitagent/hyprpolkitagent"
+  "/usr/libexec/kf6/polkit-kde-authentication-agent-1"
   "/usr/lib/polkit-kde-authentication-agent-1"
+  "/usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1"
+  "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
   "/usr/lib/polkit-gnome-authentication-agent-1"
   "/usr/libexec/polkit-gnome-authentication-agent-1"
   "/usr/libexec/polkit-mate-authentication-agent-1"
-  "/usr/lib/x86_64-linux-gnu/libexec/polkit-kde-authentication-agent-1"
   "/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1"
+  "/usr/libexec/hyprpolkitagent"
+  "/usr/lib/hyprpolkitagent"
+  "/usr/lib/hyprpolkitagent/hyprpolkitagent"
 )
 
 executed=false

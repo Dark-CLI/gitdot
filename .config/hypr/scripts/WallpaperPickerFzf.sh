@@ -397,5 +397,5 @@ if [ -s "$LAST_FILE" ]; then
 fi
 
 hyprctl dispatch \
-  "hl.dsp.exec_cmd(\"swayimg --gallery --class=HyprWallpaperPicker --config=$LUA_SCRIPT --from-file=$LIST_FILE$LAST_ARG\", { float = true, size = \"$W $H\", move = \"$X $Y\" })" \
+  "hl.dsp.exec_cmd(\"swayimg --gallery --appid=HyprWallpaperPicker --config=$LUA_SCRIPT --from-file=$LIST_FILE$LAST_ARG\", { float = true, size = \"$W $H\", move = \"$X $Y\" })" \
   >/dev/null 2>&1

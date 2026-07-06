@@ -3,7 +3,8 @@ services:
     image: ollama/ollama:latest
     container_name: ollama
     networks:
-      - services
+      services:
+        ipv4_address: 10.0.0.3
     ports:
       - "3003:11434"
     volumes:
@@ -26,7 +27,8 @@ services:
     image: ghcr.io/open-webui/open-webui:main
     container_name: open-webui
     networks:
-      - services
+      services:
+        ipv4_address: 10.0.0.4
     ports:
       - "3004:8080"
     volumes:

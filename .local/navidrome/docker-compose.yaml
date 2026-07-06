@@ -3,7 +3,8 @@ services:
     image: deluan/navidrome:latest
     container_name: navidrome
     networks:
-      - services
+      services:
+        ipv4_address: 10.0.0.5
     ports:
       - "3005:3005"
     environment:

@@ -5,7 +5,8 @@ services:
     image: openspeedtest/latest:latest
     container_name: openspeedtest
     networks:
-      - services
+      services:
+        ipv4_address: 10.0.0.6
     ports:
       - "3006:3000"
       - "3007:3001"

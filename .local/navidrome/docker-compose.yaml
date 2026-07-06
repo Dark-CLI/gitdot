@@ -14,6 +14,8 @@ services:
     restart: unless-stopped
     security_opt:
       - label:disable    # Alternative: disable SELinux for this container only
+    dns:
+      - 10.0.0.1
 
 networks:
   services:

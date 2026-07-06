@@ -12,6 +12,8 @@ services:
     runtime: nvidia
     security_opt:
       - label:disable
+    dns:
+      - 10.0.0.1
     deploy:
       resources:
         reservations:
@@ -36,6 +38,8 @@ services:
     restart: unless-stopped
     security_opt:
       - label:disable
+    dns:
+      - 10.0.0.1
 
 volumes:
   ollama_data:

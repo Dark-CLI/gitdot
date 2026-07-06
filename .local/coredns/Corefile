@@ -1,0 +1,12 @@
+.home {
+  hosts {
+    10.0.0.2 cloudflared tunnel
+    10.0.0.3 ollama
+    10.0.0.4 open-webui webui
+    10.0.0.5 navidrome
+    10.0.0.6 openspeedtest speedtest
+    fallthrough
+  }
+  forward . 1.1.1.1 8.8.8.8
+  log
+}

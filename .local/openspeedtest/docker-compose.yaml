@@ -10,6 +10,8 @@ services:
       - "3006:3000"
       - "3007:3001"
     restart: unless-stopped
+    dns:
+      - 10.0.0.1
 
 networks:
   services:

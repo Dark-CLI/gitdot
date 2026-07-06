@@ -12,6 +12,8 @@ services:
     restart: unless-stopped
     cap_drop:
       - ALL
+    dns:
+      - 10.0.0.1
 
 networks:
   services:

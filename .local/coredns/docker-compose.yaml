@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  coredns:
+    image: coredns/coredns:latest
+    container_name: coredns
+    networks:
+      services:
+        ipv4_address: 10.0.0.1
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    volumes:
+      - ./Corefile:/root/Corefile
+    command: -conf /root/Corefile
+    restart: unless-stopped
+
+networks:
+  services:
+    external: true
+    name: services

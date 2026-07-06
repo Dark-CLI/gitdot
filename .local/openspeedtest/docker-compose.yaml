@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  openspeedtest:
+    image: openspeedtest/latest:latest
+    container_name: openspeedtest
+    networks:
+      - services
+    ports:
+      - "3006:3000"
+      - "3007:3001"
+    restart: unless-stopped
+
+networks:
+  services:
+    external: true
+    name: services

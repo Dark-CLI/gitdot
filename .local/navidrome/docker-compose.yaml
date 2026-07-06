@@ -2,11 +2,20 @@ services:
   navidrome:
     image: deluan/navidrome:latest
     container_name: navidrome
+    networks:
+      - services
     ports:
-      - "4533:4533"
+      - "3005:3005"
+    environment:
+      - ND_PORT=3005
     volumes:
       - /home/max/.local/navidrome/data:/data:z
       - /home/max/Music:/music:ro,z
     restart: unless-stopped
     security_opt:
       - label:disable    # Alternative: disable SELinux for this container only
+
+networks:
+  services:
+    external: true
+    name: services

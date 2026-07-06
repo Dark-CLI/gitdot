@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <zone>
   <short>Public</short>
-  <description>Restrictive zone for external interface. Only ZeroTier VPN traffic allowed.</description>
+  <description>Restrictive zone for external interface. Only Cloudflare tunnel and LAN gateway access.</description>
 
   <!-- Interface binding -->
   <interface name="enp9s0"/>
 
-  <!-- Only allow ZeroTier to establish VPN connection -->
-  <port port="9993" protocol="udp"/>     <!-- ZeroTier VPN -->
-  <port port="5678" protocol="udp"/>     <!-- MikroTik WinBox Neighbor Discovery -->
+  <!-- Cloudflare tunnel (already handled via routing) -->
 
   <!-- Required for network functionality -->
   <service name="dhcpv6-client"/>
 
-  <!-- Enable forwarding and NAT for ZeroTier gateway -->
+  <!-- Enable forwarding for tunnel and masquerade for outbound -->
   <forward/>
   <masquerade/>
+
+  <!-- Allow traffic from this zone to docker services -->
+  <rule family="ipv4">
+    <destination address="10.0.0.0/24"/>
+    <accept/>
+  </rule>
 
   <!-- Allow SSH and Mosh from specific LAN host -->
   <rule family="ipv4">

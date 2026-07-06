@@ -14,7 +14,7 @@ services:
     security_opt:
       - label:disable
     dns:
-      - 10.0.0.1
+      - 10.0.0.254
     deploy:
       resources:
         reservations:
@@ -41,7 +41,7 @@ services:
     security_opt:
       - label:disable
     dns:
-      - 10.0.0.1
+      - 10.0.0.254
 
 volumes:
   ollama_data:

@@ -12,7 +12,7 @@ services:
       - "3007:3001"
     restart: unless-stopped
     dns:
-      - 10.0.0.1
+      - 10.0.0.254
 
 networks:
   services:

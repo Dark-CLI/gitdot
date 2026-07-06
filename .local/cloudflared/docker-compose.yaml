@@ -14,7 +14,7 @@ services:
     cap_drop:
       - ALL
     dns:
-      - 10.0.0.1
+      - 10.0.0.254
 
 networks:
   services:

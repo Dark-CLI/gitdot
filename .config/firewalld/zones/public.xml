@@ -58,9 +58,12 @@
   </rule>
 
   <!-- Stealth mode - silently drop ping requests -->
+  <!-- TEMPORARILY DISABLED FOR TESTING -->
+  <!--
   <rule>
     <icmp-type name="echo-request"/>
     <drop/>
   </rule>
+  -->
 
 </zone>

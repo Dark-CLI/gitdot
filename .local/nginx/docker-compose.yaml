@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    networks:
+      services:
+        ipv4_address: 10.0.0.100
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ${HOME}/.local/nginx/nginx.conf:/etc/nginx/nginx.conf:z
+      - ${HOME}/.local/nginx/certs:/etc/nginx/certs:z
+    restart: unless-stopped
+    security_opt:
+      - label:disable
+
+networks:
+  services:
+    external: true
+    name: services

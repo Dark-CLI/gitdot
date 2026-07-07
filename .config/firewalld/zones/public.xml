@@ -36,6 +36,14 @@
     <accept/>
   </rule>
 
+  <!-- Allow OpenSpeedtest data port from LAN gateway -->
+  <rule family="ipv4">
+    <source address="10.95.12.95"/>
+    <destination address="10.0.0.6"/>
+    <port protocol="tcp" port="3001"/>
+    <accept/>
+  </rule>
+
   <!-- Allow DNS from LAN gateway to dnsmasq -->
   <rule family="ipv4">
     <source address="10.95.12.95"/>

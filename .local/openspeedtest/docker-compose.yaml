@@ -10,6 +10,10 @@ services:
     ports:
       - "3006:3000"
       - "3007:3001"
+    environment:
+      - DOMAIN_NAME=openspeedtest.home
+      - HTTP_PORT=3000
+      - HTTPS_PORT=3001
     restart: unless-stopped
     dns:
       - 10.0.0.254

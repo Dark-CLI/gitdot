@@ -52,7 +52,7 @@
     <accept/>
   </rule>
 
-  <!-- Allow SSH and Mosh from specific LAN host -->
+  <!-- Allow SSH and Mosh from LAN gateway (Mikrotik) -->
   <rule family="ipv4">
     <source address="10.95.12.95"/>
     <port protocol="tcp" port="22"/>
@@ -61,6 +61,18 @@
 
   <rule family="ipv4">
     <source address="10.95.12.95"/>
+    <port protocol="udp" port="60000-61000"/>
+    <accept/>
+  </rule>
+
+  <!-- Allow SSH and Mosh from Zero Trust WARP clients (through tunnel) -->
+  <!-- WARP traffic appears as local/tunnel origin, so allow on ports 22 and 60000-61000 -->
+  <rule family="ipv4">
+    <port protocol="tcp" port="22"/>
+    <accept/>
+  </rule>
+
+  <rule family="ipv4">
     <port protocol="udp" port="60000-61000"/>
     <accept/>
   </rule>

@@ -21,6 +21,29 @@
     <accept/>
   </rule>
 
+  <!-- Allow HTTP/HTTPS from LAN gateway to services -->
+  <rule family="ipv4">
+    <source address="10.95.12.95"/>
+    <destination address="10.0.0.0/24"/>
+    <port protocol="tcp" port="80"/>
+    <accept/>
+  </rule>
+
+  <rule family="ipv4">
+    <source address="10.95.12.95"/>
+    <destination address="10.0.0.0/24"/>
+    <port protocol="tcp" port="443"/>
+    <accept/>
+  </rule>
+
+  <!-- Allow DNS from LAN gateway to dnsmasq -->
+  <rule family="ipv4">
+    <source address="10.95.12.95"/>
+    <destination address="10.0.0.254"/>
+    <port protocol="udp" port="53"/>
+    <accept/>
+  </rule>
+
   <!-- Allow SSH and Mosh from specific LAN host -->
   <rule family="ipv4">
     <source address="10.95.12.95"/>

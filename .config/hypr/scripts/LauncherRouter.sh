@@ -52,6 +52,7 @@ case "$q" in
     pwr_q="${pwr_q# }"
     fzf --filter="$pwr_q" --delimiter=$'\t' --nth=1 <<'EOF' 2>/dev/null | sed 's/$/\t/'
 !  Lock	power	lock
+!  Blank screen	power	blank
 !  Logout	power	logout
 !  Suspend	power	suspend
 !  Reboot	power	reboot

@@ -39,7 +39,7 @@ emit_section \
   '(no prefix)'   'Installed applications' \
   '/'             'Directories under $HOME — opens kitty+tmux in that path' \
   '>'             'Shell commands — top row runs the literal query, rest is your history' \
-  '!'             'Power actions — lock / logout / suspend / reboot / shutdown' \
+  '!'             'Power actions — lock / blank screen / logout / suspend / reboot / shutdown' \
   'F1'            'This screen'
 
 cat <<'EOF'

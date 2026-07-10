@@ -131,6 +131,12 @@ hl.config({
     always_follow_on_dnd = true,
     layers_hog_keyboard_focus = true,
     allow_session_lock_restore = true,
+    -- SUPER+CTRL+Insert and the "Blank screen" power-menu entry call
+    -- hl.dsp.dpms({ action = "off" }) to turn all displays off. Without
+    -- these two options set, mouse movement and keypresses would not
+    -- wake the screens back up.
+    mouse_move_enables_dpms = true,
+    key_press_enables_dpms = true,
   },
 
   cursor = {

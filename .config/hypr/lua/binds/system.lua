@@ -74,11 +74,18 @@ hl.bind("SUPER + CTRL + F12", hl.dsp.workspace.move({ monitor = "d" })) --: move
 -- SYSTEM KEYBINDS
 -- ============================================
 
-hl.bind("CTRL + ALT + Delete", hl.dsp.exit()) --: exit Hyprland session
+hl.bind("CTRL + ALT + Delete", hl.dsp.exit(), { locked = true }) --: exit Hyprland session
 hl.bind("SUPER + Q", hl.dsp.window.close()) --: close active window
 hl.bind("SUPER + SHIFT + Q", hl.dsp.exec_cmd(SCRIPTS .. "/KillActiveProcess.sh")) --: kill active process
 hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(SCRIPTS .. "/LockScreen.sh")) --: lock screen
 hl.bind("CTRL + ALT + P", hl.dsp.exec_cmd(SCRIPTS .. "/Wlogout.sh")) --: power menu (wlogout)
+-- Blank the screens (DPMS off). misc.mouse_move_enables_dpms and
+-- misc.key_press_enables_dpms in lua/core/config.lua wake them back
+-- up on the next mouse move or key press. No lock — this is just a
+-- screen-off, matching the "Blank screen" entry in the ! power menu.
+-- Goes through BlankScreen.sh which sleeps briefly first, otherwise
+-- the trigger key's release event would wake the display immediately.
+hl.bind("CTRL + ALT + Home", hl.dsp.exec_cmd(SCRIPTS .. "/BlankScreen.sh"), { locked = true }) --: blank screens (wakes on mouse/key)
 hl.bind("SUPER + SHIFT + N", hl.dsp.exec_cmd("swaync-client -t -sw")) --: toggle notification panel
 hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd(SCRIPTS .. "/Kool_Quick_Settings.sh")) --: edit config / Kool Quick Settings menu
 
@@ -127,16 +134,17 @@ hl.bind("ALT + XF86AudioLowerVolume",  hl.dsp.exec_cmd("sh -c 'wpctl set-volume 
 hl.bind("XF86AudioMicMute",            hl.dsp.exec_cmd("sh -c 'wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && " .. NOTIFY .. " mic &'"), { locked = true }) --: toggle microphone mute
 hl.bind("XF86AudioMute",               hl.dsp.exec_cmd("sh -c 'wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && " .. NOTIFY .. " &'"), { locked = true }) --: toggle audio mute
 
--- System controls
-hl.bind("XF86Sleep", hl.dsp.exec_cmd("systemctl suspend")) --: suspend system
-hl.bind("XF86Rfkill", hl.dsp.exec_cmd(SCRIPTS .. "/AirplaneMode.sh")) --: toggle airplane mode
+-- System controls — `locked = true` keeps these working on the lockscreen.
+hl.bind("XF86Sleep", hl.dsp.exec_cmd("systemctl suspend"), { locked = true }) --: suspend system
+hl.bind("XF86Rfkill", hl.dsp.exec_cmd(SCRIPTS .. "/AirplaneMode.sh"), { locked = true }) --: toggle airplane mode
 
--- Media controls (XF86AudioPlayPause is not a valid keysym - use XF86AudioPause/Play instead)
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --pause")) --: media pause/resume
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --pause")) --: media play/pause
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --nxt")) --: media next track
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --prv")) --: media previous track
-hl.bind("XF86AudioStop", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --stop")) --: media stop
+-- Media controls (XF86AudioPlayPause is not a valid keysym - use XF86AudioPause/Play instead).
+-- All flagged `locked` so play/pause/skip work while hyprlock is up.
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --pause"), { locked = true }) --: media pause/resume
+hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --pause"), { locked = true }) --: media play/pause
+hl.bind("XF86AudioNext",  hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --nxt"),   { locked = true }) --: media next track
+hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --prv"),   { locked = true }) --: media previous track
+hl.bind("XF86AudioStop",  hl.dsp.exec_cmd(SCRIPTS .. "/MediaCtrl.sh --stop"),  { locked = true }) --: media stop
 
 -- ============================================
 -- SCREENSHOT KEYBINDINGS

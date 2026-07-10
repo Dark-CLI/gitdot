@@ -113,7 +113,12 @@ cat <<'EOF'
 - **Screenshots** — `SUPER + Print` (full), `SUPER + SHIFT + Print`
   (select area), `SUPER + SHIFT + S` (with editor).
 - **Clipboard history** — `SUPER + ALT + V` searches clipboard.
-- **Power & lock** — `CTRL + ALT + L` lock, `CTRL + ALT + P` power menu.
+- **Power & lock** — `CTRL + ALT + L` lock, `CTRL + ALT + P` power menu,
+  `CTRL + ALT + Home` blank the screens (wakes on mouse/key),
+  `CTRL + ALT + End` suspend. Media keys, volume, mute, blank and
+  suspend all keep working while hyprlock is up.
+- **Workspace toggle** — `SUPER + N` on the current workspace jumps
+  back to the previous one (back-and-forth).
 - **Quick edit config** — `SUPER + SHIFT + E` opens a menu to edit any
   config file (uses **nvim**).
 

@@ -59,7 +59,7 @@ hl.bind("SUPER + CTRL + j", hl.dsp.window.resize({ x = 0, y = 50, relative = tru
 -- SYSTEM SHORTCUTS
 -- ============================================
 
-hl.bind("CTRL + ALT + Home", hl.dsp.exec_cmd("systemctl suspend")) --: suspend system
+hl.bind("CTRL + ALT + End", hl.dsp.exec_cmd("systemctl suspend"), { locked = true }) --: suspend system
 
 -- ============================================
 -- KEYBINDS SEARCH (alternative to SUPER+F2)

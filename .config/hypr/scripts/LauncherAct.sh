@@ -78,6 +78,7 @@ case "$type" in
     # Power actions, same commands as scripts/Wlogout.sh.
     case "$payload" in
       lock)     hyprctl dispatch "hl.dsp.exec_cmd([[$HOME/.config/hypr/scripts/LockScreen.sh]])" >/dev/null ;;
+      blank)    hyprctl dispatch "hl.dsp.exec_cmd([[$HOME/.config/hypr/scripts/BlankScreen.sh]])" >/dev/null ;;
       logout)   hyprctl dispatch "hl.dsp.exec_cmd([[loginctl terminate-session $XDG_SESSION_ID]])" >/dev/null ;;
       suspend)  hyprctl dispatch "hl.dsp.exec_cmd([[systemctl suspend]])" >/dev/null ;;
       reboot)   hyprctl dispatch "hl.dsp.exec_cmd([[systemctl reboot]])" >/dev/null ;;

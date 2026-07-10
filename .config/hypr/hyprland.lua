@@ -63,6 +63,19 @@ require("lua.startup.boot")
 require("lua.startup.events")
 
 -- ============================================
+-- LOAD PRIVATE / HOST-LOCAL OVERRIDES
+-- ============================================
+-- Anything sensitive (e.g. a hyprlock bypass shortcut) or host-specific
+-- lives in ~/.local/state/hypr/private.lua, which is deliberately OUTSIDE
+-- ~/.config/hypr so it never crosses paths with lazydot or gitdot.
+-- Skip silently if the file doesn't exist.
+do
+  local private_path = os.getenv("HOME") .. "/.local/state/hypr/private.lua"
+  local chunk = loadfile(private_path)
+  if chunk then chunk() end
+end
+
+-- ============================================
 -- CONFIGURATION COMPLETE
 -- ============================================
 

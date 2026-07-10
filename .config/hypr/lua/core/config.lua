@@ -112,6 +112,15 @@ hl.config({
     damage_tracking = 2,
   },
 
+  binds = {
+    -- SUPER+<num> re-pressed on the current workspace jumps back to the
+    -- previous one (Hyprland's built-in "back and forth"). Requires
+    -- allow_workspace_cycles so the "previous" pointer keeps updating
+    -- across normal switches, not only across back-and-forth toggles.
+    workspace_back_and_forth = true,
+    allow_workspace_cycles = true,
+  },
+
   misc = {
     vrr = 1,
     disable_hyprland_logo = true,

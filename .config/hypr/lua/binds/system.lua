@@ -240,14 +240,18 @@ hl.bind("SUPER + SHIFT + bracketright", hl.dsp.window.move({ workspace = "e+1" }
 -- ============================================
 
 -- Move window silently with Super + Ctrl + [1-9, 0]
+-- The Lua field is `follow` (per the Hyprland source in
+-- LuaBindingsDispatchers.cpp: `silent = follow.has_value() && !*follow`),
+-- NOT `silent`. `follow = false` maps to the legacy `movetoworkspacesilent`
+-- dispatcher — the window moves and focus stays put.
 for i = 1, 10 do
   local key = i == 10 and "0" or tostring(i)
   local code = i < 10 and "code:" .. (9 + i) or "code:19"
-  hl.bind("SUPER + CTRL + " .. code, hl.dsp.window.move({ workspace = i, silent = true })) --: move window to workspace N silently (1-9, 0)
+  hl.bind("SUPER + CTRL + " .. code, hl.dsp.window.move({ workspace = i, follow = false })) --: throw window to workspace N (1-9, 0) without switching
 end
 
-hl.bind("SUPER + CTRL + bracketleft", hl.dsp.window.move({ workspace = "e-1", silent = true })) --: move window to previous workspace silently
-hl.bind("SUPER + CTRL + bracketright", hl.dsp.window.move({ workspace = "e+1", silent = true })) --: move window to next workspace silently
+hl.bind("SUPER + CTRL + bracketleft", hl.dsp.window.move({ workspace = "e-1", follow = false })) --: throw window to previous workspace without switching
+hl.bind("SUPER + CTRL + bracketright", hl.dsp.window.move({ workspace = "e+1", follow = false })) --: throw window to next workspace without switching
 
 -- ============================================
 -- SCROLL THROUGH WORKSPACES

@@ -24,13 +24,11 @@ hl.bind("SUPER + T", hl.dsp.exec_cmd(SCRIPTS .. "/ThemeChanger.sh")) --: theme s
 hl.bind("SUPER + F1", hl.dsp.exec_cmd(SCRIPTS .. "/KeyHints.sh")) --: help / cheat sheet
 hl.bind("SUPER + ALT + R", hl.dsp.exec_cmd(SCRIPTS .. "/Refresh.sh")) --: refresh bar and menus
 hl.bind("SUPER + ALT + E", hl.dsp.exec_cmd(SCRIPTS .. "/EmojiPickerLaunch.sh")) --: emoji picker (fzf)
-hl.bind("SUPER + S", hl.dsp.exec_cmd(SCRIPTS .. "/RofiSearch.sh")) --: web search (rofi)
 hl.bind("SUPER + CTRL + S", hl.dsp.exec_cmd(SCRIPTS .. "/WindowSwitcherLaunch.sh")) --: window switcher (fzf)
 hl.bind("SUPER + ALT + O", hl.dsp.exec_cmd(SCRIPTS .. "/ChangeBlur.sh")) --: toggle blur
 hl.bind("SUPER + SHIFT + G", hl.dsp.exec_cmd(SCRIPTS .. "/GameMode.sh")) --: toggle game mode
 hl.bind("SUPER + ALT + L", hl.dsp.exec_cmd(SCRIPTS .. "/ChangeLayout.sh")) --: toggle master/dwindle layout
 hl.bind("SUPER + V", hl.dsp.exec_cmd(SCRIPTS .. "/ClipMenuLaunch.sh")) --: clipboard picker (fzf)
-hl.bind("SUPER + ALT + V", hl.dsp.exec_cmd(SCRIPTS .. "/ClipManager.sh")) --: clipboard manager (legacy rofi)
 
 -- Window state & floating
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen()) --: toggle fullscreen
@@ -53,7 +51,6 @@ hl.bind("SUPER + ALT + B", hl.dsp.exec_cmd(SCRIPTS .. "/WaybarLayout.sh")) --: w
 hl.bind("SUPER + N", hl.dsp.exec_cmd(SCRIPTS .. "/Hyprsunset.sh toggle")) --: toggle night light (hyprsunset)
 
 -- User Scripts
-hl.bind("SUPER + SHIFT + M", hl.dsp.exec_cmd(USER_SCRIPTS .. "/RofiBeats.sh")) --: online music (rofi)
 hl.bind("SUPER + W", hl.dsp.exec_cmd(SCRIPTS .. "/WallpaperPickerFzf.sh")) --: wallpaper picker (gallery)
 hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperEffects.sh")) --: wallpaper effects
 hl.bind("CTRL + ALT + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperRandom.sh")) --: random wallpaper

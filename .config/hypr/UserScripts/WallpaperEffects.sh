@@ -8,8 +8,6 @@ wallpaper_current="$HOME/.config/hypr/wallpaper_effects/.wallpaper_current"
 wallpaper_output="$HOME/.config/hypr/wallpaper_effects/.wallpaper_modified"
 SCRIPTSDIR="$HOME/.config/hypr/scripts"
 focused_monitor=$(hyprctl monitors -j | jq -r '.[] | select(.focused) | .name')
-rofi_theme="$HOME/.config/rofi/config-wallpaper-effect.rasi"
-
 # Directory for swaync
 iDIR="$HOME/.config/swaync/images"
 iDIRi="$HOME/.config/swaync/icons"
@@ -66,7 +64,10 @@ main() {
         [[ "$effect" != "No Effects" ]] && options+=("$effect")
     done
 
-    choice=$(printf "%s\n" "${options[@]}" | LC_COLLATE=C sort | rofi -dmenu -i -config $rofi_theme)
+    choice=$(printf "%s\n" "${options[@]}" | LC_COLLATE=C sort | fzf \
+        --prompt='> ' --pointer='▶' --marker='*' \
+        --info=inline --no-mouse --reverse --tiebreak=index \
+        --bind 'esc:abort' --header='Pick a wallpaper effect')
 
     # Process user choice
     if [[ -n "$choice" ]]; then
@@ -97,11 +98,6 @@ main() {
         fi
     fi
 }
-
-# Check if rofi is already running and kill it
-if pidof rofi > /dev/null; then
-    pkill rofi
-fi
 
 main
 

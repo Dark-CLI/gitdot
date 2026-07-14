@@ -52,12 +52,12 @@ hl.bind("SUPER + N", hl.dsp.exec_cmd(SCRIPTS .. "/Hyprsunset.sh toggle")) --: to
 
 -- User Scripts
 hl.bind("SUPER + W", hl.dsp.exec_cmd(SCRIPTS .. "/WallpaperPickerFzf.sh")) --: wallpaper picker (gallery)
-hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperEffects.sh")) --: wallpaper effects
+hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd(SCRIPTS .. "/WallpaperEffectsLaunch.sh")) --: wallpaper effects (fzf)
 hl.bind("CTRL + ALT + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperRandom.sh")) --: random wallpaper
 hl.bind("SUPER + CTRL + O", hl.dsp.exec_cmd("hyprctl setprop active opaque toggle")) --: toggle window opacity
 hl.bind("SUPER + F2", hl.dsp.exec_cmd(SCRIPTS .. "/KeyBinds.sh")) --: search keybinds
 hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd(SCRIPTS .. "/AnimationsLaunch.sh")) --: animations menu (fzf)
-hl.bind("SUPER + SHIFT + O", hl.dsp.exec_cmd(USER_SCRIPTS .. "/ZshChangeTheme.sh")) --: change zsh theme
+hl.bind("SUPER + SHIFT + O", hl.dsp.exec_cmd(SCRIPTS .. "/ZshChangeThemeLaunch.sh")) --: change zsh theme (fzf)
 
 -- Move workspaces to monitors
 hl.bind("SUPER + CTRL + F9", hl.dsp.workspace.move({ monitor = "l" })) --: move workspace to left monitor

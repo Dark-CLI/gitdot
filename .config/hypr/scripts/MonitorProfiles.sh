@@ -1,48 +1,56 @@
 #!/usr/bin/env bash
-# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
-# For applying Pre-configured Monitor Profiles
+# Pick a monitor profile and copy it over monitors.conf.
+# Invoked from Kool_Quick_Settings.sh (inside a kitty popup) — no
+# separate launcher script needed.
 
-# Check if rofi is already running
-if pidof rofi > /dev/null; then
-  pkill rofi
-fi
+set -u
 
-# Variables
 iDIR="$HOME/.config/swaync/images"
 SCRIPTSDIR="$HOME/.config/hypr/scripts"
 monitor_dir="$HOME/.config/hypr/Monitor_Profiles"
 target="$HOME/.config/hypr/monitors.conf"
-rofi_theme="$HOME/.config/rofi/config-Monitors.rasi"
-msg='❗NOTE:❗ This will overwrite $HOME/.config/hypr/monitors.conf'
+STATE="$HOME/.cache/hypr/monitor_profiles_last"
+mkdir -p "$(dirname "$STATE")"
 
-# Define the list of files to ignore
-ignore_files=(
-  "README"
+# Files ignored in the profile list.
+ignore_files=(README)
+
+# Restore last selection as the initial fzf query.
+last=""
+[[ -f "$STATE" ]] && last=$(<"$STATE")
+
+# Build the profile list (basename minus .conf), sorted, minus ignores.
+build_list() {
+  find -L "$monitor_dir" -maxdepth 1 -type f -name '*.conf' |
+    sed 's/.*\///; s/\.conf$//' |
+    sort -V |
+    grep -Ev "^($(IFS='|'; echo "${ignore_files[*]}"))$"
+}
+
+chosen=$(
+  build_list |
+    fzf \
+      --prompt='> ' \
+      --pointer='▶' \
+      --marker='*' \
+      --info=inline \
+      --no-mouse \
+      --reverse \
+      --tiebreak=index \
+      --query="$last" \
+      --bind 'esc:abort' \
+      --header='Pick a monitor profile — overwrites monitors.conf'
 )
 
-# list of Monitor Profiles, sorted alphabetically with numbers first
-mon_profiles_list=$(find -L "$monitor_dir" -maxdepth 1 -type f | sed 's/.*\///' | sed 's/\.conf$//' | sort -V)
+[[ -z "$chosen" ]] && exit 0
 
-# Remove ignored files from the list
-for ignored_file in "${ignore_files[@]}"; do
-    mon_profiles_list=$(echo "$mon_profiles_list" | grep -v -E "^$ignored_file$")
-done
+cp "$monitor_dir/$chosen.conf" "$target"
+printf '%s' "$chosen" >"$STATE"
 
-# Source rofi menu helper with state management
-source "$SCRIPTSDIR/rofi_menu.sh"
+notify-send -u low -i "$iDIR/ja.png" "$chosen" "Monitor Profile Loaded"
 
-# Rofi Menu with state (remembers last selection)
-chosen_file=$(rofi_menu_with_state "monitor_profiles" "$mon_profiles_list" "$rofi_theme")
-
-if [[ -n "$chosen_file" ]]; then
-    full_path="$monitor_dir/$chosen_file.conf"
-    cp "$full_path" "$target"
-
-    notify-send -u low -i "$iDIR/ja.png" "$chosen_file" "Monitor Profile Loaded"
-
-    # Sync tablet transform with monitor rotation (if profile changed)
-    ${SCRIPTSDIR}/SyncTabletTransform.sh
-fi
+# Sync tablet transform with monitor rotation (if profile changed).
+"$SCRIPTSDIR/SyncTabletTransform.sh"
 
 sleep 1
-${SCRIPTSDIR}/RefreshNoWaybar.sh &
+"$SCRIPTSDIR/RefreshNoWaybar.sh" &

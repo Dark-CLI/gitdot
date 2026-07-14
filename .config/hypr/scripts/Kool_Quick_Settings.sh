@@ -14,8 +14,7 @@ source "$tmp_config_file"
 # variables
 configs="$HOME/.config/hypr/configs"
 UserConfigs="$HOME/.config/hypr/UserConfigs"
-rofi_theme="$HOME/.config/rofi/config-edit.rasi"
-msg=' ⁉️ Choose what to do ⁉️'
+msg='Choose what to do'
 iDIR="$HOME/.config/swaync/images"
 scriptsDir="$HOME/.config/hypr/scripts"
 UserScripts="$HOME/.config/hypr/UserScripts"
@@ -23,6 +22,19 @@ UserScripts="$HOME/.config/hypr/UserScripts"
 # Function to show info notification
 show_info() {
     notify-send -i "$iDIR/info.png" "Info" "$1"
+}
+
+# Launch a GUI app OUTSIDE this kitty popup so the popup closes as soon
+# as the choice is made. hyprctl exec_cmd parents the process to
+# Hyprland, so it outlives us. Error notification if the binary is
+# missing (rather than a silent shell exit).
+spawn_gui() {
+    local bin="$1"
+    if ! command -v "$bin" >/dev/null 2>&1; then
+        notify-send -i "$iDIR/error.png" "E-R-R-O-R" "Install $bin first"
+        return 1
+    fi
+    hyprctl dispatch "hl.dsp.exec_cmd([[$bin]])" >/dev/null 2>&1
 }
 
 # Function to display the menu options without numbers
@@ -55,7 +67,10 @@ EOF
 
 # Main function to handle menu selection
 main() {
-    choice=$(menu | rofi -i -dmenu -config $rofi_theme -mesg "$msg")
+    choice=$(menu | fzf \
+        --prompt='> ' --pointer='▶' --marker='*' \
+        --info=inline --no-mouse --reverse --tiebreak=index \
+        --bind 'esc:abort' --header="$msg")
     
     # Map choices to corresponding files
     case "$choice" in
@@ -68,36 +83,11 @@ main() {
         "Edit Animations (animations.lua)") file="$HOME/.config/hypr/lua/rules/animations.lua" ;;
         "Edit Startup Services (boot.lua)") file="$HOME/.config/hypr/lua/startup/boot.lua" ;;
         "Choose Kitty Terminal Theme") $scriptsDir/Kitty_themes.sh ;;
-        "Configure Monitors (nwg-displays)") 
-            if ! command -v nwg-displays &>/dev/null; then
-                notify-send -i "$iDIR/error.png" "E-R-R-O-R" "Install nwg-displays first"
-                exit 1
-            fi
-            nwg-displays ;;
-        "Configure Workspace Rules (nwg-displays)") 
-            if ! command -v nwg-displays &>/dev/null; then
-                notify-send -i "$iDIR/error.png" "E-R-R-O-R" "Install nwg-displays first"
-                exit 1
-            fi
-            nwg-displays ;;
-		"GTK Settings (nwg-look)") 
-            if ! command -v nwg-look &>/dev/null; then
-                notify-send -i "$iDIR/error.png" "E-R-R-O-R" "Install nwg-look first"
-                exit 1
-            fi
-            nwg-look ;;
-		"QT Apps Settings (qt6ct)") 
-            if ! command -v qt6ct &>/dev/null; then
-                notify-send -i "$iDIR/error.png" "E-R-R-O-R" "Install qt6ct first"
-                exit 1
-            fi
-            qt6ct ;;
-		"QT Apps Settings (qt5ct)") 
-            if ! command -v qt5ct &>/dev/null; then
-                notify-send -i "$iDIR/error.png" "E-R-R-O-R" "Install qt5ct first"
-                exit 1
-            fi
-            qt5ct ;;
+        "Configure Monitors (nwg-displays)")           spawn_gui nwg-displays ;;
+        "Configure Workspace Rules (nwg-displays)")    spawn_gui nwg-displays ;;
+        "GTK Settings (nwg-look)")                     spawn_gui nwg-look ;;
+        "QT Apps Settings (qt6ct)")                    spawn_gui qt6ct ;;
+        "QT Apps Settings (qt5ct)")                    spawn_gui qt5ct ;;
         "Choose Hyprland Animations") $scriptsDir/Animations.sh ;;
         "Choose Monitor Profiles") $scriptsDir/MonitorProfiles.sh ;;
         "Choose Rofi Themes") $scriptsDir/RofiThemeSelector.sh ;;
@@ -107,15 +97,13 @@ main() {
         *) return ;;  # Do nothing for invalid choices
     esac
 
-    # Open the selected file in the terminal with the text editor
-    if [ -n "$file" ]; then
-        $term -e $edit "$file"
+    # Open the selected file with the editor INSIDE this kitty popup
+    # (the whole hub is already running in a floating kitty). Falls back
+    # to nvim if $edit isn't set by 01-UserDefaults.conf. Popup closes
+    # automatically when the editor exits.
+    if [ -n "${file:-}" ]; then
+        ${edit:-nvim} "$file"
     fi
 }
-
-# Check if rofi is already running
-if pidof rofi > /dev/null; then
-  pkill rofi
-fi
 
 main

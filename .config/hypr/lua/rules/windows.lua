@@ -340,6 +340,13 @@ local function add_launcher_rules()
     pin = true,
     animation = "fade"
   })
+  -- KooL Quick Settings hub (SUPER+SHIFT+E).
+  hl.window_rule({
+    match = { class = "^(HyprKoolQS)$" },
+    float = true,
+    pin = true,
+    animation = "fade"
+  })
 end
 
 -- ============================================

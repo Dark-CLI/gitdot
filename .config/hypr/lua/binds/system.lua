@@ -82,7 +82,7 @@ hl.bind("CTRL + ALT + P", hl.dsp.exec_cmd(SCRIPTS .. "/Wlogout.sh")) --: power m
 -- the trigger key's release event would wake the display immediately.
 hl.bind("CTRL + ALT + Home", hl.dsp.exec_cmd(SCRIPTS .. "/BlankScreen.sh"), { locked = true }) --: blank screens (wakes on mouse/key)
 hl.bind("SUPER + SHIFT + N", hl.dsp.exec_cmd("swaync-client -t -sw")) --: toggle notification panel
-hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd(SCRIPTS .. "/Kool_Quick_Settings.sh")) --: edit config / Kool Quick Settings menu
+hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd(SCRIPTS .. "/Kool_Quick_SettingsLaunch.sh")) --: edit config / Kool Quick Settings menu (fzf)
 
 -- ============================================
 -- MASTER LAYOUT

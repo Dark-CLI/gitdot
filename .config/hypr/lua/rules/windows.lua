@@ -326,6 +326,13 @@ local function add_launcher_rules()
     pin = true,
     animation = "fade"
   })
+  -- Wallust theme picker (SUPER+T).
+  hl.window_rule({
+    match = { class = "^(HyprThemeChanger)$" },
+    float = true,
+    pin = true,
+    animation = "fade"
+  })
 end
 
 -- ============================================

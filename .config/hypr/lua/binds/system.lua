@@ -20,7 +20,7 @@ hl.bind("SUPER + Return", hl.dsp.exec_cmd(TERM)) --: open terminal
 hl.bind("SUPER + E", hl.dsp.exec_cmd(SCRIPTS .. "/YaziLaunch.sh")) --: file browser (yazi)
 
 -- Features / Extras
-hl.bind("SUPER + T", hl.dsp.exec_cmd(SCRIPTS .. "/ThemeChanger.sh")) --: theme switcher (wallust)
+hl.bind("SUPER + T", hl.dsp.exec_cmd(SCRIPTS .. "/ThemeChangerLaunch.sh")) --: theme switcher (wallust, fzf)
 hl.bind("SUPER + F1", hl.dsp.exec_cmd(SCRIPTS .. "/KeyHints.sh")) --: help / cheat sheet
 hl.bind("SUPER + ALT + R", hl.dsp.exec_cmd(SCRIPTS .. "/Refresh.sh")) --: refresh bar and menus
 hl.bind("SUPER + ALT + E", hl.dsp.exec_cmd(SCRIPTS .. "/EmojiPickerLaunch.sh")) --: emoji picker (fzf)

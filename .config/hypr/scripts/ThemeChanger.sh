@@ -15,16 +15,26 @@ require() {
 }
 
 require wallust
-require rofi
+require fzf
 
 # notify-send is optional
 have_notify() { command -v notify-send >/dev/null 2>&1; }
 
-# Prompt for theme; guard -e on cancel
+# Prompt for theme; guard -e on cancel. Runs inside the kitty popup
+# spawned by ThemeChangerLaunch.sh.
 set +e
 choice="$(wallust theme list \
   | sed -e '1d' -e 's/^- //' \
-  | rofi -dmenu -i -p 'Select Global Theme')"
+  | fzf \
+      --prompt='> ' \
+      --pointer='▶' \
+      --marker='*' \
+      --info=inline \
+      --no-mouse \
+      --reverse \
+      --tiebreak=index \
+      --bind 'esc:abort' \
+      --header='Select global theme')"
 prompt_status=$?
 set -e
 

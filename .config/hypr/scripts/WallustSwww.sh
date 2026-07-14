@@ -8,7 +8,10 @@ set -euo pipefail
 # Inputs and paths
 passed_path="${1:-}"
 cache_dir="$HOME/.cache/swww/"
-rofi_link="$HOME/.config/rofi/.current_wallpaper"
+# Legacy path was ~/.config/rofi/.current_wallpaper. Moved out of the
+# rofi tree because we're deleting ~/.config/rofi/. GameMode.sh reads
+# from the same new path.
+current_link="$HOME/.local/state/hypr/current_wallpaper"
 wallpaper_current="$HOME/.config/hypr/wallpaper_effects/.wallpaper_current"
 
 # Helper: get focused monitor name (prefer JSON)
@@ -50,7 +53,8 @@ if [[ -z "${wallpaper_path:-}" || ! -f "$wallpaper_path" ]]; then
 fi
 
 # Update helpers that depend on the path
-ln -sf "$wallpaper_path" "$rofi_link" || true
+mkdir -p "$(dirname "$current_link")"
+ln -sf "$wallpaper_path" "$current_link" || true
 mkdir -p "$(dirname "$wallpaper_current")"
 cp -f "$wallpaper_path" "$wallpaper_current" || true
 

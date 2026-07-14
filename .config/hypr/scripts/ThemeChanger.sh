@@ -58,7 +58,7 @@ if wallust theme -- "${choice}"; then
 
   targets=(
     "$HOME/.config/waybar/wallust/colors-waybar.css"
-    "$HOME/.config/rofi/wallust/colors-rofi.rasi"
+    "$HOME/.local/state/hypr/palette.rasi"
     "$HOME/.config/kitty/kitty-themes/01-Wallust.conf"
     "$HOME/.config/hypr/wallust/wallust-hyprland.conf"
     "$HOME/.config/ghostty/wallust.conf"
@@ -101,26 +101,12 @@ if wallust theme -- "${choice}"; then
       fi
     done
   else
-    # As a safety net, wait a bit to avoid racing rofi reload against template writes
+    # As a safety net, wait a bit to avoid racing template writes
     sleep 0.5
   fi
 
   # Small cushion before refresh to mirror wallpaper flow
   sleep 0.2
-  # Normalize Rofi selection colors to use the palette's accent (color12)
-  rofi_colors="$HOME/.config/rofi/wallust/colors-rofi.rasi"
-  if [ -f "$rofi_colors" ]; then
-    accent_hex=$(sed -n 's/^\s*color12:\s*\(#[0-9A-Fa-f]\{6\}\).*/\1/p' "$rofi_colors" | head -n1)
-    [ -z "$accent_hex" ] && accent_hex=$(sed -n 's/^\s*color13:\s*\(#[0-9A-Fa-f]\{6\}\).*/\1/p' "$rofi_colors" | head -n1)
-    if [ -n "$accent_hex" ]; then
-      sed -i -E "s|^(\s*selected-normal-background:\s*).*$|\1$accent_hex;|" "$rofi_colors"
-      sed -i -E "s|^(\s*selected-active-background:\s*).*$|\1$accent_hex;|" "$rofi_colors"
-      sed -i -E "s|^(\s*selected-urgent-background:\s*).*$|\1$accent_hex;|" "$rofi_colors"
-      sed -i -E "s|^(\s*selected-normal-foreground:\s*).*$|\1#000000;|" "$rofi_colors"
-      sed -i -E "s|^(\s*selected-active-foreground:\s*).*$|\1#000000;|" "$rofi_colors"
-      sed -i -E "s|^(\s*selected-urgent-foreground:\s*).*$|\1#000000;|" "$rofi_colors"
-    fi
-  fi
 
   # Reload Hyprland so new border colors from wallust-hyprland.conf take effect
   if command -v hyprctl >/dev/null 2>&1; then

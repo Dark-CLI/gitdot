@@ -17,8 +17,10 @@ if [ ! -d "$sddm_themes_dir" ] && [ -d "/run/current-system/sw/share/sddm/themes
 fi
 sddm_simple="$sddm_themes_dir/simple_sddm_2"
 
-# rofi-wallust-sddm colors path
-rofi_wallust="$HOME/.config/rofi/wallust/colors-rofi.rasi"
+# Wallust palette dump (.rasi format — historical name from when this
+# also fed rofi). Migrated out of ~/.config/rofi/ so we can delete
+# that tree entirely.
+palette_rasi="$HOME/.local/state/hypr/palette.rasi"
 sddm_theme_conf="$sddm_simple/theme.conf"
 
 # Directory for swaync
@@ -33,16 +35,16 @@ elif [[ "$1" == "--effects" ]]; then
     mode="effects"
 fi
 
-# Extract colors from rofi wallust config
+# Extract colors from the wallust palette dump
 
-color0=$(grep -oP 'color1:\s*\K#[A-Fa-f0-9]+' "$rofi_wallust")
-color1=$(grep -oP 'color0:\s*\K#[A-Fa-f0-9]+' "$rofi_wallust")
-color7=$(grep -oP 'color14:\s*\K#[A-Fa-f0-9]+' "$rofi_wallust")
-color10=$(grep -oP 'color10:\s*\K#[A-Fa-f0-9]+' "$rofi_wallust")
-color12=$(grep -oP 'color12:\s*\K#[A-Fa-f0-9]+' "$rofi_wallust")
-color13=$(grep -oP 'color13:\s*\K#[A-Fa-f0-9]+' "$rofi_wallust")
-foreground=$(grep -oP 'foreground:\s*\K#[A-Fa-f0-9]+' "$rofi_wallust")
-#background-color=$(grep -oP 'background:\s*\K#[A-Fa-f0-9]+' "$rofi_wallust")
+color0=$(grep -oP 'color1:\s*\K#[A-Fa-f0-9]+' "$palette_rasi")
+color1=$(grep -oP 'color0:\s*\K#[A-Fa-f0-9]+' "$palette_rasi")
+color7=$(grep -oP 'color14:\s*\K#[A-Fa-f0-9]+' "$palette_rasi")
+color10=$(grep -oP 'color10:\s*\K#[A-Fa-f0-9]+' "$palette_rasi")
+color12=$(grep -oP 'color12:\s*\K#[A-Fa-f0-9]+' "$palette_rasi")
+color13=$(grep -oP 'color13:\s*\K#[A-Fa-f0-9]+' "$palette_rasi")
+foreground=$(grep -oP 'foreground:\s*\K#[A-Fa-f0-9]+' "$palette_rasi")
+#background-color=$(grep -oP 'background:\s*\K#[A-Fa-f0-9]+' "$palette_rasi")
 
 # wallpaper to use
 if [[ "$mode" == "normal" ]]; then

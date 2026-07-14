@@ -114,7 +114,7 @@ cat <<'EOF'
   (select area), `SUPER + SHIFT + S` (with editor).
 - **Clipboard history** — `SUPER + V` fuzzy-picks a past clipboard
   entry (Enter applies, `Ctrl-E` edits in nvim, `Ctrl-X` deletes,
-  `Ctrl-D` wipes). `SUPER + ALT + V` still opens the legacy rofi picker.
+  `Ctrl-D` wipes).
 - **File browser** — `SUPER + E` opens **yazi** in a floating kitty
   popup. `hjkl` to navigate, `Enter` to open, `q` to quit.
 - **Power & lock** — `CTRL + ALT + L` lock, `CTRL + ALT + P` power menu,

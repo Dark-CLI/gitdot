@@ -112,7 +112,9 @@ cat <<'EOF'
   effects; `CTRL + ALT + W` sets a random wallpaper.
 - **Screenshots** — `SUPER + Print` (full), `SUPER + SHIFT + Print`
   (select area), `SUPER + SHIFT + S` (with editor).
-- **Clipboard history** — `SUPER + ALT + V` searches clipboard.
+- **Clipboard history** — `SUPER + V` fuzzy-picks a past clipboard
+  entry (Enter applies, `Ctrl-E` edits in nvim, `Ctrl-X` deletes,
+  `Ctrl-D` wipes). `SUPER + ALT + V` still opens the legacy rofi picker.
 - **Power & lock** — `CTRL + ALT + L` lock, `CTRL + ALT + P` power menu,
   `CTRL + ALT + Home` blank the screens (wakes on mouse/key),
   `CTRL + ALT + End` suspend. Media keys, volume, mute, blank and

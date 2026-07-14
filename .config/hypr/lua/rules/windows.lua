@@ -319,6 +319,13 @@ local function add_launcher_rules()
     pin = true,
     animation = "fade"
   })
+  -- Emoji picker (SUPER+ALT+E).
+  hl.window_rule({
+    match = { class = "^(HyprEmoji)$" },
+    float = true,
+    pin = true,
+    animation = "fade"
+  })
 end
 
 -- ============================================

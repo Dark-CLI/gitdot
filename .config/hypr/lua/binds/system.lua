@@ -23,7 +23,7 @@ hl.bind("SUPER + E", hl.dsp.exec_cmd(SCRIPTS .. "/YaziLaunch.sh")) --: file brow
 hl.bind("SUPER + T", hl.dsp.exec_cmd(SCRIPTS .. "/ThemeChanger.sh")) --: theme switcher (wallust)
 hl.bind("SUPER + F1", hl.dsp.exec_cmd(SCRIPTS .. "/KeyHints.sh")) --: help / cheat sheet
 hl.bind("SUPER + ALT + R", hl.dsp.exec_cmd(SCRIPTS .. "/Refresh.sh")) --: refresh bar and menus
-hl.bind("SUPER + ALT + E", hl.dsp.exec_cmd(SCRIPTS .. "/RofiEmoji.sh")) --: emoji picker
+hl.bind("SUPER + ALT + E", hl.dsp.exec_cmd(SCRIPTS .. "/EmojiPickerLaunch.sh")) --: emoji picker (fzf)
 hl.bind("SUPER + S", hl.dsp.exec_cmd(SCRIPTS .. "/RofiSearch.sh")) --: web search (rofi)
 hl.bind("SUPER + CTRL + S", hl.dsp.exec_cmd(SCRIPTS .. "/WindowSwitcherLaunch.sh")) --: window switcher (fzf)
 hl.bind("SUPER + ALT + O", hl.dsp.exec_cmd(SCRIPTS .. "/ChangeBlur.sh")) --: toggle blur

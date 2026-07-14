@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
-
-# Modified version of Refresh.sh but waybar wont refresh
-# Used by automatic wallpaper change
-# Modified inorder to refresh rofi background, Wallust, SwayNC only
+# Modified version of Refresh.sh that doesn't restart waybar.
+# Used by automatic wallpaper change to refresh Wallust + SwayNC only.
 
 SCRIPTSDIR=$HOME/.config/hypr/scripts
 UserScripts=$HOME/.config/hypr/UserScripts
@@ -16,14 +13,6 @@ file_exists() {
         return 1  # File does not exist
     fi
 }
-
-# Kill already running processes
-_ps=(rofi)
-for _prs in "${_ps[@]}"; do
-    if pidof "${_prs}" >/dev/null; then
-        pkill "${_prs}"
-    fi
-done
 
 # quit ags & relaunch ags
 #ags -q && ags &

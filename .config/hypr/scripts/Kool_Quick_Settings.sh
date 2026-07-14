@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
-# Rofi menu for KooL Hyprland Quick Settings (SUPER SHIFT E)
+# KooL Hyprland Quick Settings hub (SUPER+SHIFT+E). Fzf-based.
 # Updated for UserConfigs/configs separation
 
 # Modify this config file for default terminal and EDITOR
@@ -58,7 +58,6 @@ QT Apps Settings (qt6ct)
 QT Apps Settings (qt5ct)
 Choose Hyprland Animations
 Choose Monitor Profiles
-Choose Rofi Themes
 Search for Keybinds
 Toggle Game Mode
 Switch Dark-Light Theme
@@ -90,7 +89,6 @@ main() {
         "QT Apps Settings (qt5ct)")                    spawn_gui qt5ct ;;
         "Choose Hyprland Animations") $scriptsDir/Animations.sh ;;
         "Choose Monitor Profiles") $scriptsDir/MonitorProfiles.sh ;;
-        "Choose Rofi Themes") $scriptsDir/RofiThemeSelector.sh ;;
         "Search for Keybinds") $scriptsDir/KeyBinds.sh ;;
         "Toggle Game Mode") $scriptsDir/GameMode.sh ;;
         "Switch Dark-Light Theme") $scriptsDir/DarkLight.sh ;;

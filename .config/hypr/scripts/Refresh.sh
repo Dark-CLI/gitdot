@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
-# Scripts for refreshing ags, waybar, rofi, swaync, wallust
+# Scripts for refreshing ags, waybar, swaync, wallust
 
 SCRIPTSDIR=$HOME/.config/hypr/scripts
 UserScripts=$HOME/.config/hypr/UserScripts
@@ -15,7 +14,7 @@ file_exists() {
 }
 
 # Kill already running processes
-_ps=(waybar rofi swaync ags)
+_ps=(waybar swaync ags)
 for _prs in "${_ps[@]}"; do
   if pidof "${_prs}" >/dev/null; then
     pkill "${_prs}"
@@ -34,7 +33,7 @@ sleep 0.1
 #pkill qs && qs &
 
 # some process to kill
-for pid in $(pidof waybar rofi swaync ags swaybg); do
+for pid in $(pidof waybar swaync ags swaybg); do
   kill -SIGUSR1 "$pid"
   sleep 0.1
 done

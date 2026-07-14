@@ -33,8 +33,6 @@ local scripts = {
   -- THEME & VISUAL CUSTOMIZATION
   -- ============================================
   theme_changer = SCRIPTS .. "/ThemeChanger.sh",
-  rofi_theme_selector = SCRIPTS .. "/RofiThemeSelector.sh",
-  rofi_theme_selector_modified = SCRIPTS .. "/RofiThemeSelector-modified.sh",
   change_blur = SCRIPTS .. "/ChangeBlur.sh",
   change_layout = SCRIPTS .. "/ChangeLayout.sh",
   dark_light = SCRIPTS .. "/DarkLight.sh",
@@ -86,10 +84,10 @@ local scripts = {
   -- ============================================
   -- UTILITIES & TOOLS
   -- ============================================
-  clip_manager = SCRIPTS .. "/ClipManager.sh",
-  rofi_emoji = SCRIPTS .. "/RofiEmoji.sh",
-  rofi_search = SCRIPTS .. "/RofiSearch.sh",
-  rofi_calc = USER_SCRIPTS .. "/RofiCalc.sh",
+  clip_menu = SCRIPTS .. "/ClipMenuLaunch.sh",
+  emoji_picker = SCRIPTS .. "/EmojiPickerLaunch.sh",
+  window_switcher = SCRIPTS .. "/WindowSwitcherLaunch.sh",
+  yazi = SCRIPTS .. "/YaziLaunch.sh",
   key_binds = SCRIPTS .. "/KeyBinds.sh",
   key_hints = SCRIPTS .. "/KeyHints.sh",
   animations = SCRIPTS .. "/Animations.sh",
@@ -118,7 +116,6 @@ local scripts = {
   wallpaper_select = USER_SCRIPTS .. "/WallpaperSelect.sh",
   wallpaper_effects = USER_SCRIPTS .. "/WallpaperEffects.sh",
   wallpaper_random = USER_SCRIPTS .. "/WallpaperRandom.sh",
-  rofi_beats = USER_SCRIPTS .. "/RofiBeats.sh",
   zsh_change_theme = USER_SCRIPTS .. "/ZshChangeTheme.sh",
 }
 

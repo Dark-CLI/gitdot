@@ -58,6 +58,17 @@ if [ -n "$EXISTING" ]; then
   exit 0
 fi
 
+# The dropdown terminal lives on `special:scratchpad`. Special
+# workspaces render as an overlay ABOVE regular workspace windows, so
+# if the scratchpad is currently visible it would sit on top of this
+# popup. Hide it first — user can re-summon the dropdown after closing
+# the menu.
+active_special=$(hyprctl monitors -j 2>/dev/null |
+  jq -r '.[] | select(.focused == true) | .specialWorkspace.name // ""')
+if [ "$active_special" = "special:scratchpad" ]; then
+  hyprctl dispatch 'hl.dsp.workspace.toggle_special({ name = "scratchpad" })' >/dev/null 2>&1
+fi
+
 # Center on the focused monitor.
 read -r MX MY MW MH < <(hyprctl monitors -j 2>/dev/null |
   jq -r '.[] | select(.focused == true) | "\(.x) \(.y) \(.width) \(.height)"')

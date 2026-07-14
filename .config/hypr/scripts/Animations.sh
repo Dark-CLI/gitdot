@@ -1,34 +1,43 @@
 #!/usr/bin/env bash
-# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
-# For applying Animations from different users
+# Pick a Hyprland animation preset and copy it to UserAnimations.conf.
+# Runs inside a HyprAnimations kitty popup (see AnimationsLaunch.sh).
 
-# Check if rofi is already running
-if pidof rofi > /dev/null; then
-  pkill rofi
-fi
+set -u
 
-# Variables
 iDIR="$HOME/.config/swaync/images"
 SCRIPTSDIR="$HOME/.config/hypr/scripts"
 animations_dir="$HOME/.config/hypr/animations"
 UserConfigs="$HOME/.config/hypr/UserConfigs"
-rofi_theme="$HOME/.config/rofi/config-Animations.rasi"
-msg='❗NOTE:❗ This will copy animations into UserAnimations.conf'
-# list of animation files, sorted alphabetically with numbers first
-animations_list=$(find -L "$animations_dir" -maxdepth 1 -type f | sed 's/.*\///' | sed 's/\.conf$//' | sort -V)
+STATE="$HOME/.cache/hypr/animations_last"
+mkdir -p "$(dirname "$STATE")"
 
-# Source rofi menu helper with state management
-source "$SCRIPTSDIR/rofi_menu.sh"
+# Restore last selection as the initial query so re-opening lands on it.
+last=""
+[[ -f "$STATE" ]] && last=$(<"$STATE")
 
-# Rofi Menu with state (remembers last selection)
-chosen_file=$(rofi_menu_with_state "animations" "$animations_list" "$rofi_theme")
+chosen=$(
+  find -L "$animations_dir" -maxdepth 1 -type f -name '*.conf' |
+    sed 's/.*\///; s/\.conf$//' |
+    sort -V |
+    fzf \
+      --prompt='> ' \
+      --pointer='▶' \
+      --marker='*' \
+      --info=inline \
+      --no-mouse \
+      --reverse \
+      --tiebreak=index \
+      --query="$last" \
+      --bind 'esc:abort' \
+      --header='Pick an animation preset — copies to UserAnimations.conf'
+)
 
-# Check if a file was selected
-if [[ -n "$chosen_file" ]]; then
-    full_path="$animations_dir/$chosen_file.conf"    
-    cp "$full_path" "$UserConfigs/UserAnimations.conf"    
-    notify-send -u low -i "$iDIR/ja.png" "$chosen_file" "Hyprland Animation Loaded"
-fi
+[[ -z "$chosen" ]] && exit 0
+
+cp "$animations_dir/$chosen.conf" "$UserConfigs/UserAnimations.conf"
+printf '%s' "$chosen" >"$STATE"
+
+notify-send -u low -i "$iDIR/ja.png" "$chosen" "Hyprland Animation Loaded"
 
 sleep 1
 "$SCRIPTSDIR/RefreshNoWaybar.sh"

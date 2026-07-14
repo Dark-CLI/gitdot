@@ -56,7 +56,7 @@ hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperEffects.
 hl.bind("CTRL + ALT + W", hl.dsp.exec_cmd(USER_SCRIPTS .. "/WallpaperRandom.sh")) --: random wallpaper
 hl.bind("SUPER + CTRL + O", hl.dsp.exec_cmd("hyprctl setprop active opaque toggle")) --: toggle window opacity
 hl.bind("SUPER + F2", hl.dsp.exec_cmd(SCRIPTS .. "/KeyBinds.sh")) --: search keybinds
-hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd(SCRIPTS .. "/Animations.sh")) --: animations menu
+hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd(SCRIPTS .. "/AnimationsLaunch.sh")) --: animations menu (fzf)
 hl.bind("SUPER + SHIFT + O", hl.dsp.exec_cmd(USER_SCRIPTS .. "/ZshChangeTheme.sh")) --: change zsh theme
 
 -- Move workspaces to monitors

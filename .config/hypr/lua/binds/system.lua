@@ -31,8 +31,6 @@ hl.bind("SUPER + SHIFT + G", hl.dsp.exec_cmd(SCRIPTS .. "/GameMode.sh")) --: tog
 hl.bind("SUPER + ALT + L", hl.dsp.exec_cmd(SCRIPTS .. "/ChangeLayout.sh")) --: toggle master/dwindle layout
 hl.bind("SUPER + V", hl.dsp.exec_cmd(SCRIPTS .. "/ClipMenuLaunch.sh")) --: clipboard picker (fzf)
 hl.bind("SUPER + ALT + V", hl.dsp.exec_cmd(SCRIPTS .. "/ClipManager.sh")) --: clipboard manager (legacy rofi)
-hl.bind("SUPER + CTRL + R", hl.dsp.exec_cmd(SCRIPTS .. "/RofiThemeSelector.sh")) --: rofi theme selector
-hl.bind("SUPER + CTRL + SHIFT + R", hl.dsp.exec_cmd("pkill rofi || true && " .. SCRIPTS .. "/RofiThemeSelector-modified.sh")) --: rofi theme selector (modified)
 
 -- Window state & floating
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen()) --: toggle fullscreen
@@ -63,7 +61,6 @@ hl.bind("SUPER + CTRL + O", hl.dsp.exec_cmd("hyprctl setprop active opaque toggl
 hl.bind("SUPER + F2", hl.dsp.exec_cmd(SCRIPTS .. "/KeyBinds.sh")) --: search keybinds
 hl.bind("SUPER + SHIFT + A", hl.dsp.exec_cmd(SCRIPTS .. "/Animations.sh")) --: animations menu
 hl.bind("SUPER + SHIFT + O", hl.dsp.exec_cmd(USER_SCRIPTS .. "/ZshChangeTheme.sh")) --: change zsh theme
-hl.bind("SUPER + ALT + C", hl.dsp.exec_cmd(USER_SCRIPTS .. "/RofiCalc.sh")) --: calculator (rofi)
 
 -- Move workspaces to monitors
 hl.bind("SUPER + CTRL + F9", hl.dsp.workspace.move({ monitor = "l" })) --: move workspace to left monitor

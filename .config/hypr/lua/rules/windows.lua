@@ -305,6 +305,13 @@ local function add_launcher_rules()
     pin = true,
     animation = "fade"
   })
+  -- yazi file browser (SUPER+E).
+  hl.window_rule({
+    match = { class = "^(HyprYazi)$" },
+    float = true,
+    pin = true,
+    animation = "fade"
+  })
 end
 
 -- ============================================

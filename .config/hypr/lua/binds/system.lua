@@ -17,7 +17,7 @@ hl.bind("SUPER + D", hl.dsp.exec_cmd(SCRIPTS .. "/Launcher.sh")) --: app launche
 hl.bind("SUPER + B", hl.dsp.exec_cmd("xdg-open 'https://'")) --: open default browser
 hl.bind("SUPER + A", hl.dsp.exec_cmd(SCRIPTS .. "/OverviewToggle.sh")) --: desktop overview
 hl.bind("SUPER + Return", hl.dsp.exec_cmd(TERM)) --: open terminal
-hl.bind("SUPER + E", hl.dsp.exec_cmd(FILES)) --: open file manager
+hl.bind("SUPER + E", hl.dsp.exec_cmd(SCRIPTS .. "/YaziLaunch.sh")) --: file browser (yazi)
 
 -- Features / Extras
 hl.bind("SUPER + T", hl.dsp.exec_cmd(SCRIPTS .. "/ThemeChanger.sh")) --: theme switcher (wallust)

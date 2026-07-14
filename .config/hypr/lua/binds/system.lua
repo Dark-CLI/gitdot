@@ -29,7 +29,8 @@ hl.bind("SUPER + CTRL + S", hl.dsp.exec_cmd("rofi -show window")) --: window swi
 hl.bind("SUPER + ALT + O", hl.dsp.exec_cmd(SCRIPTS .. "/ChangeBlur.sh")) --: toggle blur
 hl.bind("SUPER + SHIFT + G", hl.dsp.exec_cmd(SCRIPTS .. "/GameMode.sh")) --: toggle game mode
 hl.bind("SUPER + ALT + L", hl.dsp.exec_cmd(SCRIPTS .. "/ChangeLayout.sh")) --: toggle master/dwindle layout
-hl.bind("SUPER + ALT + V", hl.dsp.exec_cmd(SCRIPTS .. "/ClipManager.sh")) --: clipboard manager
+hl.bind("SUPER + V", hl.dsp.exec_cmd(SCRIPTS .. "/ClipMenuLaunch.sh")) --: clipboard picker (fzf)
+hl.bind("SUPER + ALT + V", hl.dsp.exec_cmd(SCRIPTS .. "/ClipManager.sh")) --: clipboard manager (legacy rofi)
 hl.bind("SUPER + CTRL + R", hl.dsp.exec_cmd(SCRIPTS .. "/RofiThemeSelector.sh")) --: rofi theme selector
 hl.bind("SUPER + CTRL + SHIFT + R", hl.dsp.exec_cmd("pkill rofi || true && " .. SCRIPTS .. "/RofiThemeSelector-modified.sh")) --: rofi theme selector (modified)
 

@@ -298,6 +298,13 @@ local function add_launcher_rules()
     pin = true,
     animation = "fade"
   })
+  -- Clipboard picker (SUPER+V) — same look as the launcher.
+  hl.window_rule({
+    match = { class = "^(HyprClipMenu)$" },
+    float = true,
+    pin = true,
+    animation = "fade"
+  })
 end
 
 -- ============================================

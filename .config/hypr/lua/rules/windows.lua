@@ -347,6 +347,13 @@ local function add_launcher_rules()
     pin = true,
     animation = "fade"
   })
+  -- Waybar style picker (SUPER+CTRL+B).
+  hl.window_rule({
+    match = { class = "^(HyprWaybarStyles)$" },
+    float = true,
+    pin = true,
+    animation = "fade"
+  })
 end
 
 -- ============================================

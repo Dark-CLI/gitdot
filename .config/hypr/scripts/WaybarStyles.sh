@@ -1,64 +1,48 @@
 #!/usr/bin/env bash
-# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
-# Script for waybar styles
+# Pick a waybar style (.css) and symlink it to style.css, then refresh.
+# Runs inside the HyprWaybarStyles kitty popup (see WaybarStylesLaunch.sh).
 
-IFS=$'\n\t'
+set -u
 
-# Define directories
 waybar_styles="$HOME/.config/waybar/style"
 waybar_style="$HOME/.config/waybar/style.css"
 SCRIPTSDIR="$HOME/.config/hypr/scripts"
-rofi_config="$HOME/.config/rofi/config-waybar-style.rasi"
-msg=' 🎌 NOTE: Some waybar STYLES NOT fully compatible with some LAYOUTS'
+MARKER='👉'
+msg='NOTE: Some waybar STYLES are NOT fully compatible with some LAYOUTS'
 
-# Apply selected style
-apply_style() {
-    ln -sf "$waybar_styles/$1.css" "$waybar_style"
-    "${SCRIPTSDIR}/Refresh.sh" &
-}
+# Current style (basename of the symlink target, minus .css).
+current_name=$(basename "$(readlink -f "$waybar_style")" .css)
 
-main() {
-    # resolve current symlink and strip .css
-    current_target=$(readlink -f "$waybar_style")
-    current_name=$(basename "$current_target" .css)
+# fzf list: current style first (so it's the default highlight and gets
+# the 👉 marker), everything else after in sort order. Marker is stripped
+# before symlinking.
+{
+  if [[ -n "$current_name" ]]; then
+    printf '%s %s\n' "$MARKER" "$current_name"
+  fi
+  find -L "$waybar_styles" -maxdepth 1 -type f -name '*.css' \
+    -exec basename {} .css \; |
+    sort |
+    grep -Fxv -- "$current_name"
+} > /tmp/hypr-waybar-styles.list
 
-    # gather all style names (without .css) into an array
-    mapfile -t options < <(
-        find -L "$waybar_styles" -maxdepth 1 -type f -name '*.css' \
-            -exec basename {} .css \; \
-            | sort
-    )
+choice=$(
+  fzf \
+    --prompt='> ' \
+    --pointer='▶' \
+    --marker='*' \
+    --info=inline \
+    --no-mouse \
+    --reverse \
+    --tiebreak=index \
+    --bind 'esc:abort' \
+    --header="$msg" \
+    < /tmp/hypr-waybar-styles.list
+)
+rm -f /tmp/hypr-waybar-styles.list
 
-    # mark the active style and record its index
-    default_row=0
-    MARKER="👉"
-    for i in "${!options[@]}"; do
-        if [[ "${options[i]}" == "$current_name" ]]; then
-            options[i]="$MARKER ${options[i]}"
-            default_row=$i
-            break
-        fi
-    done
+[[ -z "$choice" ]] && exit 0
 
-    # launch rofi with the annotated list and pre‑selected row
-    choice=$(printf '%s\n' "${options[@]}" \
-        | rofi -i -dmenu \
-               -config "$rofi_config" \
-               -mesg "$msg" \
-               -selected-row "$default_row"
-    )
-
-    [[ -z "$choice" ]] && { echo "No option selected. Exiting."; exit 0; }
-
-    # remove annotation and apply
-    choice=${choice#"$MARKER "}
-    apply_style "$choice"
-}
-
-# Kill Rofi if already running before execution
-if pgrep -x "rofi" >/dev/null; then
-    pkill rofi
-    #exit 0
-fi
-
-main
+choice=${choice#"$MARKER "}
+ln -sf "$waybar_styles/$choice.css" "$waybar_style"
+"$SCRIPTSDIR/Refresh.sh" &

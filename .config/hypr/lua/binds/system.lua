@@ -44,7 +44,7 @@ hl.bind("SUPER + ALT + mouse_up", hl.dsp.exec_cmd("hyprctl keyword cursor:zoom_f
 
 -- Waybar / Bar related
 hl.bind("SUPER + CTRL + ALT + B", hl.dsp.exec_cmd("pkill -SIGUSR1 waybar")) --: toggle waybar on/off
-hl.bind("SUPER + CTRL + B", hl.dsp.exec_cmd(SCRIPTS .. "/WaybarStyles.sh")) --: waybar styles menu
+hl.bind("SUPER + CTRL + B", hl.dsp.exec_cmd(SCRIPTS .. "/WaybarStylesLaunch.sh")) --: waybar styles menu (fzf)
 hl.bind("SUPER + ALT + B", hl.dsp.exec_cmd(SCRIPTS .. "/WaybarLayout.sh")) --: waybar layout menu
 
 -- Night light

@@ -1,38 +1,36 @@
 #!/usr/bin/env bash
-# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
-# Power menu using systemctl (simplified, more reliable than wlogout)
-# Replaces wlogout to avoid logout crashes and unresponsive state
+# Terminal power menu. Runs inside the HyprWlogout kitty popup (see
+# WlogoutLaunch.sh). Same options the launcher's `!` prefix offers.
+#
+# Enter        → run the highlighted action
+# Esc          → cancel
 
-# Use rofi for a simple power menu instead of wlogout
-# This avoids the complex wlogout configuration issues
+set -u
 
-rofi_theme="$HOME/.config/rofi/config-powermenu.rasi"
+chosen=$(
+  printf '%s\n' Lock 'Blank screen' Logout Suspend Reboot Shutdown |
+    fzf \
+      --prompt='> ' \
+      --pointer='▶' \
+      --marker='*' \
+      --info=inline \
+      --no-mouse \
+      --reverse \
+      --tiebreak=index \
+      --bind 'esc:abort' \
+      --header='Power menu'
+)
 
-# Power menu options
-menu_options="Logout\nLock\nSuspend\nReboot\nShutdown"
+[[ -z "$chosen" ]] && exit 0
 
-# Show rofi menu
-chosen=$(echo -e "$menu_options" | rofi -i -dmenu -theme-str 'element-text { font: "Fira Sans 14"; }' -p "Power Menu" 2>/dev/null)
+# Dispatch through Hyprland so the action outlives this popup.
+dispatch() { hyprctl dispatch "hl.dsp.exec_cmd([[$1]])" >/dev/null 2>&1; }
 
-# Execute chosen action
 case "$chosen" in
-    "Logout")
-        loginctl terminate-session "$XDG_SESSION_ID"
-        ;;
-    "Lock")
-        "$HOME/.config/hypr/scripts/LockScreen.sh"
-        ;;
-    "Suspend")
-        systemctl suspend
-        ;;
-    "Reboot")
-        systemctl reboot
-        ;;
-    "Shutdown")
-        systemctl poweroff
-        ;;
-    *)
-        echo "Power menu cancelled"
-        exit 0
-        ;;
+  Logout)         dispatch "loginctl terminate-session $XDG_SESSION_ID" ;;
+  Lock)           dispatch "$HOME/.config/hypr/scripts/LockScreen.sh" ;;
+  "Blank screen") dispatch "$HOME/.config/hypr/scripts/BlankScreen.sh" ;;
+  Suspend)        dispatch "systemctl suspend" ;;
+  Reboot)         dispatch "systemctl reboot" ;;
+  Shutdown)       dispatch "systemctl poweroff" ;;
 esac

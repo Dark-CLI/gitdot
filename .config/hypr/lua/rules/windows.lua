@@ -361,6 +361,13 @@ local function add_launcher_rules()
     pin = true,
     animation = "fade"
   })
+  -- Power menu (CTRL+ALT+P).
+  hl.window_rule({
+    match = { class = "^(HyprWlogout)$" },
+    float = true,
+    pin = true,
+    animation = "fade"
+  })
 end
 
 -- ============================================

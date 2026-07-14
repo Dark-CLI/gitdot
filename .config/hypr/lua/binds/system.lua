@@ -73,7 +73,7 @@ hl.bind("CTRL + ALT + Delete", hl.dsp.exit(), { locked = true }) --: exit Hyprla
 hl.bind("SUPER + Q", hl.dsp.window.close()) --: close active window
 hl.bind("SUPER + SHIFT + Q", hl.dsp.exec_cmd(SCRIPTS .. "/KillActiveProcess.sh")) --: kill active process
 hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(SCRIPTS .. "/LockScreen.sh")) --: lock screen
-hl.bind("CTRL + ALT + P", hl.dsp.exec_cmd(SCRIPTS .. "/Wlogout.sh")) --: power menu (wlogout)
+hl.bind("CTRL + ALT + P", hl.dsp.exec_cmd(SCRIPTS .. "/WlogoutLaunch.sh")) --: power menu (fzf)
 -- Blank the screens (DPMS off). misc.mouse_move_enables_dpms and
 -- misc.key_press_enables_dpms in lua/core/config.lua wake them back
 -- up on the next mouse move or key press. No lock — this is just a

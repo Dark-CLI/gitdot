@@ -312,6 +312,13 @@ local function add_launcher_rules()
     pin = true,
     animation = "fade"
   })
+  -- Window switcher (SUPER+CTRL+S).
+  hl.window_rule({
+    match = { class = "^(HyprWinSwitch)$" },
+    float = true,
+    pin = true,
+    animation = "fade"
+  })
 end
 
 -- ============================================

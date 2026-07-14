@@ -25,7 +25,7 @@ hl.bind("SUPER + F1", hl.dsp.exec_cmd(SCRIPTS .. "/KeyHints.sh")) --: help / che
 hl.bind("SUPER + ALT + R", hl.dsp.exec_cmd(SCRIPTS .. "/Refresh.sh")) --: refresh bar and menus
 hl.bind("SUPER + ALT + E", hl.dsp.exec_cmd(SCRIPTS .. "/RofiEmoji.sh")) --: emoji picker
 hl.bind("SUPER + S", hl.dsp.exec_cmd(SCRIPTS .. "/RofiSearch.sh")) --: web search (rofi)
-hl.bind("SUPER + CTRL + S", hl.dsp.exec_cmd("rofi -show window")) --: window switcher
+hl.bind("SUPER + CTRL + S", hl.dsp.exec_cmd(SCRIPTS .. "/WindowSwitcherLaunch.sh")) --: window switcher (fzf)
 hl.bind("SUPER + ALT + O", hl.dsp.exec_cmd(SCRIPTS .. "/ChangeBlur.sh")) --: toggle blur
 hl.bind("SUPER + SHIFT + G", hl.dsp.exec_cmd(SCRIPTS .. "/GameMode.sh")) --: toggle game mode
 hl.bind("SUPER + ALT + L", hl.dsp.exec_cmd(SCRIPTS .. "/ChangeLayout.sh")) --: toggle master/dwindle layout

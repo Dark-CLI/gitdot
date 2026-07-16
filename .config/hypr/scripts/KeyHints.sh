@@ -117,6 +117,9 @@ cat <<'EOF'
   `Ctrl-D` wipes).
 - **File browser** — `SUPER + E` opens **yazi** in a floating kitty
   popup. `hjkl` to navigate, `Enter` to open, `q` to quit.
+- **Apps submap** — `SUPER + S` enters a bucket, then one letter
+  launches: `w` winbox · `d` discord · `t` telegram · `s` steam ·
+  `b` btop (in a floating popup). `Escape` exits without launching.
 - **Power & lock** — `CTRL + ALT + L` lock, `CTRL + ALT + P` power menu,
   `CTRL + ALT + Home` blank the screens (wakes on mouse/key),
   `CTRL + ALT + End` suspend. Media keys, volume, mute, blank and

@@ -101,4 +101,24 @@ hl.bind("ALT + SHIFT", hl.dsp.exec_cmd(SCRIPTS .. "/KeyboardLayout.sh switch")) 
 --   hl.dispatch("submap reset")
 -- end)
 
+-- ============================================
+-- APP-LAUNCHER SUBMAP (SUPER + S, then a letter)
+-- ============================================
+-- SUPER + S enters the "apps" submap. Press a letter to launch, then
+-- Hyprland auto-resets to the root submap (second arg to define_submap
+-- = "reset"). Escape exits without launching.
+--   w = winbox    d = discord    t = telegram
+--   s = steam     b = btop (in a kitty popup)
+
+hl.bind("SUPER + S", hl.dsp.submap("apps")) --: apps submap (w/d/t/s/b)
+
+hl.define_submap("apps", "reset", function()
+  hl.bind("w", hl.dsp.exec_cmd(HOME .. "/.local/bin/winbox"))
+  hl.bind("d", hl.dsp.exec_cmd("Discord"))
+  hl.bind("t", hl.dsp.exec_cmd("Telegram"))
+  hl.bind("s", hl.dsp.exec_cmd("steam"))
+  hl.bind("b", hl.dsp.exec_cmd(SCRIPTS .. "/TermPopup.sh --class HyprBtop --title btop -- btop"))
+  hl.bind("escape", hl.dsp.submap("reset"))
+end)
+
 -- All custom keybinds loaded

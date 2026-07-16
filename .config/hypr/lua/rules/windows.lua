@@ -368,6 +368,13 @@ local function add_launcher_rules()
     pin = true,
     animation = "fade"
   })
+  -- btop from the SUPER+S,b app submap.
+  hl.window_rule({
+    match = { class = "^(HyprBtop)$" },
+    float = true,
+    pin = true,
+    animation = "fade"
+  })
 end
 
 -- ============================================

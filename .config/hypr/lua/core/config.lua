@@ -101,6 +101,14 @@ hl.config({
     direct_scanout = true,
   },
 
+  -- NVIDIA-specific: the "anti flicker" logic in Hyprland's own OpenGL
+  -- path is known to cause edge artifacts on the proprietary driver.
+  -- Disabling it is a common fix for the "background flickers, apps
+  -- don't" symptom on NVIDIA setups.
+  opengl = {
+    nvidia_anti_flicker = false,
+  },
+
   xwayland = {
     use_nearest_neighbor = true,
     force_zero_scaling = false,
@@ -110,6 +118,12 @@ hl.config({
     damage_blink = false,
     overlay = false,
     damage_tracking = 2,
+    -- Variable Frame Rate: normally Hyprland stops rendering when the
+    -- desktop is idle. On NVIDIA that idle state leaves stale pixels
+    -- at the screen edges — the user sees flicker that stops the
+    -- moment the mouse moves (because movement forces a redraw).
+    -- Disabling forces continuous rendering. Small GPU/power cost.
+    vfr = false,
   },
 
   binds = {

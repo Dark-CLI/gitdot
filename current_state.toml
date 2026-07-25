@@ -12,7 +12,12 @@ paths = [
     "~/.config/docker-firewall",
     "~/.config/waybar",
     "~/.local/navidrome/docker-compose.yaml",
+    "~/.local/coredns",
+    "~/.local/openspeedtest",
+    "~/.local/nginx",
     "~/.ideavimrc",
     "~/.config/yazi",
     "~/.config/pypr",
+    "~/.config/systemd/user",
+    "~/.local/cloudflared",
 ]

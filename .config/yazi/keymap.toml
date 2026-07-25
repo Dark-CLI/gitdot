@@ -1,3 +1,18 @@
+[[manager.keymap]]
+on   = [ "o" ]
+run  = "open --interactive"
+desc = "Open with option menu"
+
+[[manager.keymap]]
+on   = [ "O" ]
+run  = ""
+desc = "Disabled (use 'o' instead)"
+
+[[manager.keymap]]
+on   = [ "Enter" ]
+run  = "open"
+desc = "Open with default opener"
+
 [[manager.prepend_keymap]]
 on   = [ "w" ]
 run  = "plugin what-size"

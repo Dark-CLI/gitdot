@@ -20,4 +20,9 @@ paths = [
     "~/.config/pypr",
     "~/.config/systemd/user",
     "~/.local/cloudflared",
+    "~/.zshrc",
+    "~/.config/gtk-3.0",
+    "~/.config/tmux",
+    "~/.config/wallust",
+    "~/.bashrc",
 ]

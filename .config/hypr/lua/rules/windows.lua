@@ -202,17 +202,6 @@ local function add_custom_rules()
   hl.window_rule({ match = { title = "^(Authentication Required)$" }, float = true, center = true })
   hl.window_rule({ match = { class = "(codium|codium-url-handler|VSCodium)", title = "negative:(.*codium.*|.*VSCodium.*)" }, float = true })
 
-  -- Opacity rules
-  hl.window_rule({ match = { tag = "browser" }, opacity = 0.99 })
-  hl.window_rule({ match = { tag = "projects" }, opacity = 0.9 })
-  hl.window_rule({ match = { tag = "im" }, opacity = 0.94 })
-  hl.window_rule({ match = { tag = "multimedia" }, opacity = 0.94 })
-  hl.window_rule({ match = { tag = "file-manager" }, opacity = 0.9 })
-  hl.window_rule({ match = { tag = "terminal" }, opacity = 0.9 })
-  hl.window_rule({ match = { tag = "settings" }, opacity = 0.8 })
-  hl.window_rule({ match = { tag = "viewer" }, opacity = 0.82 })
-  hl.window_rule({ match = { tag = "wallpaper" }, opacity = 0.9 })
-  hl.window_rule({ match = { class = "^(gedit|org.gnome.TextEditor|mousepad)$" }, opacity = 0.8 })
 
   -- Size rules
   hl.window_rule({ match = { tag = "KooL_Cheat" }, size = "(monitor_w*0.65) (monitor_h*0.9)" })

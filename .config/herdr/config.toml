@@ -12,7 +12,7 @@ rename_tab = "prefix+shift+t"
 detach = "prefix+q"
 
 [keys.indexed]
-workspaces = "ctrl"
+workspaces = "alt"
 
 [ui]
 prompt_new_tab_name = false

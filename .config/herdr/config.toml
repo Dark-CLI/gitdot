@@ -2,6 +2,8 @@ onboarding = false
 
 [keys]
 prefix = "ctrl+s"
+split_vertical = "prefix+shift+backslash"
+split_horizontal = "prefix+minus"
 
 [ui]
 prompt_new_tab_name = false

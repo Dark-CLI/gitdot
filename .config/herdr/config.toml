@@ -6,6 +6,7 @@ split_vertical = "prefix+="
 split_horizontal = "prefix+minus"
 close_pane = "ctrl+x"
 new_workspace = "prefix+shift+c"
+workspace_picker = "ctrl+w"
 
 [ui]
 prompt_new_tab_name = false

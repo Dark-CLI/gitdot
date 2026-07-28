@@ -14,11 +14,19 @@ detach = "prefix+q"
 [ui]
 prompt_new_tab_name = false
 prompt_new_workspace_name = true
+sidebar_start_collapsed = true
 
 agent_panel_sort = "spaces"
+show_agent_labels_on_pane_borders = true
 [ui.sound]
 enabled = false
 
 [theme]
 name = "vesper"
 auto_switch = false
+
+[ui.toast]
+delivery = "herdr"
+
+[experimental]
+pane_history = true

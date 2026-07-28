@@ -13,7 +13,7 @@ detach = "prefix+q"
 
 [keys.indexed]
 tabs = "alt"
-workspaces = "ctrl+alt"
+workspaces = "ctrl+shift"
 
 [ui]
 prompt_new_tab_name = false

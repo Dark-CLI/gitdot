@@ -5,6 +5,7 @@ prefix = "ctrl+s"
 split_vertical = "prefix+="
 split_horizontal = "prefix+minus"
 close_pane = "ctrl+x"
+new_workspace = "prefix+shift+c"
 
 [ui]
 prompt_new_tab_name = false
@@ -14,5 +15,5 @@ prompt_new_workspace_name = false
 enabled = false
 
 [theme]
-name = "rose-pine"
+name = "vesper"
 auto_switch = false

@@ -10,15 +10,9 @@ goto = ["prefix+g", "ctrl+w"]
 rename_workspace = "prefix+shift+r"
 rename_tab = "prefix+shift+t"
 detach = "prefix+q"
-focus_workspace_1 = "ctrl+1"
-focus_workspace_2 = "ctrl+2"
-focus_workspace_3 = "ctrl+3"
-focus_workspace_4 = "ctrl+4"
-focus_workspace_5 = "ctrl+5"
-focus_workspace_6 = "ctrl+6"
-focus_workspace_7 = "ctrl+7"
-focus_workspace_8 = "ctrl+8"
-focus_workspace_9 = "ctrl+9"
+
+[keys.indexed]
+workspaces = "ctrl"
 
 [ui]
 prompt_new_tab_name = false

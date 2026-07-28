@@ -2,7 +2,7 @@
 # Dispatch a selected launcher row.
 # Usage: LauncherAct.sh <type> <payload>
 #   app  → spawn the desktop Exec line
-#   dir  → kitty in <payload>, attach/create tmux session named after the dir
+#   dir  → kitty in <payload> (Herdr manages the pane)
 #   cmd  → run the shell command
 
 set -u
@@ -42,12 +42,11 @@ case "$type" in
   dir)
     name=$(basename "$payload" | tr -c 'A-Za-z0-9_-' '_' | cut -c1-32)
     [[ -z "$name" ]] && name="launcher"
-    # Open the kitty + tmux session as a floating popup at the same
-    # geometry as the launcher itself, so it lands centered on top of
-    # where the launcher just was.
+    # Open kitty in the selected directory. Herdr automatically manages
+    # the pane when the kitty instance is launched.
     launcher_geometry
     hyprctl dispatch \
-      "hl.dsp.exec_cmd([[kitty --class HyprLauncherDir --title '$name' --working-directory '$payload' -- tmux new-session -A -s $name]], { float = true, size = \"$GW $GH\", move = \"$GX $GY\" })" \
+      "hl.dsp.exec_cmd([[kitty --class HyprLauncherDir --title '$name' --working-directory '$payload']], { float = true, size = \"$GW $GH\", move = \"$GX $GY\" })" \
       >/dev/null
     ;;
   root-app|root-cmd)

@@ -1,5 +1,5 @@
 dotfolder_path = "~/.gitdot"
-paths = ["~/.config/alacritty", "~/.config/hypr", "~/.config/nvim", "~/.p10k.zsh", "~/.config/lazydot.toml", "~/.icons", "~/.tmux.conf", "~/.config/firewalld", "~/.local/share/winbox", "~/.local/open-webui", "~/.config/docker-firewall", "~/.config/waybar", "~/.local/navidrome/docker-compose.yaml", "~/.local/coredns", "~/.local/openspeedtest", "~/.local/nginx", "~/.ideavimrc", "~/.config/yazi", "~/.config/pypr", "~/.config/systemd/user", "~/.local/cloudflared", "~/.zshrc", "~/.config/gtk-3.0", "~/.config/tmux", "~/.config/wallust", "~/.bashrc", "~/.config/herdr"]
+paths = ["~/.config/alacritty", "~/.config/hypr", "~/.config/nvim", "~/.p10k.zsh", "~/.config/lazydot.toml", "~/.icons", "~/.config/firewalld", "~/.local/share/winbox", "~/.local/open-webui", "~/.config/docker-firewall", "~/.config/waybar", "~/.local/navidrome/docker-compose.yaml", "~/.local/coredns", "~/.local/openspeedtest", "~/.local/nginx", "~/.ideavimrc", "~/.config/yazi", "~/.config/pypr", "~/.config/systemd/user", "~/.local/cloudflared", "~/.zshrc", "~/.config/gtk-3.0", "~/.config/wallust", "~/.bashrc", "~/.config/herdr"]
 
 [defaults]
 on_duplicate = "overwritehome"

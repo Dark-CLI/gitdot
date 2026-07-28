@@ -2,12 +2,58 @@
   "version": 3,
   "workspaces": [
     {
-      "id": "w1",
+      "id": "w2X",
       "custom_name": null,
       "identity_cwd": "/home/max",
       "public_pane_numbers": {
-        "1": 1,
-        "2": 2
+        "98": 3,
+        "96": 1
+      },
+      "next_public_pane_number": 4,
+      "public_tab_numbers": [
+        1,
+        3
+      ],
+      "next_public_tab_number": 4,
+      "tabs": [
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 96
+          },
+          "panes": {
+            "96": {
+              "cwd": "/home/max"
+            }
+          },
+          "zoomed": false,
+          "focused": 96,
+          "root_pane": 96
+        },
+        {
+          "custom_name": null,
+          "layout": {
+            "Pane": 98
+          },
+          "panes": {
+            "98": {
+              "cwd": "/home/max"
+            }
+          },
+          "zoomed": false,
+          "focused": 98,
+          "root_pane": 98
+        }
+      ],
+      "active_tab": 1
+    },
+    {
+      "id": "w2Y",
+      "custom_name": null,
+      "identity_cwd": "/home/max",
+      "public_pane_numbers": {
+        "99": 1,
+        "100": 2
       },
       "next_public_pane_number": 3,
       "public_tab_numbers": [
@@ -19,37 +65,37 @@
         {
           "custom_name": null,
           "layout": {
-            "Pane": 1
+            "Pane": 99
           },
           "panes": {
-            "1": {
+            "99": {
               "cwd": "/home/max"
             }
           },
           "zoomed": false,
-          "focused": 1,
-          "root_pane": 1
+          "focused": 99,
+          "root_pane": 99
         },
         {
-          "custom_name": "Ali",
+          "custom_name": null,
           "layout": {
-            "Pane": 2
+            "Pane": 100
           },
           "panes": {
-            "2": {
+            "100": {
               "cwd": "/home/max"
             }
           },
           "zoomed": false,
-          "focused": 2,
-          "root_pane": 2
+          "focused": 100,
+          "root_pane": 100
         }
       ],
       "active_tab": 1
     }
   ],
-  "active": 0,
-  "selected": 0,
+  "active": 1,
+  "selected": 1,
   "sidebar_width": 26,
   "sidebar_section_split": 0.516129,
   "collapsed_space_keys": []

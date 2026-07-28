@@ -17,7 +17,7 @@ Personal Linux dotfiles, managed with [lazydot](https://github.com/nickspaargare
 | `~/.config/docker-firewall` | Docker DOCKER-USER rules (blocks LAN, allows ZeroTier) |
 | `~/.p10k.zsh` | Powerlevel10k (Zsh) |
 | `~/.icons` | Icon set |
-| `~/.tmux.conf` | Tmux |
+| `~/.config/herdr` | Herdr (terminal multiplexer) |
 | `~/.local/share/winbox` | WinBox (MikroTik) assets |
 | `~/.local/open-webui` | OpenWebUI docker-compose |
 
@@ -165,8 +165,8 @@ Personal Linux dotfiles, managed with [lazydot](https://github.com/nickspaargare
 ## Other
 
 - **Alacritty** – `~/.config/alacritty/alacritty.toml`.
-- **Zsh** – `~/.zshrc`, Powerlevel10k `~/.p10k.zsh`; fzf for path search.
-- **Tmux** – `~/.tmux.conf`.
+- **Zsh** – `~/.zshrc`, Powerlevel10k `~/.p10k.zsh`; fzf for path search; Herdr auto-start.
+- **Herdr** – `~/.config/herdr/`; terminal multiplexer replacing Tmux.
 - **Icons** – `~/.icons` (large set).
 - **Lazydot** – `~/.config/lazydot.toml`; `current_state.toml` for state.
 

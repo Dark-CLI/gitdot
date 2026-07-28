@@ -1,9 +1,8 @@
-# Auto-start tmux before p10k (p10k messes with TTY; must run tmux first).
-# Using plain tmux (no exec): if tmux fails, you get a shell instead of terminal closing.
-# Session name: your username
-# if [[ -z "$TMUX" ]] && [[ -o interactive ]]; then
-#   tmux attach 2>/dev/null || tmux new -s "${USER}"
-# fi
+# Auto-start Herdr before p10k (p10k messes with TTY; must run herdr first).
+# Herdr automatically attaches to existing session or creates a new one.
+if [[ -o interactive ]] && command -v herdr &> /dev/null; then
+  herdr
+fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]

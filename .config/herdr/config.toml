@@ -4,6 +4,7 @@ onboarding = false
 prefix = "ctrl+s"
 split_vertical = "prefix+="
 split_horizontal = "prefix+minus"
+close_pane = "ctrl+x"
 
 [ui]
 prompt_new_tab_name = false
@@ -11,3 +12,7 @@ prompt_new_workspace_name = false
 
 [ui.sound]
 enabled = false
+
+[theme]
+name = "rose-pine"
+auto_switch = false

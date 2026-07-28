@@ -1,0 +1,7 @@
+onboarding = false
+
+[keys]
+prefix = "ctrl+s"
+
+[ui.sound]
+enabled = false

@@ -1,6 +1,7 @@
 # Auto-start Herdr before p10k (p10k messes with TTY; must run herdr first).
 # Herdr automatically attaches to existing session or creates a new one.
-if [[ -o interactive ]] && command -v herdr &> /dev/null; then
+# Only start if not already inside Herdr (prevents nested herdr).
+if [[ -o interactive ]] && [[ -z "$HERDR_ENV" ]] && command -v herdr &> /dev/null; then
   herdr
 fi
 

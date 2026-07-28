@@ -7,11 +7,14 @@ split_horizontal = "prefix+minus"
 close_pane = "ctrl+x"
 new_workspace = "prefix+shift+c"
 goto = ["prefix+g", "ctrl+w"]
+rename_workspace = "prefix+shift+r"
+rename_tab = "prefix+shift+t"
 
 [ui]
 prompt_new_tab_name = false
 prompt_new_workspace_name = true
 
+agent_panel_sort = "spaces"
 [ui.sound]
 enabled = false
 

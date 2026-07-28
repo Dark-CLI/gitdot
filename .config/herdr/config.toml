@@ -2,7 +2,7 @@ onboarding = false
 
 [keys]
 prefix = "ctrl+s"
-split_vertical = "prefix+shift+backslash"
+split_vertical = "prefix+shift+\\"
 split_horizontal = "prefix+minus"
 
 [ui]

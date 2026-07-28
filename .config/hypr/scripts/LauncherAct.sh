@@ -40,11 +40,10 @@ case "$type" in
     hyprctl dispatch "hl.dsp.exec_cmd([[kitty -- sh -c '$(esc_sq "$payload")']])" >/dev/null
     ;;
   dir)
-    name=$(basename "$payload" | tr -c 'A-Za-z0-9_-' '_' | cut -c1-32)
+    name=$(basename "$payload" | tr -c 'A-Za-z0-9_-' '_' | cut -c1-32 | sed 's/_*$//')
     [[ -z "$name" ]] && name="launcher"
-    # Open kitty in the selected directory. Herdr automatically manages
-    # the pane when the kitty instance is launched.
     launcher_geometry
+    herdr workspace create --label "$name" --cwd "$payload" --focus >/dev/null 2>&1
     hyprctl dispatch \
       "hl.dsp.exec_cmd([[kitty --class HyprLauncherDir --title '$name' --working-directory '$payload']], { float = true, size = \"$GW $GH\", move = \"$GX $GY\" })" \
       >/dev/null

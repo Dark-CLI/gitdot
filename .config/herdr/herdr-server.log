@@ -1,0 +1,49 @@
+2026-07-28T00:17:08.544684Z  INFO herdr::api::server: api server listening path=/home/max/.config/herdr/herdr.sock
+2026-07-28T00:17:08.545385Z  INFO herdr::app: using pane scrollback configuration pane_scrollback_limit_bytes=10000000
+2026-07-28T00:17:08.593878Z  INFO herdr::logging: checking for updates event="update.check.start" subsystem="update" outcome="started"
+2026-07-28T00:17:08.595353Z  INFO herdr::logging: spawning pane terminal event="pane.spawn.start" subsystem="pane" outcome="started" pane_id=1 rows=24 cols=80 scrollback_limit_bytes=10000000
+2026-07-28T00:17:08.596341Z  INFO herdr::logging: pane child spawned event="pane.spawned" subsystem="pane" outcome="ok" pane_id=1 pid=871736
+2026-07-28T00:17:08.596516Z  INFO herdr::logging: workspace created event="workspace.create" subsystem="workspace" outcome="ok" workspace_id="w1" pane_id=1
+2026-07-28T00:17:08.596522Z  INFO herdr::logging: workspace focused event="workspace.focus" subsystem="workspace" outcome="ok" workspace_id="w1"
+2026-07-28T00:17:08.596527Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t1"
+2026-07-28T00:17:08.596531Z  INFO herdr::server::headless: created startup workspace cwd=/home/max
+2026-07-28T00:17:08.596591Z  INFO herdr::server::headless: client protocol socket listening path=/home/max/.config/herdr/herdr-client.sock
+2026-07-28T00:17:08.596612Z  INFO herdr::server::headless: herdr server started api_socket=/home/max/.config/herdr/herdr.sock client_socket=/home/max/.config/herdr/herdr-client.sock
+2026-07-28T00:17:08.596816Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="server" outcome="started" pid=871716
+2026-07-28T00:17:08.658375Z  INFO herdr::server::headless: client connected client_id=2 cols=103 rows=31 cell_width_px=0 cell_height_px=0 render_encoding=SemanticFrame
+2026-07-28T00:17:13.598208Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/max/.config/herdr/session.json workspaces=1
+2026-07-28T00:18:45.435661Z  INFO herdr::server::headless: server shutdown initiated
+2026-07-28T00:18:45.485738Z  INFO herdr::server::headless: completing server shutdown
+2026-07-28T00:18:45.536080Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/max/.config/herdr/session.json workspaces=1
+2026-07-28T00:18:45.536093Z  INFO herdr::server::headless: headless server exiting
+2026-07-28T00:18:45.536552Z  INFO herdr::logging: pane child exited event="pane.exit" subsystem="pane" outcome="completed" pane_id=1 status="ExitStatus { code: 1, signal: None }"
+2026-07-28T00:18:45.546731Z  INFO herdr::pane: pane session terminated pane=1 pid=871736 signal=Hangup
+2026-07-28T00:18:45.547173Z  INFO herdr::logging: herdr exiting event="app.shutdown" subsystem="server" outcome="completed" pid=871716
+2026-07-28T00:18:47.794486Z  INFO herdr::api::server: api server listening path=/home/max/.config/herdr/herdr.sock
+2026-07-28T00:18:47.795351Z  INFO herdr::logging: spawning pane terminal event="pane.spawn.start" subsystem="pane" outcome="started" pane_id=1 rows=24 cols=80 scrollback_limit_bytes=10000000
+2026-07-28T00:18:47.795981Z  INFO herdr::logging: pane child spawned event="pane.spawned" subsystem="pane" outcome="ok" pane_id=1 pid=872628
+2026-07-28T00:18:47.796123Z  INFO herdr::logging: session restore evaluated event="persist.restore" subsystem="persist" outcome="ok" workspaces=1
+2026-07-28T00:18:47.796133Z  INFO herdr::app: using pane scrollback configuration pane_scrollback_limit_bytes=10000000
+2026-07-28T00:18:47.853230Z  INFO herdr::logging: checking for updates event="update.check.start" subsystem="update" outcome="started"
+2026-07-28T00:18:47.854512Z  INFO herdr::server::headless: restored session already has workspaces; ignoring startup cwd cwd=/home/max
+2026-07-28T00:18:47.854576Z  INFO herdr::server::headless: client protocol socket listening path=/home/max/.config/herdr/herdr-client.sock
+2026-07-28T00:18:47.854591Z  INFO herdr::server::headless: herdr server started api_socket=/home/max/.config/herdr/herdr.sock client_socket=/home/max/.config/herdr/herdr-client.sock
+2026-07-28T00:18:47.854754Z  INFO herdr::logging: herdr starting event="app.startup" subsystem="server" outcome="started" pid=872614
+2026-07-28T00:18:47.894466Z  INFO herdr::server::headless: client connected client_id=2 cols=103 rows=31 cell_width_px=0 cell_height_px=0 render_encoding=SemanticFrame
+2026-07-28T00:19:40.884261Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/max/.config/herdr/session.json workspaces=1
+2026-07-28T00:20:14.745280Z  INFO herdr::logging: integration action finished event="integration.action" subsystem="integration" outcome="ok" action="install" target="claude"
+2026-07-28T00:20:14.745306Z  INFO herdr::logging: integration action finished event="integration.action" subsystem="integration" outcome="error" action="install" target="cursor"
+2026-07-28T00:20:18.336513Z  INFO herdr::logging: integration action finished event="integration.action" subsystem="integration" outcome="error" action="install" target="cursor"
+2026-07-28T00:20:19.088560Z  INFO herdr::logging: integration action finished event="integration.action" subsystem="integration" outcome="error" action="install" target="cursor"
+2026-07-28T00:20:21.032591Z  INFO herdr::logging: integration action finished event="integration.action" subsystem="integration" outcome="error" action="install" target="cursor"
+2026-07-28T00:20:25.152674Z  INFO herdr::logging: integration action finished event="integration.action" subsystem="integration" outcome="error" action="install" target="cursor"
+2026-07-28T00:20:30.154618Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/max/.config/herdr/session.json workspaces=1
+2026-07-28T00:21:46.218251Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t1"
+2026-07-28T00:21:51.219110Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/max/.config/herdr/session.json workspaces=1
+2026-07-28T00:22:01.186556Z  INFO herdr::logging: spawning pane terminal event="pane.spawn.start" subsystem="pane" outcome="started" pane_id=2 rows=30 cols=77 scrollback_limit_bytes=10000000
+2026-07-28T00:22:01.187384Z  INFO herdr::logging: pane child spawned event="pane.spawned" subsystem="pane" outcome="ok" pane_id=2 pid=873892
+2026-07-28T00:22:01.187520Z  INFO herdr::logging: tab renamed event="tab.rename" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t2"
+2026-07-28T00:22:01.187571Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t2"
+2026-07-28T00:22:04.114589Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t1"
+2026-07-28T00:22:06.218619Z  INFO herdr::logging: tab focused event="tab.focus" subsystem="tab" outcome="ok" workspace_id="w1" tab_id="w1:t2"
+2026-07-28T00:22:11.220839Z  INFO herdr::logging: session saved event="persist.save" subsystem="persist" outcome="ok" path=/home/max/.config/herdr/session.json workspaces=1

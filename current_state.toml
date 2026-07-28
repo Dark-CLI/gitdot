@@ -25,4 +25,5 @@ paths = [
     "~/.config/tmux",
     "~/.config/wallust",
     "~/.bashrc",
+    "~/.config/herdr",
 ]

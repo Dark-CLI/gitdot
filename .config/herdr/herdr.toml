@@ -1,0 +1,4 @@
+# Herdr Configuration
+
+# Change prefix from Ctrl+B to Ctrl+S
+prefix = "C-s"

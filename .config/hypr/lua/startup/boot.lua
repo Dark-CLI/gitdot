@@ -22,6 +22,10 @@ hl.on("hyprland.start", function()
   -- INITIALIZATION SERVICES
   -- ============================================
 
+  -- Desktop portal (enables screen sharing/recording for Discord, OBS, etc)
+  hl.exec_cmd("systemctl --user start xdg-desktop-portal-hyprland")
+  hl.exec_cmd("systemctl --user start xdg-desktop-portal")
+
   -- Keyboard layout initialization
   hl.exec_cmd(SCRIPTS .. "/KeybindsLayoutInit.sh")
 

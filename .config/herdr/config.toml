@@ -35,3 +35,4 @@ delivery = "herdr"
 
 [experimental]
 pane_history = true
+kitty_graphics = true

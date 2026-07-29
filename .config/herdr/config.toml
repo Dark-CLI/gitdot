@@ -10,10 +10,11 @@ goto = ["prefix+g", "ctrl+w"]
 rename_workspace = "prefix+shift+r"
 rename_tab = "prefix+shift+t"
 detach = "prefix+q"
+switch_tab = "prefix+1..9"
 
 [keys.indexed]
 tabs = "alt"
-workspaces = "ctrl+shift"
+workspaces = "ctrl+alt"
 
 [ui]
 prompt_new_tab_name = false

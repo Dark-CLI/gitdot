@@ -5,6 +5,20 @@ if [[ -o interactive ]] && [[ -z "$HERDR_ENV" ]] && command -v herdr &> /dev/nul
   herdr
 fi
 
+# Clear p10k cache if terminal width changed (switching herdr windows of different sizes)
+if [[ -o interactive ]]; then
+  _p10k_instant_prompt_cache="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+  _p10k_width_cache="${XDG_CACHE_HOME:-$HOME/.cache}/p10k-width-${(%):-%n}"
+  if [[ -f "$_p10k_width_cache" ]]; then
+    _cached_width=$(cat "$_p10k_width_cache" 2>/dev/null)
+    if [[ "$_cached_width" != "$COLUMNS" ]]; then
+      rm -f "$_p10k_instant_prompt_cache" "$_p10k_width_cache"
+    fi
+  fi
+  echo "$COLUMNS" > "$_p10k_width_cache"
+  unset _p10k_instant_prompt_cache _p10k_width_cache _cached_width
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -192,3 +206,6 @@ setopt INC_APPEND_HISTORY  # save each command immediately (prevents loss on cra
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.npm-global/bin:$PATH"
+
+# kimi-code
+export PATH="/home/max/.kimi-code/bin:$PATH"

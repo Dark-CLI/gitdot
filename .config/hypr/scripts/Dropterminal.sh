@@ -224,21 +224,22 @@ is_position_valid_for_monitor() {
   return 1
 }
 
-# Function to check if terminal exists
+# Function to check if terminal exists (and is actually DropdownTerminal, not address reuse)
 terminal_exists() {
   local addr=$(get_terminal_address)
   if [ -n "$addr" ]; then
-    hyprctl clients -j | jq -e --arg ADDR "$addr" 'any(.[]; .address == $ADDR)' >/dev/null 2>&1
+    # Validate that the address points to a DropdownTerminal kitty window
+    hyprctl clients -j | jq -e --arg ADDR "$addr" 'any(.[]; .address == $ADDR and .class == "DropdownTerminal")' >/dev/null 2>&1
   else
     return 1
   fi
 }
 
-# Function to check if terminal is in special workspace
+# Function to check if terminal is in special workspace (and is actually DropdownTerminal)
 terminal_in_special() {
   local addr=$(get_terminal_address)
   if [ -n "$addr" ]; then
-    hyprctl clients -j | jq -e --arg ADDR "$addr" 'any(.[]; .address == $ADDR and .workspace.name == "special:scratchpad")' >/dev/null 2>&1
+    hyprctl clients -j | jq -e --arg ADDR "$addr" 'any(.[]; .address == $ADDR and .class == "DropdownTerminal" and .workspace.name == "special:scratchpad")' >/dev/null 2>&1
   else
     return 1
   fi

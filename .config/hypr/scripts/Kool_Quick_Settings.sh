@@ -6,9 +6,17 @@
 # Modify this config file for default terminal and EDITOR
 config_file="$HOME/.config/hypr/UserConfigs/01-UserDefaults.conf"
 
-tmp_config_file=$(mktemp)
-sed 's/^\$//g; s/ = /=/g' "$config_file" > "$tmp_config_file"
-source "$tmp_config_file"
+# Use defaults if config file doesn't exist
+if [[ -f "$config_file" ]]; then
+    tmp_config_file=$(mktemp)
+    sed 's/^\$//g; s/ = /=/g' "$config_file" > "$tmp_config_file"
+    source "$tmp_config_file"
+    rm -f "$tmp_config_file"
+else
+    # Fallback defaults
+    term="kitty"
+    edit="nvim"
+fi
 # ##################################### #
 
 # variables

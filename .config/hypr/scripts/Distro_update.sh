@@ -6,11 +6,10 @@
 iDIR="$HOME/.config/swaync/images"
 SCRIPT_DIR="$HOME/.config/hypr/scripts"
 
-# Get configured terminal
-TERMINAL=$("$SCRIPT_DIR/get-terminal.sh")
+# Get configured terminal (with fallback)
+TERMINAL=$("$SCRIPT_DIR/get-terminal.sh" 2>/dev/null || echo "kitty")
 if ! command -v "$TERMINAL" &> /dev/null; then
-  notify-send -i "$iDIR/error.png" "Terminal Error:" "$TERMINAL terminal not found. Please install it or change terminal in 01-UserDefaults.conf"
-  exit 1
+  TERMINAL="kitty"
 fi
 
 # Detect distribution and update accordingly

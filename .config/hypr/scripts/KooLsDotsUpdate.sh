@@ -9,8 +9,8 @@ SCRIPT_DIR="$HOME/.config/hypr/scripts"
 local_version=$(ls $local_dir/v* 2>/dev/null | sort -V | tail -n 1 | sed 's/.*v\(.*\)/\1/')
 KooL_Dots_DIR="$HOME/Hyprland-Dots"
 
-# Get configured terminal
-TERMINAL=$("$SCRIPT_DIR/get-terminal.sh")
+# Get configured terminal (with fallback)
+TERMINAL=$("$SCRIPT_DIR/get-terminal.sh" 2>/dev/null || echo "kitty")
 
 # exit if cannot find local version
 if [ -z "$local_version" ]; then

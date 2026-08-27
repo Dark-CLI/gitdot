@@ -5,22 +5,19 @@
 # Define the path to the config file
 config_file=$HOME/.config/hypr/UserConfigs/01-UserDefaults.conf
 
-# Check if the config file exists
-if [[ ! -f "$config_file" ]]; then
-    echo "Error: Configuration file not found!"
-    exit 1
+# Check if the config file exists, otherwise use defaults
+if [[ -f "$config_file" ]]; then
+    # Process the config file in memory, removing the $ and fixing spaces
+    config_content=$(sed 's/\$//g' "$config_file" | sed 's/ = /=/')
+    eval "$config_content"
+else
+    # Use sensible defaults if config file doesn't exist
+    term="kitty"
 fi
-
-# Process the config file in memory, removing the $ and fixing spaces
-config_content=$(sed 's/\$//g' "$config_file" | sed 's/ = /=/')
-
-# Source the modified content directly from the variable
-eval "$config_content"
 
 # Check if $term is set correctly
 if [[ -z "$term" ]]; then
-    echo "Error: \$term is not set in the configuration file!"
-    exit 1
+    term="kitty"
 fi
 
 # Execute accordingly based on the passed argument

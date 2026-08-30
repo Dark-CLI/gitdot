@@ -1,9 +1,9 @@
 # Auto-start Herdr before p10k (p10k messes with TTY; must run herdr first).
 # Herdr automatically attaches to existing session or creates a new one.
 # Only start if not already inside Herdr (prevents nested herdr).
-if [[ -o interactive ]] && [[ -z "$HERDR_ENV" ]] && command -v herdr &> /dev/null; then
-  herdr
-fi
+# if [[ -o interactive ]] && [[ -z "$HERDR_ENV" ]] && command -v herdr &> /dev/null; then
+#   herdr
+# fi
 
 # Clear p10k cache if terminal width changed (switching herdr windows of different sizes)
 if [[ -o interactive ]]; then
@@ -209,3 +209,7 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 
 # kimi-code
 export PATH="/home/max/.kimi-code/bin:$PATH"
+export GTK_CSD=0
+export GTK_CSD=0
+export LIBADWAITA_DISABLE_PORTAL=1
+export GNOME_DISABLE_PORTAL=1

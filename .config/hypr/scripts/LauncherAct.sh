@@ -15,6 +15,23 @@ payload="${2:-}"
 # Single-quote escape for embedding into sh -c '...' inside [[ ]].
 esc_sq() { printf %s "$1" | sed "s/'/'\\\\''/g"; }
 
+# Get current workspace and set temporary workspace rule for slow-launching apps
+# This ensures apps launched from workspace X open in X, even if they take time to start
+set_temp_workspace_rule() {
+  local workspace app_class="$1"
+  [[ -z "$app_class" ]] && return
+
+  # Get current workspace
+  workspace=$(hyprctl activewindow -j 2>/dev/null | jq -r '.workspace.id' 2>/dev/null)
+  [[ -z "$workspace" || "$workspace" == "null" ]] && return
+
+  # Set temporary rule for this app class (applies for 30 seconds)
+  hyprctl --batch "keyword windowrule 'workspace $workspace silent,$app_class'" >/dev/null 2>&1
+
+  # Clean up rule after 30 seconds (app should have opened by then)
+  (sleep 30; hyprctl keyword windowrule '' >/dev/null 2>&1) &
+}
+
 # Centered popup geometry matching Launcher.sh (52% × 60% of focused monitor).
 launcher_geometry() {
   read -r MX MY MW MH < <(hyprctl monitors -j 2>/dev/null |
@@ -29,6 +46,12 @@ launcher_geometry() {
 
 case "$type" in
   app|cmd)
+    # Extract app class name from payload (first word = binary name, usually the window class)
+    app_class=$(echo "$payload" | awk '{print $1}' | xargs -I {} basename {} | sed 's/-$//')
+
+    # Set temporary workspace rule before launching (handles slow-starting apps)
+    set_temp_workspace_rule "$app_class"
+
     # Hand off to Hyprland's exec_cmd so the spawned process is
     # parented to Hyprland — survives the launcher kitty closing.
     # Lua long-string [[ ]] avoids escaping inside the payload.
@@ -37,6 +60,12 @@ case "$type" in
     hyprctl dispatch "hl.dsp.exec_cmd([[sh -c 'exec $(esc_sq "$payload")']])" >/dev/null
     ;;
   term-app)
+    # Extract app class from payload
+    app_class=$(echo "$payload" | awk '{print $1}' | xargs -I {} basename {} | sed 's/-$//')
+
+    # Set temporary workspace rule before launching
+    set_temp_workspace_rule "$app_class"
+
     # Desktop entry has Terminal=true (htop, vim, …). Open a kitty
     # window with the command; same Hyprland-parented dispatch.
     # Use exec to replace the shell with the app.

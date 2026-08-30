@@ -84,8 +84,14 @@ hl.on("hyprland.start", function()
   -- OPTIONAL USER APPLICATIONS
   -- ============================================
 
-  -- Firefox browser
-  hl.exec_cmd("firefox &")
+  -- Zen browser (to workspace 1)
+  hl.exec_cmd("hyprctl dispatch workspace 1 && zen &")
+
+  -- Discord (to workspace 1) - uncomment to auto-launch
+  -- hl.exec_cmd("hyprctl dispatch workspace 1 && discord &")
+
+  -- Telegram (to workspace 1) - uncomment to auto-launch
+  -- hl.exec_cmd("hyprctl dispatch workspace 1 && telegram-desktop &")
 
   -- Feishin music player (Navidrome client)
   hl.exec_cmd(HOME .. "/.local/share/feishin/Feishin.AppImage --no-sandbox &")

@@ -18,5 +18,8 @@ hl.env("PATH", os.getenv("HOME") .. "/.local/bin:" .. (os.getenv("PATH") or "/us
 -- any other Qt6 GUI). Configure colors/style by running `qt6ct` once.
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 
+-- GTK theme for popups and dialogs (fixes waybar system tray white theme)
+hl.env("GTK_THEME", "Adwaita:dark")
+
 -- Other environment variables can be added here
 -- These are set before the compositor initializes

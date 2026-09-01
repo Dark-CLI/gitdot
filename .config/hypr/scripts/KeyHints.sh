@@ -143,22 +143,19 @@ _Press `q` to close this window._
 EOF
 } > "$TMP_MD"
 
-# Get focused monitor logical size to compute 54% x 67% size and center it.
-read -r MON_X MON_Y MON_W MON_H < <(hyprctl monitors -j 2>/dev/null | \
-  jq -r '.[] | select(.focused == true) | "\(.x) \(.y) \(.width) \(.height)"')
+# Get focused monitor size to compute 54% x 67% window size.
+read -r MON_W MON_H < <(hyprctl monitors -j 2>/dev/null | \
+  jq -r '.[] | select(.focused == true) | "\(.width) \(.height)"')
 [ -z "$MON_W" ] && MON_W=2560
 [ -z "$MON_H" ] && MON_H=1440
-[ -z "$MON_X" ] && MON_X=0
-[ -z "$MON_Y" ] && MON_Y=0
 W=$((MON_W * 54 / 100))
 H=$((MON_H * 67 / 100))
-# Centered position (monitor-local origin offset by monitor's x/y).
-X=$((MON_X + (MON_W - W) / 2))
-Y=$((MON_Y + (MON_H - H) / 2))
 
-# Spawn floating at center with the computed size. Using exec_cmd rules
-# ensures the window appears at the right spot immediately (no flicker
-# from a default position).
+# Spawn floating window at computed size, then center it using Hyprland's built-in function.
 hyprctl dispatch \
-  "hl.dsp.exec_cmd(\"kitty --class HyprCheatSheet --title 'Welcome to Hyprland' -- bash -c 'glow -p $TMP_MD; sleep 0.1'\", { float = true, size = \"$W $H\", move = \"$X $Y\" })" \
+  "hl.dsp.exec_cmd(\"kitty --class HyprCheatSheet --title 'Welcome to Hyprland' -- bash -c 'glow -p $TMP_MD; sleep 0.1'\", { float = true, size = \"$W $H\" })" \
   >/dev/null 2>&1
+
+# Wait for window to spawn, then center it using Hyprland's built-in center function
+sleep 0.05
+hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1

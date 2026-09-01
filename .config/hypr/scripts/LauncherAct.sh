@@ -32,16 +32,13 @@ set_temp_workspace_rule() {
   (sleep 30; hyprctl keyword windowrule '' >/dev/null 2>&1) &
 }
 
-# Centered popup geometry matching Launcher.sh (52% × 60% of focused monitor).
+# Calculate popup size matching Launcher.sh (52% × 60% of focused monitor).
 launcher_geometry() {
-  read -r MX MY MW MH < <(hyprctl monitors -j 2>/dev/null |
-    jq -r '.[] | select(.focused == true) | "\(.x) \(.y) \(.width) \(.height)"')
+  read -r MW MH < <(hyprctl monitors -j 2>/dev/null |
+    jq -r '.[] | select(.focused == true) | "\(.width) \(.height)"')
   [ -z "$MW" ] && MW=2560; [ -z "$MH" ] && MH=1440
-  [ -z "$MX" ] && MX=0;    [ -z "$MY" ] && MY=0
   GW=$((MW * 52 / 100))
   GH=$((MH * 60 / 100))
-  GX=$((MX + (MW - GW) / 2))
-  GY=$((MY + (MH - GH) / 2))
 }
 
 case "$type" in
@@ -77,8 +74,10 @@ case "$type" in
     launcher_geometry
     herdr workspace create --label "$name" --cwd "$payload" --focus >/dev/null 2>&1
     hyprctl dispatch \
-      "hl.dsp.exec_cmd([[kitty --class HyprLauncherDir --title '$name' --working-directory '$payload']], { float = true, size = \"$GW $GH\", move = \"$GX $GY\" })" \
+      "hl.dsp.exec_cmd([[kitty --class HyprLauncherDir --title '$name' --working-directory '$payload']], { float = true, size = \"$GW $GH\" })" \
       >/dev/null
+    sleep 0.05
+    hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1
     ;;
   root-app|root-cmd)
     # GUI / non-tty path: pkexec → hyprpolkitagent shows the auth
@@ -96,8 +95,10 @@ case "$type" in
     # Use exec to replace the shell with the app.
     launcher_geometry
     hyprctl dispatch \
-      "hl.dsp.exec_cmd([[kitty --class HyprLauncherRoot --title 'Launcher (root)' -- sudo -E bash -c 'exec $(esc_sq "$payload")']], { float = true, size = \"$GW $GH\", move = \"$GX $GY\" })" \
+      "hl.dsp.exec_cmd([[kitty --class HyprLauncherRoot --title 'Launcher (root)' -- sudo -E bash -c 'exec $(esc_sq "$payload")']], { float = true, size = \"$GW $GH\" })" \
       >/dev/null
+    sleep 0.05
+    hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1
     ;;
   root-dir)
     # Root shell in the chosen directory; popup at launcher geometry.

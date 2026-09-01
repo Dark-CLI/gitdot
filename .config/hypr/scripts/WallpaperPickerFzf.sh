@@ -34,17 +34,13 @@ if [ -n "$EXISTING" ]; then
   exit 0
 fi
 
-# Center on focused monitor at 54% x 67% size.
-read -r MON_X MON_Y MON_W MON_H < <(hyprctl monitors -j 2>/dev/null | \
-  jq -r '.[] | select(.focused == true) | "\(.x) \(.y) \(.width) \(.height)"')
+# Calculate window size based on focused monitor
+read -r MON_W MON_H < <(hyprctl monitors -j 2>/dev/null | \
+  jq -r '.[] | select(.focused == true) | "\(.width) \(.height)"')
 [ -z "$MON_W" ] && MON_W=2560
 [ -z "$MON_H" ] && MON_H=1440
-[ -z "$MON_X" ] && MON_X=0
-[ -z "$MON_Y" ] && MON_Y=0
 W=$((MON_W * 54 / 100))
 H=$((MON_H * 67 / 100))
-X=$((MON_X + (MON_W - W) / 2))
-Y=$((MON_Y + (MON_H - H) / 2))
 
 # Build the swayimg Lua bootstrap. On Enter, write the selected image's
 # path to a sentinel file then exit. On Escape, just exit.
@@ -397,5 +393,9 @@ if [ -s "$LAST_FILE" ]; then
 fi
 
 hyprctl dispatch \
-  "hl.dsp.exec_cmd(\"swayimg --gallery --appid=HyprWallpaperPicker --config=$LUA_SCRIPT --from-file=$LIST_FILE$LAST_ARG\", { float = true, size = \"$W $H\", move = \"$X $Y\" })" \
+  "hl.dsp.exec_cmd(\"swayimg --gallery --appid=HyprWallpaperPicker --config=$LUA_SCRIPT --from-file=$LIST_FILE$LAST_ARG\", { float = true, size = \"$W $H\" })" \
   >/dev/null 2>&1
+
+# Wait for window to spawn, then center it using Hyprland's built-in center function
+sleep 0.05
+hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1

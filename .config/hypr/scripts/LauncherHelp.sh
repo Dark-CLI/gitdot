@@ -77,17 +77,16 @@ _Press `q` to close this window._
 EOF
 } > "$TMP_MD"
 
-read -r MON_X MON_Y MON_W MON_H < <(hyprctl monitors -j 2>/dev/null |
-  jq -r '.[] | select(.focused == true) | "\(.x) \(.y) \(.width) \(.height)"')
+read -r MON_W MON_H < <(hyprctl monitors -j 2>/dev/null |
+  jq -r '.[] | select(.focused == true) | "\(.width) \(.height)"')
 [ -z "$MON_W" ] && MON_W=2560
 [ -z "$MON_H" ] && MON_H=1440
-[ -z "$MON_X" ] && MON_X=0
-[ -z "$MON_Y" ] && MON_Y=0
 W=$((MON_W * 52 / 100))
 H=$((MON_H * 60 / 100))
-X=$((MON_X + (MON_W - W) / 2))
-Y=$((MON_Y + (MON_H - H) / 2))
 
 hyprctl dispatch \
-  "hl.dsp.exec_cmd(\"kitty --class HyprLauncherHelp --title 'Launcher Help' -- bash -c 'glow -p $TMP_MD; sleep 0.1'\", { float = true, size = \"$W $H\", move = \"$X $Y\" })" \
+  "hl.dsp.exec_cmd(\"kitty --class HyprLauncherHelp --title 'Launcher Help' -- bash -c 'glow -p $TMP_MD; sleep 0.1'\", { float = true, size = \"$W $H\" })" \
   >/dev/null 2>&1
+
+sleep 0.05
+hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1

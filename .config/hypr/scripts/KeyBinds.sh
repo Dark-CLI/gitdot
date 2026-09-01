@@ -27,19 +27,18 @@ awk '
   }
 ' "$BIND_DIR"/*.lua | sort -u > "$TMP_LIST"
 
-# Focused monitor size and origin, for 54% x 67% centered popup.
-read -r MON_X MON_Y MON_W MON_H < <(hyprctl monitors -j 2>/dev/null | \
-  jq -r '.[] | select(.focused == true) | "\(.x) \(.y) \(.width) \(.height)"')
+# Focused monitor size for 54% x 67% popup.
+read -r MON_W MON_H < <(hyprctl monitors -j 2>/dev/null | \
+  jq -r '.[] | select(.focused == true) | "\(.width) \(.height)"')
 [ -z "$MON_W" ] && MON_W=2560
 [ -z "$MON_H" ] && MON_H=1440
-[ -z "$MON_X" ] && MON_X=0
-[ -z "$MON_Y" ] && MON_Y=0
 W=$((MON_W * 54 / 100))
 H=$((MON_H * 67 / 100))
-X=$((MON_X + (MON_W - W) / 2))
-Y=$((MON_Y + (MON_H - H) / 2))
 
-# Launch fzf inside a floating kitty popup, centered on the focused monitor.
+# Launch fzf inside a floating kitty popup, then center it.
 hyprctl dispatch \
-  "hl.dsp.exec_cmd(\"kitty --class HyprKeyBindsSearch --title 'Search Keybinds' -- bash -c 'fzf --prompt=\\\"  \\\" --header=\\\"Type to filter • Esc to close\\\" --reverse --info=inline --border=rounded < $TMP_LIST > /dev/null; true'\", { float = true, size = \"$W $H\", move = \"$X $Y\" })" \
+  "hl.dsp.exec_cmd(\"kitty --class HyprKeyBindsSearch --title 'Search Keybinds' -- bash -c 'fzf --prompt=\\\"  \\\" --header=\\\"Type to filter • Esc to close\\\" --reverse --info=inline --border=rounded < $TMP_LIST > /dev/null; true'\", { float = true, size = \"$W $H\" })" \
   >/dev/null 2>&1
+
+sleep 0.05
+hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1

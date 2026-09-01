@@ -159,7 +159,7 @@ hl.config({
     no_hardware_cursors = false,
     min_refresh_rate = 24,
     enable_hyprcursor = true,
-    no_warps = true,
+    no_warps = false,
     warp_on_change_workspace = 0,
   },
 })

@@ -1,12 +1,17 @@
 -- Workspace Rules
 -- Workspace-specific configurations and assignments
--- Ported from: workspaces.conf (auto-managed by nwg-displays)
 
 -- Fast fade animation for dropdown terminal scratchpad
 hl.workspace_rule({ workspace = "special:scratchpad", animation = "fade" })
 
--- Currently no active workspace rules (workspaces.conf is auto-managed by nwg-displays)
--- Add workspace rules here if needed using hl.workspace_rule()
+-- Load workspace-to-monitor assignments
+local HOME = os.getenv("HOME")
+local workspaces_file = HOME .. "/.config/hypr/workspaces.lua"
+local f = io.open(workspaces_file, "r")
+if f then
+  f:close()
+  dofile(workspaces_file)
+end
 
 -- Example workspace rule patterns:
 -- hl.workspace_rule({

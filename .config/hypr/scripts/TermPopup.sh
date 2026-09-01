@@ -69,18 +69,20 @@ if [ "$active_special" = "special:scratchpad" ]; then
   hyprctl dispatch 'hl.dsp.workspace.toggle_special({ name = "scratchpad" })' >/dev/null 2>&1
 fi
 
-# Center on the focused monitor.
-read -r MX MY MW MH < <(hyprctl monitors -j 2>/dev/null |
-  jq -r '.[] | select(.focused == true) | "\(.x) \(.y) \(.width) \(.height)"')
+# Calculate window size based on focused monitor
+read -r MW MH < <(hyprctl monitors -j 2>/dev/null |
+  jq -r '.[] | select(.focused == true) | "\(.width) \(.height)"')
 [ -z "$MW" ] && MW=2560
 [ -z "$MH" ] && MH=1440
-[ -z "$MX" ] && MX=0
-[ -z "$MY" ] && MY=0
+
 W=$((MW * PCT_W / 100))
 H=$((MH * PCT_H / 100))
-X=$((MX + (MW - W) / 2))
-Y=$((MY + (MH - H) / 2))
 
+# Spawn the window
 hyprctl dispatch \
-  "hl.dsp.exec_cmd([[kitty --class $CLASS --title '$TITLE' -- sh -c '$CMD_SH']], { float = true, size = \"$W $H\", move = \"$X $Y\" })" \
+  "hl.dsp.exec_cmd([[kitty --class $CLASS --title '$TITLE' -- sh -c '$CMD_SH']], { float = true, size = \"$W $H\" })" \
   >/dev/null 2>&1
+
+# Wait for window to spawn, then center it using Hyprland's built-in center function
+sleep 0.05
+hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1

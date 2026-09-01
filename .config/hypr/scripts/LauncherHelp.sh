@@ -88,5 +88,6 @@ hyprctl dispatch \
   "hl.dsp.exec_cmd(\"kitty --class HyprLauncherHelp --title 'Launcher Help' -- bash -c 'glow -p $TMP_MD; sleep 0.1'\", { float = true, size = \"$W $H\" })" \
   >/dev/null 2>&1
 
-sleep 0.05
+sleep 0.1
+hyprctl dispatch "hl.dsp.focus({ class = \"HyprLauncherHelp\" })" >/dev/null 2>&1
 hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1

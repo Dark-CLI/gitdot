@@ -396,6 +396,7 @@ hyprctl dispatch \
   "hl.dsp.exec_cmd(\"swayimg --gallery --appid=HyprWallpaperPicker --config=$LUA_SCRIPT --from-file=$LIST_FILE$LAST_ARG\", { float = true, size = \"$W $H\" })" \
   >/dev/null 2>&1
 
-# Wait for window to spawn, then center it using Hyprland's built-in center function
-sleep 0.05
+# Wait for window to spawn and ensure it's focused, then center it
+sleep 0.1
+hyprctl dispatch "hl.dsp.focus({ class = \"HyprWallpaperPicker\" })" >/dev/null 2>&1
 hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1

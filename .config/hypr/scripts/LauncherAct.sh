@@ -76,7 +76,8 @@ case "$type" in
     hyprctl dispatch \
       "hl.dsp.exec_cmd([[kitty --class HyprLauncherDir --title '$name' --working-directory '$payload']], { float = true, size = \"$GW $GH\" })" \
       >/dev/null
-    sleep 0.05
+    sleep 0.1
+    hyprctl dispatch "hl.dsp.focus({ class = \"HyprLauncherDir\" })" >/dev/null 2>&1
     hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1
     ;;
   root-app|root-cmd)
@@ -97,15 +98,19 @@ case "$type" in
     hyprctl dispatch \
       "hl.dsp.exec_cmd([[kitty --class HyprLauncherRoot --title 'Launcher (root)' -- sudo -E bash -c 'exec $(esc_sq "$payload")']], { float = true, size = \"$GW $GH\" })" \
       >/dev/null
-    sleep 0.05
+    sleep 0.1
+    hyprctl dispatch "hl.dsp.focus({ class = \"HyprLauncherRoot\" })" >/dev/null 2>&1
     hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1
     ;;
   root-dir)
     # Root shell in the chosen directory; popup at launcher geometry.
     launcher_geometry
     hyprctl dispatch \
-      "hl.dsp.exec_cmd([[kitty --class HyprLauncherRoot --title 'Launcher (root)' --working-directory '$payload' -- sudo -i]], { float = true, size = \"$GW $GH\", move = \"$GX $GY\" })" \
+      "hl.dsp.exec_cmd([[kitty --class HyprLauncherRoot --title 'Launcher (root)' --working-directory '$payload' -- sudo -i]], { float = true, size = \"$GW $GH\" })" \
       >/dev/null
+    sleep 0.1
+    hyprctl dispatch "hl.dsp.focus({ class = \"HyprLauncherRoot\" })" >/dev/null 2>&1
+    hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1
     ;;
   power)
     # Power actions, same commands as scripts/Wlogout.sh.

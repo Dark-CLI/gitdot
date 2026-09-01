@@ -156,6 +156,7 @@ hyprctl dispatch \
   "hl.dsp.exec_cmd(\"kitty --class HyprCheatSheet --title 'Welcome to Hyprland' -- bash -c 'glow -p $TMP_MD; sleep 0.1'\", { float = true, size = \"$W $H\" })" \
   >/dev/null 2>&1
 
-# Wait for window to spawn, then center it using Hyprland's built-in center function
-sleep 0.05
+# Wait for window to spawn and ensure it's focused, then center it
+sleep 0.1
+hyprctl dispatch "hl.dsp.focus({ class = \"HyprCheatSheet\" })" >/dev/null 2>&1
 hyprctl dispatch "hl.dsp.window.center({ respect_reserved = true })" >/dev/null 2>&1
